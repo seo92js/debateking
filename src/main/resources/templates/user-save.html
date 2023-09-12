@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+    <h1>회원가입</h1>
+
+    <form th:object="${userSaveRequestDto}">
+        <input type="text" th:field="${username}" required>
+        <input type="password" th:field="${password}" required>
+    </form>
+</body>
+</html>

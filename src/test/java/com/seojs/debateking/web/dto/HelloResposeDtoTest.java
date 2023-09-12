@@ -7,12 +7,12 @@ class HelloResposeDtoTest {
     @Test
     public void 롬복_테스트(){
         //given
-        String name = "test";
+        String username = "test";
         int amount = 1000;
         //when
-        HelloResposeDto dto = new HelloResposeDto(name, amount);
+        HelloResposeDto dto = new HelloResposeDto(username, amount);
         //then
-        Assertions.assertThat(dto.getName()).isEqualTo(name);
+        Assertions.assertThat(dto.getUsername()).isEqualTo(username);
         Assertions.assertThat(dto.getAmount()).isEqualTo(amount);
     }
 }
