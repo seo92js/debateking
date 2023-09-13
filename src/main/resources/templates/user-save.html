@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>회원가입</title>
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
 </head>
 <body>
     <h1>회원가입</h1>
@@ -14,7 +13,7 @@
         <button type="submit" onclick="userSave()">회원가입</button>
     </form>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <div th:replace="fragments/footer :: footer" />
 
     <script src="/js/user-save.js"></script>
 </body>

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>토론방 생성</title>
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
 </head>
 <body>
     <h1>토론방 생성</h1>
@@ -15,7 +14,7 @@
         <button type="submit" onclick="debateRoomSave()">방 생성</button>
     </form>
 
+    <div th:replace="fragments/footer :: footer" />
     <script src="/js/debateroom-save.js"></script>
-
 </body>
 </html>
