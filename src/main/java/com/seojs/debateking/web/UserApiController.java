@@ -6,7 +6,10 @@ import com.seojs.debateking.web.dto.UserSaveRequestDto;
 import com.seojs.debateking.web.dto.UserUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,7 +17,7 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("/api/v1/user")
-    public Long save(@RequestBody UserSaveRequestDto userSaveRequestDto){
+    public Long save(@RequestBody @Valid UserSaveRequestDto userSaveRequestDto){
         return userService.save(userSaveRequestDto);
     }
 

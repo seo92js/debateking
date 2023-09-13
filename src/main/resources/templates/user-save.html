@@ -8,9 +8,14 @@
 <body>
     <h1>회원가입</h1>
 
-    <form th:object="${userSaveRequestDto}">
-        <input type="text" th:field="${username}" required>
-        <input type="password" th:field="${password}" required>
+    <form id="user-save-form" th:object="${userSaveRequestDto}">
+        <input type="text" th:field="*{username}" required>
+        <input type="password" th:field="*{password}" required>
+        <button type="submit" onclick="userSave()">회원가입</button>
     </form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script src="/js/user-save.js"></script>
 </body>
 </html>

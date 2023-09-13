@@ -1,11 +1,10 @@
-package com.seojs.debateking.web.dto;
+package com.seojs.debateking.web;
 
-import lombok.RequiredArgsConstructor;
+import com.seojs.debateking.web.dto.UserSaveRequestDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@RequiredArgsConstructor
 @Controller
 public class UserController {
     @GetMapping("/user/save")

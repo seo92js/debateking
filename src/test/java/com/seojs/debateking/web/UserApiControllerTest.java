@@ -40,8 +40,8 @@ class UserApiControllerTest {
     @Test
     public void save() {
         //given
-        String username = "seo";
-        String password = "1";
+        String username = "seo92js";
+        String password = "seo92js";
 
         UserSaveRequestDto userSaveRequestDto = UserSaveRequestDto.builder()
                 .username(username)
@@ -65,12 +65,12 @@ class UserApiControllerTest {
     public void update(){
         //given
         User saved = userRepository.save(User.builder()
-                .username("seo")
-                .password("1")
+                .username("seo92js")
+                .password("seo92js")
                 .build());
 
-        String expectedUsername = "update";
-        String expectedPassword ="2";
+        String expectedUsername = "seo92js2";
+        String expectedPassword ="seo92js2";
 
         UserUpdateRequestDto userUpdateRequestDto = UserUpdateRequestDto.builder()
                 .username(expectedUsername)

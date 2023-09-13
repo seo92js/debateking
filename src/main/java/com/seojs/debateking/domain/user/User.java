@@ -1,6 +1,7 @@
 package com.seojs.debateking.domain.user;
 
 import com.seojs.debateking.domain.BaseTimeEntity;
+import com.seojs.debateking.domain.debateroom.DebateRoom;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,27 +15,44 @@ public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
+
     private String username;
     private String password;
     private String image;
+
+    @ManyToOne
+    @JoinColumn(name = "debateroom_id")
+    private DebateRoom debateRoom;
+
     private int win;
     private int lose;
     private int draw;
 
     @Builder
-    public User(String username, String password, String image, int win, int lose, int draw){
+    public User(String username, String password){
         this.username = username;
         this.password = password;
-        this.image = image;
-        this.win = win;
-        this.lose = lose;
-        this.draw = draw;
+        this.image = null;
+        this.debateRoom = null;
+        this.win = 0;
+        this.lose = 0;
+        this.draw = 0;
     }
 
     public void update(String name, String password){
         this.username = name;
         this.password = password;
+    }
+
+    public void createDebateRoom(DebateRoom debateRoom){
+        this.debateRoom = debateRoom;
+    }
+
+    public void enterDebateRoom(DebateRoom debateRoom){
+        this.debateRoom = debateRoom;
+        debateRoom.addSpector(this);
     }
 
     public void win(){
