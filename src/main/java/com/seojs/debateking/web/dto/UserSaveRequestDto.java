@@ -27,10 +27,10 @@ public class UserSaveRequestDto {
         this.password = password;
     }
 
-    public User toEntity() {
-        return User.builder()
-                .username(username)
-                .password(password)
-                .build();
-    }
+//    public User toEntity() {
+//        return User.builder()
+//                .username(username)
+//                .password(password)
+//                .build();
+//    }
 }

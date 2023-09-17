@@ -22,7 +22,7 @@ public class User extends BaseTimeEntity {
     private String password;
     private String image;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "debateroom_id")
     private DebateRoom debateRoom;
 

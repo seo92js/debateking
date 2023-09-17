@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+</head>
+<body>
+<h1>로그인</h1>
+
+<form th:method="post" th:action="'/user/login'" id="user-login-form" th:object="${userLoginRequestDto}">
+    <input type="text" th:field="*{username}" required>
+    <input type="password" th:field="*{password}" required>
+    <button type="submit">로그인</button>
+</form>
+
+<div th:replace="fragments/footer :: footer" />
+
+<script src="/js/user-save.js"></script>
+</body>
+</html>

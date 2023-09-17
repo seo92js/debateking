@@ -6,15 +6,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class DebateRoomSaveRequestDto {
-    private Long userId;
+public class DebateRoomUpdateRequestDto {
     private String title;
     private int speakingTime;
     private int discussionTime;
 
     @Builder
-    public DebateRoomSaveRequestDto (Long userId, String title, int speakingTime, int discussionTime){
-        this.userId = userId;
+    public DebateRoomUpdateRequestDto(String title, int speakingTime, int discussionTime){
         this.title = title;
         this.speakingTime = speakingTime;
         this.discussionTime = discussionTime;

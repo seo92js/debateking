@@ -23,7 +23,7 @@ public class DebateRoom extends BaseTimeEntity {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @OneToMany(mappedBy = "debateRoom", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "debateRoom", cascade = CascadeType.ALL)
     private List<User> spectors = new ArrayList<>();
 
     private String title;
@@ -42,5 +42,11 @@ public class DebateRoom extends BaseTimeEntity {
 
     public void addSpector(User user){
         this.spectors.add(user);
+    }
+
+    public void update(String title, int speakingTime, int discussionTime){
+        this.title = title;
+        this.speakingTime = speakingTime;
+        this.discussionTime = discussionTime;
     }
 }

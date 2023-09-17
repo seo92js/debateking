@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:replace="fragments/header :: header">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+</head>
+<body>
+<h1>토론방 업데이트</h1>
+<form id="debateroom-update-form" th:object="${debateRoomUpdateRequestDto}">
+<!--  <input type="hidden" th:field="*{userId}">-->
+  <input type="text" th:field="*{title}">
+  <input type="number" th:field="*{speakingTime}">
+  <input type="number" th:field="*{discussionTime}">
+  <button type="submit" onclick="debateRoomUpdate([[*{id}]])">방 생성</button>
+</form>
+
+<div th:replace="fragments/footer :: footer" />
+<script src="/js/debateroom-update.js"></script>
+</body>
+</html>
