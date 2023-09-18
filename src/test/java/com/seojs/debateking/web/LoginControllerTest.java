@@ -1,7 +1,6 @@
 package com.seojs.debateking.web;
 
 import com.seojs.debateking.config.security.PrincipalDetailsService;
-import com.seojs.debateking.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +15,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @MockBean(JpaMetamodelMappingContext.class)
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = UserController.class)
-class UserControllerTest {
+@WebMvcTest(controllers = LoginController.class)
+class LoginControllerTest {
     @Autowired
     private MockMvc mvc;
 
     @MockBean
     private PrincipalDetailsService principalDetailsService;
 
-    @MockBean
-    private UserService userService;
-
     @Test
-    public void user_controller_회원가입() throws Exception {
-        mvc.perform(get("/user/save"))
+    public void login_controller_테스트() throws Exception{
+        mvc.perform(get("/login"))
                 .andExpect(status().isOk());
     }
 }

@@ -1,6 +1,5 @@
 package com.seojs.debateking.web.dto;
 
-import com.seojs.debateking.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,11 +25,4 @@ public class UserSaveRequestDto {
         this.username = username;
         this.password = password;
     }
-
-//    public User toEntity() {
-//        return User.builder()
-//                .username(username)
-//                .password(password)
-//                .build();
-//    }
 }

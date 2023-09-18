@@ -1,5 +1,6 @@
 package com.seojs.debateking.web;
 
+import com.seojs.debateking.config.security.PrincipalDetailsService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class HelloControllerTest {
     @Autowired
     private MockMvc mvc;
+    @MockBean
+    private PrincipalDetailsService principalDetailsService;
 
     @Test
     public void hello_controller_테스트() throws Exception{

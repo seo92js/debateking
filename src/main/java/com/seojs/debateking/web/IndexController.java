@@ -1,14 +1,10 @@
 package com.seojs.debateking.web;
 
 import com.seojs.debateking.service.debateroom.DebateRoomService;
-import com.seojs.debateking.web.dto.DebateRoomResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller

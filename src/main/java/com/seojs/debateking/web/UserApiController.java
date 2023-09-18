@@ -5,8 +5,6 @@ import com.seojs.debateking.web.dto.UserResponseDto;
 import com.seojs.debateking.web.dto.UserSaveRequestDto;
 import com.seojs.debateking.web.dto.UserUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>로그인</h1>
+
+<form th:method="post">
+    <input type="text" name="username" required>
+    <input type="password" name="password" required>
+    <button type="submit">로그인</button>
+</form>
+
+<div th:replace="fragments/footer :: footer" />
+
+</body>
+</html>
