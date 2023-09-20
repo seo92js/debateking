@@ -26,6 +26,9 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name = "debateroom_id")
     private DebateRoom debateRoom;
 
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
     private int win;
     private int lose;
     private int draw;
@@ -39,6 +42,7 @@ public class User extends BaseTimeEntity {
         this.win = 0;
         this.lose = 0;
         this.draw = 0;
+        this.role = Role.USER;
     }
 
     public void update(String name, String password){
@@ -53,6 +57,11 @@ public class User extends BaseTimeEntity {
     public void enterDebateRoom(DebateRoom debateRoom){
         this.debateRoom = debateRoom;
         debateRoom.addSpector(this);
+    }
+
+    public void exitDebateRoom(DebateRoom debateRoom){
+        this.debateRoom = null;
+        debateRoom.removeSpector(this);
     }
 
     public void win(){
