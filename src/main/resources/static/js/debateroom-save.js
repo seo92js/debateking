@@ -6,6 +6,7 @@ function debateRoomSave(){
 
     const debateRoomSaveRequestDto = {
         userId: formData.get('userId'),
+        topicName: formData.get('topicName'),
         title: formData.get('title'),
         speakingTime: formData.get('speakingTime'),
         discussionTime: formData.get('discussionTime')

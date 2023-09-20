@@ -2,6 +2,8 @@ package com.seojs.debateking.service.debateroom;
 
 import com.seojs.debateking.domain.debateroom.DebateRoom;
 import com.seojs.debateking.domain.debateroom.DebateRoomRepository;
+import com.seojs.debateking.domain.topic.Topic;
+import com.seojs.debateking.domain.topic.TopicRepository;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
 import com.seojs.debateking.web.dto.DebateRoomResponseDto;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class DebateRoomService {
     private final UserRepository userRepository;
+    private final TopicRepository topicRepository;
     private final DebateRoomRepository debateRoomRepository;
 
     @Transactional
@@ -25,9 +28,11 @@ public class DebateRoomService {
 
         User user = userRepository.findById(debateRoomSaveRequestDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. id=" + debateRoomSaveRequestDto.getUserId()));
 
+        Topic topic = topicRepository.findByName(debateRoomSaveRequestDto.getTopicName());
+
         return debateRoomRepository.save(DebateRoom.builder()
                 .user(user)
-                .topic(debateRoomSaveRequestDto.getTopic())
+                .topic(topic)
                 .title(debateRoomSaveRequestDto.getTitle())
                 .speakingTime(debateRoomSaveRequestDto.getSpeakingTime())
                 .discussionTime(debateRoomSaveRequestDto.getDiscussionTime())

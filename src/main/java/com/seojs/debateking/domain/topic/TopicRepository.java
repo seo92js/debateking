@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface TopicRepository extends JpaRepository<Topic, Long> {
     List<Topic> findByCategory(Category category);
+
+    Topic findByName(String name);
 }

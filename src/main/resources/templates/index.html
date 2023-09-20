@@ -15,6 +15,8 @@
 
     <!--채팅방 리스트-->
     <div th:each="debateRoom : ${debateRooms}">
+        <div th:text="${debateRoom.category}"></div>
+        <div th:text="${debateRoom.topic}"></div>
         <div th:text="${debateRoom.title}"></div>
         <div th:text="${debateRoom.owner}"></div>
         <div th:text="${debateRoom.speakingTime}"></div>

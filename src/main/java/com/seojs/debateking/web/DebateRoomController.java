@@ -28,7 +28,7 @@ public class DebateRoomController {
         List<Category> categories = Arrays.asList(Category.values());
 
         model.addAttribute("categories", categories);
-        model.addAttribute("debateRoomSaveRequestDto", new DebateRoomSaveRequestDto(loginUser.getId(), null,"", 0, 0));
+        model.addAttribute("debateRoomSaveRequestDto", new DebateRoomSaveRequestDto(loginUser.getId(), "","", 0, 0));
 
         return "debateroom-save";
     }
