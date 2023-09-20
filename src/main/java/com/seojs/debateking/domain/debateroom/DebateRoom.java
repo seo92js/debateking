@@ -27,14 +27,18 @@ public class DebateRoom extends BaseTimeEntity {
     @OneToMany(mappedBy = "debateRoom", cascade = CascadeType.REMOVE)
     private List<User> spectors = new ArrayList<>();
 
-    // private Topic topic;
+    @OneToOne
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
+
     private String title;
     private int speakingTime;
     private int discussionTime;
 
     @Builder
-    public DebateRoom(User user, String title, int speakingTime, int discussionTime){
+    public DebateRoom(User user, Topic topic, String title, int speakingTime, int discussionTime){
         this.owner = user;
+        this.topic = topic;
         this.title = title;
         user.createDebateRoom(this);
         this.speakingTime = speakingTime;

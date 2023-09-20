@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>주제등록</h1>
+
+<form id="topic-save-form" th:object="${topicSaveRequestDto}">
+    <select th:field="*{category}" required>
+        <option th:each="category: ${categories}" th:value="${category}" th:text="${category.category}"></option>
+    </select>
+    <input type="text" th:field="*{name}" required>
+    <button type="submit" onclick="topicSave()">등록</button>
+</form>
+
+<div th:replace="fragments/footer :: footer" />
+
+<script src="/js/topic-save.js"></script>
+</body>
+</html>

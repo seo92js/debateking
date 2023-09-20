@@ -27,6 +27,7 @@ public class DebateRoomService {
 
         return debateRoomRepository.save(DebateRoom.builder()
                 .user(user)
+                .topic(debateRoomSaveRequestDto.getTopic())
                 .title(debateRoomSaveRequestDto.getTitle())
                 .speakingTime(debateRoomSaveRequestDto.getSpeakingTime())
                 .discussionTime(debateRoomSaveRequestDto.getDiscussionTime())

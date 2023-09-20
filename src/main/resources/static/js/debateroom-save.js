@@ -1,3 +1,5 @@
+$('#category-select').trigger('change');
+
 function debateRoomSave(){
     const form = document.getElementById("debateroom-save-form");
     const formData = new FormData(form);
@@ -25,3 +27,21 @@ function debateRoomSave(){
     })
 }
 
+function getTopic(){
+    const category = document.getElementById("category-select").value;
+    console.log(category);
+
+    $.ajax({
+        type:'GET',
+        url:'/api/v1/topic/' + category,
+    }).done(function(response){
+        $('#topic-list').empty();
+
+        response.forEach(function(t) {
+             $('#topic-list').append($('<option>').text(t.name));
+        });
+
+    }).fail(function(error){
+        alert(JSON.stringify(error));
+    })
+}

@@ -9,6 +9,15 @@
     <h1>토론방 생성</h1>
     <form id="debateroom-save-form" th:object="${debateRoomSaveRequestDto}">
         <input type="hidden" th:field="*{userId}">
+
+        <select id="category-select" onchange="getTopic()">
+            <option th:each="category : ${categories}" th:value="${category}" th:text="${category.category}"></option>
+        </select>
+
+        <select id="topic-list">
+
+        </select>
+
         <input type="text" th:field="*{title}">
         <input type="number" th:field="*{speakingTime}">
         <input type="number" th:field="*{discussionTime}">
