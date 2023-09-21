@@ -8,7 +8,8 @@
 <body>
 <h1>토론방 업데이트</h1>
 <form id="debateroom-update-form" th:object="${debateRoomUpdateRequestDto}">
-<!--  <input type="hidden" th:field="*{userId}">-->
+  <!--수정해야함-->
+  <input type="text" th:field="*{title}">
   <input type="text" th:field="*{title}">
   <input type="number" th:field="*{speakingTime}">
   <input type="number" th:field="*{discussionTime}">
@@ -16,6 +17,8 @@
 </form>
 
 <div th:replace="fragments/footer :: footer" />
+
 <script src="/js/debateroom-update.js"></script>
+
 </body>
 </html>

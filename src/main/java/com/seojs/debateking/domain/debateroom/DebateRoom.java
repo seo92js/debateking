@@ -28,6 +28,13 @@ public class DebateRoom extends BaseTimeEntity {
     private List<User> spectors = new ArrayList<>();
 
     @OneToOne
+    @JoinColumn(name = "pros_id")
+    private User pros;
+    @OneToOne
+    @JoinColumn(name = "cons_id")
+    private User cons;
+
+    @OneToOne
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
@@ -38,6 +45,7 @@ public class DebateRoom extends BaseTimeEntity {
     @Builder
     public DebateRoom(User user, Topic topic, String title, int speakingTime, int discussionTime){
         this.owner = user;
+        this.pros = user;
         this.topic = topic;
         this.title = title;
         user.createDebateRoom(this);
@@ -57,5 +65,10 @@ public class DebateRoom extends BaseTimeEntity {
         this.title = title;
         this.speakingTime = speakingTime;
         this.discussionTime = discussionTime;
+    }
+
+    public void updatePosition(User pros, User cons){
+        this.pros = pros;
+        this.cons = cons;
     }
 }

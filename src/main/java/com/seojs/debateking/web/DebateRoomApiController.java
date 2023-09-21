@@ -1,6 +1,7 @@
 package com.seojs.debateking.web;
 
 import com.seojs.debateking.service.debateroom.DebateRoomService;
+import com.seojs.debateking.web.dto.DebateRoomPositionUpdateRequestDto;
 import com.seojs.debateking.web.dto.DebateRoomSaveRequestDto;
 import com.seojs.debateking.web.dto.DebateRoomUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,10 @@ public class DebateRoomApiController {
     @PutMapping("/api/v1/debateroom/{id}")
     public Long update(@PathVariable Long id, @RequestBody DebateRoomUpdateRequestDto debateRoomUpdateRequestDto){
         return debateRoomService.update(id, debateRoomUpdateRequestDto);
+    }
+
+    @PutMapping("/api/v1/debateroom/{id}/position")
+    public Long updatePosition(@PathVariable Long id, @RequestBody DebateRoomPositionUpdateRequestDto debateRoomPositionUpdateRequestDto){
+        return debateRoomService.updatePosition(id, debateRoomPositionUpdateRequestDto);
     }
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>토론방</h1>
+
+<div th:object="${debateRoomResponseDto}">
+    <div th:text="|카테고리 : *{category}|"></div>
+    <div th:text="|주제 : *{topic}|"></div>
+    <div th:text="|방제 : *{title}|"></div>
+    <div th:text="|방장 : *{owner}|"></div>
+    <div th:if="*{pros}" th:text="|찬성 : *{pros}|"></div>
+    <button th:unless="*{pros}" th:onclick="setPros([[${debateRoomId}]] ,[[${loginUsername}]],[[*{cons}]])">찬성 참여</button>
+    <div th:if="*{cons}" th:text="|반대 : *{cons}|"></div>
+    <button th:unless="*{cons}" th:onclick="setCons([[${debateRoomId}]] ,[[*{pros}]],[[${loginUsername}]])">반대 참여</button>
+    <div th:text="|발언시간 : *{speakingTime}|"></div>
+    <div th:text="|토론시간 : *{discussionTime}|"></div>
+    <div th:text="|구경꾼 : *{spectors}|"></div>
+</div>
+
+<div th:replace="fragments/footer :: footer" />
+
+<script src="/js/debateroom-position-update.js"></script>
+
+</body>
+</html>

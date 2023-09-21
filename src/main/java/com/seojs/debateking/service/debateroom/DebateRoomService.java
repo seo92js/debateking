@@ -6,6 +6,7 @@ import com.seojs.debateking.domain.topic.Topic;
 import com.seojs.debateking.domain.topic.TopicRepository;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
+import com.seojs.debateking.web.dto.DebateRoomPositionUpdateRequestDto;
 import com.seojs.debateking.web.dto.DebateRoomResponseDto;
 import com.seojs.debateking.web.dto.DebateRoomSaveRequestDto;
 import com.seojs.debateking.web.dto.DebateRoomUpdateRequestDto;
@@ -53,6 +54,33 @@ public class DebateRoomService {
         debateRoom.update(debateRoomUpdateRequestDto.getTitle(), debateRoomUpdateRequestDto.getSpeakingTime(), debateRoomUpdateRequestDto.getDiscussionTime());
 
         return debateRoom.getId();
+    }
+
+    @Transactional
+    public Long updatePosition(Long id, DebateRoomPositionUpdateRequestDto debateRoomPositionUpdateRequestDto){
+        User prosUser = null;
+        User consUser = null;
+
+        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
+
+        String pros = debateRoomPositionUpdateRequestDto.getProsUsername();
+        String cons = debateRoomPositionUpdateRequestDto.getConsUsername();
+
+        if (pros != null){
+            prosUser = userRepository.findByUsername(debateRoomPositionUpdateRequestDto.getProsUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다=" + debateRoomPositionUpdateRequestDto.getProsUsername()));
+        }
+        if (cons != null){
+            consUser = userRepository.findByUsername(debateRoomPositionUpdateRequestDto.getConsUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다=" + debateRoomPositionUpdateRequestDto.getConsUsername()));
+        }
+
+        debateRoom.updatePosition(prosUser, consUser);
+
+        return id;
+    }
+
+    @Transactional
+    public DebateRoomResponseDto findById(Long id){
+        return new DebateRoomResponseDto(debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id)));
     }
 
     @Transactional

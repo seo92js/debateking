@@ -3,6 +3,7 @@ function debateRoomUpdate(id){
     const formData = new FormData(form);
 
     const debateRoomUpdateRequestDto = {
+        topicName: formData.get('topicName'),
         title: formData.get('title'),
         speakingTime: formData.get('speakingTime'),
         discussionTime: formData.get('discussionTime')

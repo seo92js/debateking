@@ -20,9 +20,9 @@ function debateRoomSave(){
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(debateRoomSaveRequestDto)
-    }).done(function(){
+    }).done(function(response){
         alert('방생성 완료');
-        window.location.href = '/';
+        window.location.href = '/debateroom/' + response;
     }).fail(function(error){
         alert(JSON.stringify(error));
     })
