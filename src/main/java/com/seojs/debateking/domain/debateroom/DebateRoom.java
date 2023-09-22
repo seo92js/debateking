@@ -1,6 +1,7 @@
 package com.seojs.debateking.domain.debateroom;
 
 import com.seojs.debateking.domain.BaseTimeEntity;
+import com.seojs.debateking.domain.speech.Speech;
 import com.seojs.debateking.domain.topic.Topic;
 import com.seojs.debateking.domain.user.User;
 import lombok.Builder;
@@ -37,6 +38,9 @@ public class DebateRoom extends BaseTimeEntity {
     @OneToOne
     @JoinColumn(name = "topic_id")
     private Topic topic;
+
+    @OneToMany(mappedBy = "debateRoom")
+    private List<Speech> speech = new ArrayList<>();
 
     private String title;
     private int speakingTime;

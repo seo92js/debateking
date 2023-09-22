@@ -20,11 +20,21 @@
     <div th:text="|발언시간 : *{speakingTime}|"></div>
     <div th:text="|토론시간 : *{discussionTime}|"></div>
     <div th:text="|구경꾼 : *{spectors}|"></div>
+
+    <button th:if="*{owner} == ${loginUsername}" type="button" th:onclick="">방 깨기</button>
+    <button th:unless="*{owner} == ${loginUsername}" type="button" th:onclick="">나가기</button>
 </div>
+
+<form id="speech-save-form">
+    <input type="text" name="speech">
+    <button type="button" th:onclick="speechSave([[${debateRoomId}]], [[${loginUserId}]])">발언</button>
+</form>
+
 
 <div th:replace="fragments/footer :: footer" />
 
 <script src="/js/debateroom-position-update.js"></script>
+<script src="/js/speech-save.js"></script>
 
 </body>
 </html>
