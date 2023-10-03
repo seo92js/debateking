@@ -25,7 +25,7 @@ public class DebateRoom extends BaseTimeEntity {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @OneToMany(mappedBy = "debateRoom", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "debateRoom")
     private List<User> spectors = new ArrayList<>();
 
     @OneToOne

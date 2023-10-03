@@ -34,6 +34,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                             "/css/**",
                             "/js/**",
                             "/h2-console/**",
+                            "/chat",
                             "/api/v1/**").permitAll()
                 .and()
                     .formLogin()

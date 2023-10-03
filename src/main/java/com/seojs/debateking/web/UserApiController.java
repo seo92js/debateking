@@ -28,4 +28,9 @@ public class UserApiController {
     public UserResponseDto findById(@PathVariable Long id){
         return userService.findById(id);
     }
+
+    @PutMapping("/api/v1/user/{id}/{debateroomId}")
+    public Long exitDebateRoom(@PathVariable Long id, @PathVariable Long debateroomId){
+        return userService.exitDebateRoom(id, debateroomId);
+    }
 }

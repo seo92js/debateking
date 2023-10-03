@@ -44,6 +44,12 @@ public class DebateRoomService {
     public void delete(Long id){
         DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
 
+        debateRoom.getOwner().exitDebateRoom(debateRoom);
+
+        for (User user : debateRoom.getSpectors()){
+            user.exitDebateRoom(debateRoom);
+        }
+
         debateRoomRepository.delete(debateRoom);
     }
 

@@ -1,5 +1,7 @@
 package com.seojs.debateking.service.user;
 
+import com.seojs.debateking.domain.debateroom.DebateRoom;
+import com.seojs.debateking.domain.debateroom.DebateRoomRepository;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
 import com.seojs.debateking.web.dto.UserResponseDto;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final DebateRoomRepository debateRoomRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -40,6 +43,17 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. id=" + id));
 
         user.update(userUpdateRequestDto.getUsername(), userUpdateRequestDto.getPassword());
+
+        return id;
+    }
+
+    @Transactional
+    public Long exitDebateRoom(Long id, Long debateRoomId){
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. id=" + id));
+
+        DebateRoom debateRoom = debateRoomRepository.findById(debateRoomId).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id" + debateRoomId));
+
+        user.exitDebateRoom(debateRoom);
 
         return id;
     }

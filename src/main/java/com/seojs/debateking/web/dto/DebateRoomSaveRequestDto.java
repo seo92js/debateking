@@ -1,6 +1,5 @@
 package com.seojs.debateking.web.dto;
 
-import com.seojs.debateking.domain.topic.Topic;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

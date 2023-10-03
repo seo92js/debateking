@@ -21,6 +21,7 @@ public class SpeechService {
     @Transactional
     public Long save(SpeechSaveRequestDto speechSaveRequestDto){
         DebateRoom debateRoom = debateRoomRepository.findById(speechSaveRequestDto.getDebateRoomId()).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + speechSaveRequestDto.getDebateRoomId()));
+
         User user = userRepository.findById(speechSaveRequestDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. id=" + speechSaveRequestDto.getUserId()));
 
         Speech speech = Speech.builder()

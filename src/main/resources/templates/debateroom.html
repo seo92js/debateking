@@ -21,19 +21,25 @@
     <div th:text="|토론시간 : *{discussionTime}|"></div>
     <div th:text="|구경꾼 : *{spectors}|"></div>
 
-    <button th:if="*{owner} == ${loginUsername}" type="button" th:onclick="">방 깨기</button>
-    <button th:unless="*{owner} == ${loginUsername}" type="button" th:onclick="">나가기</button>
+    <button th:if="*{owner} == ${loginUsername}" type="button" th:onclick="debateRoomDelete([[${debateRoomId}]])">방 깨기</button>
+    <button th:unless="*{owner} == ${loginUsername}" type="button" th:onclick="debateRoomExit([[${loginUserId}]], [[${debateRoomId}]])">나가기</button>
 </div>
+
+<!--<form id="speech-save-form">-->
+<!--    <input type="text" name="speech">-->
+<!--    <button type="button" th:onclick="speechSave([[${debateRoomId}]], [[${loginUserId}]])">발언</button>-->
+<!--</form>-->
 
 <form id="speech-save-form">
     <input type="text" name="speech">
-    <button type="button" th:onclick="speechSave([[${debateRoomId}]], [[${loginUserId}]])">발언</button>
+    <button type="button" th:onclick="speechRedisSave([[${debateRoomId}]], [[${loginUsername}]])">발언</button>
 </form>
-
 
 <div th:replace="fragments/footer :: footer" />
 
+<script src="/js/user-exit.js"></script>
 <script src="/js/debateroom-position-update.js"></script>
+<script src="/js/debateroom-delete.js"></script>
 <script src="/js/speech-save.js"></script>
 
 </body>

@@ -1,20 +1,28 @@
 package com.seojs.debateking.web;
 
 import com.seojs.debateking.service.debateroom.DebateRoomService;
+import com.seojs.debateking.service.speechRedis.RedisMessageListener;
 import com.seojs.debateking.web.dto.DebateRoomPositionUpdateRequestDto;
 import com.seojs.debateking.web.dto.DebateRoomSaveRequestDto;
 import com.seojs.debateking.web.dto.DebateRoomUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 public class DebateRoomApiController {
+    private final RedisMessageListenerContainer redisMessageListenerContainer;
+    private final RedisMessageListener redisMessageListener;
     private final DebateRoomService debateRoomService;
 
     @PostMapping("/api/v1/debateroom")
     public Long save(@RequestBody DebateRoomSaveRequestDto debateRoomSaveRequestDto){
-        return debateRoomService.save(debateRoomSaveRequestDto);
+        Long id = debateRoomService.save(debateRoomSaveRequestDto);
+
+        redisMessageListener.enterChatRoom(id);
+
+        return id;
     }
 
     @DeleteMapping("/api/v1/debateroom/{id}")
