@@ -1,3 +1,13 @@
+let socket = new SockJS("/chattings");
+let stompClient = Stomp.over(socket);
+stompClient.connect({}, function(frame) {
+    console.log('접속');
+    stompClient.subscribe('/sub/chatting/rooms/1', function (msg){
+        console.log('구독');
+    });
+})
+
+
 function speechSave(debateRoomId, userId){
     const form = document.getElementById("speech-save-form");
     const formData = new FormData(form);
