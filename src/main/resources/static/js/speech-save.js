@@ -1,10 +1,18 @@
 let socket = new SockJS("/chattings");
 let stompClient = Stomp.over(socket);
+
+const debateRoomId = document.getElementById("debateroom-id").value;
+
 stompClient.connect({}, function(frame) {
-    console.log('접속');
-    stompClient.subscribe('/sub/chatting/rooms/1', function (msg){
-        console.log('구독');
+
+    stompClient.subscribe('/sub/chatting/rooms/' + debateRoomId, function (msg){
+        const message = JSON.parse(msg.body);
+        const username = message.username;
+        const speech = message.speech;
+
+        $("#speech-list").append(speech);
     });
+
 })
 
 
@@ -46,15 +54,18 @@ function speechRedisSave(debateRoomId, username){
 
     event.preventDefault();
 
-    $.ajax({
-        type: 'POST',
-        url: '/api/v2/speech',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(speechRedisSaveRequestDto)
-    }).done(function(){
-        alert('완료');
-        location.reload();
-    }).fail(function(error){
-        alert(JSON.stringify(error));
-    })
+    stompClient.send('/pub/chattings/rooms/messages', {}, JSON.stringify(speechRedisSaveRequestDto));
+
+//    $.ajax({
+//        type: 'POST',
+//        //url: '/api/v2/speech',
+//        url: '/chattings/rooms/messages',
+//        contentType: 'application/json; charset=utf-8',
+//        data: JSON.stringify(speechRedisSaveRequestDto)
+//    }).done(function(){
+//        alert('완료');
+//        location.reload();
+//    }).fail(function(error){
+//        alert(JSON.stringify(error));
+//    })
 }

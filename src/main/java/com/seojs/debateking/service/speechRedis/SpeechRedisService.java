@@ -1,5 +1,6 @@
 package com.seojs.debateking.service.speechRedis;
 
+import com.seojs.debateking.domain.speechRedis.SpeechRedis;
 import com.seojs.debateking.domain.speechRedis.SpeechRedisRepository;
 import com.seojs.debateking.web.dto.SpeechRedisSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,13 @@ public class SpeechRedisService {
     @Transactional
     public void send(SpeechRedisSaveRequestDto speechRedisSaveRequestDto){
         redisPublisher.publish(redisMessageListener.getTopic(speechRedisSaveRequestDto.getDebateRoomId()), speechRedisSaveRequestDto);
+
+        SpeechRedis speechRedis = SpeechRedis.builder()
+                .debateRoomId(speechRedisSaveRequestDto.getDebateRoomId())
+                .username(speechRedisSaveRequestDto.getUsername())
+                .speech(speechRedisSaveRequestDto.getSpeech())
+                .build();
+
+        speechRedisRepository.save(speechRedis);
     }
 }

@@ -17,7 +17,6 @@ public class RedisSubscriber implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        System.out.println("들어옴");
         SpeechRedisSaveRequestDto speechRedisSaveRequestDto = jsonParser.toMessageRequest((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
         messagingTemplate.convertAndSend("/sub/chatting/rooms/" +  speechRedisSaveRequestDto.getDebateRoomId(), speechRedisSaveRequestDto);
     }

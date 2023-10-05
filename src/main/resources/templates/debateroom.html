@@ -32,8 +32,13 @@
 
 <form id="speech-save-form">
     <input type="text" name="speech">
+    <input id="debateroom-id" type="hidden" th:value="${debateRoomId}">
     <button type="button" th:onclick="speechRedisSave([[${debateRoomId}]], [[${loginUsername}]])">발언</button>
 </form>
+
+<div id="speech-list">
+
+</div>
 
 <div th:replace="fragments/footer :: footer" />
 
