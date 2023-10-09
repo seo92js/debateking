@@ -2,7 +2,7 @@ package com.seojs.debateking.service.speechRedis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.seojs.debateking.web.dto.SpeechRedisSaveRequestDto;
+import com.seojs.debateking.web.dto.ChatDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,17 +12,17 @@ public class JsonParser {
 
     private final ObjectMapper objectMapper;
 
-    public String toJson(SpeechRedisSaveRequestDto speechRedisSaveRequestDto) {
+    public String toJson(ChatDto chatDto) {
         try {
-            return objectMapper.writeValueAsString(speechRedisSaveRequestDto);
+            return objectMapper.writeValueAsString(chatDto);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public SpeechRedisSaveRequestDto toMessageRequest(String chattingMessage) {
+    public ChatDto toMessageRequest(String chattingMessage) {
         try {
-            return objectMapper.readValue(chattingMessage, SpeechRedisSaveRequestDto.class);
+            return objectMapper.readValue(chattingMessage, ChatDto.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

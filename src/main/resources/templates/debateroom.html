@@ -8,44 +8,67 @@
 <body>
 <h1>토론방</h1>
 
+<!-- 토론 방 정보 -->
 <div th:object="${debateRoomResponseDto}">
     <div th:text="|카테고리 : *{category}|"></div>
     <div th:text="|주제 : *{topic}|"></div>
     <div th:text="|방제 : *{title}|"></div>
     <div th:text="|방장 : *{owner}|"></div>
+
     <div th:if="*{pros}" th:text="|찬성 : *{pros}|"></div>
+    <button th:if="*{pros}" th:text="*{prosReady}" th:onclick="prosReady([[${debateRoomId}]], [[*{prosReady}]], [[*{consReady}]])"></button>
     <button th:unless="*{pros}" th:onclick="setPros([[${debateRoomId}]] ,[[${loginUsername}]],[[*{cons}]])">찬성 참여</button>
+
     <div th:if="*{cons}" th:text="|반대 : *{cons}|"></div>
+    <button th:if="*{cons}" th:text="*{consReady}" th:onclick="consReady([[${debateRoomId}]], [[*{prosReady}]], [[*{consReady}]])"></button>
     <button th:unless="*{cons}" th:onclick="setCons([[${debateRoomId}]] ,[[*{pros}]],[[${loginUsername}]])">반대 참여</button>
+
     <div th:text="|발언시간 : *{speakingTime}|"></div>
     <div th:text="|토론시간 : *{discussionTime}|"></div>
+
     <div th:text="|구경꾼 : *{spectors}|"></div>
+    <button th:if="*{pros} == ${loginUsername} or *{cons} == ${loginUsername}" th:onclick="setSpectors([[${debateRoomId}]] ,[[*{pros}]], [[*{cons}]], [[${loginUsername}]])">구경꾼 참여</button>
+
+    <button th:if="*{prosReady} or *{consReady}" th:onclick="debateStart([[${debateRoomId}]])">시작</button>
+    <div th:text="|방 상태 : *{start}|"></div>
 
     <button th:if="*{owner} == ${loginUsername}" type="button" th:onclick="debateRoomDelete([[${debateRoomId}]])">방 깨기</button>
     <button th:unless="*{owner} == ${loginUsername}" type="button" th:onclick="debateRoomExit([[${loginUserId}]], [[${debateRoomId}]])">나가기</button>
 </div>
 
-<!--<form id="speech-save-form">-->
-<!--    <input type="text" name="speech">-->
-<!--    <button type="button" th:onclick="speechSave([[${debateRoomId}]], [[${loginUserId}]])">발언</button>-->
-<!--</form>-->
+<input id="debateroom-id" type="hidden" th:value="${debateRoomId}">
+<input id="cons-name" type="hidden" th:value="${debateRoomResponseDto.cons}">
+<input id="pros-name" type="hidden" th:value="${debateRoomResponseDto.pros}">
 
-<form id="speech-save-form">
-    <input type="text" name="speech">
-    <input id="debateroom-id" type="hidden" th:value="${debateRoomId}">
-    <button type="button" th:onclick="speechRedisSave([[${debateRoomId}]], [[${loginUsername}]])">발언</button>
-</form>
+<div th:if="${debateRoomResponseDto.pros} == ${loginUsername} and ${debateRoomResponseDto.cons} == ${loginUsername}">
+    <form id="speech-save-form">
+        <input type="text" name="message">
+        <button type="button" th:onclick="speech([[${debateRoomId}]], [[${loginUsername}]])">발언</button>
+    </form>
+</div>
+<div th:unless="${debateRoomResponseDto.pros} == ${loginUsername} and ${debateRoomResponseDto.cons} == ${loginUsername}">
+    <form id="chat-form">
+        <input type="text" name="message">
+        <button type="button" th:onclick="chat([[${debateRoomId}]], [[${loginUsername}]])">발언</button>
+    </form>
+</div>
 
+<!--발언-->
 <div id="speech-list">
-
+</div>
+<!-- 채팅 -->
+<div id="chat-list">
 </div>
 
 <div th:replace="fragments/footer :: footer" />
 
 <script src="/js/user-exit.js"></script>
 <script src="/js/debateroom-position-update.js"></script>
+<script src="/js/debateroom-ready-update.js"></script>
+<script src="/js/debateroom-start-update.js"></script>
 <script src="/js/debateroom-delete.js"></script>
-<script src="/js/speech-save.js"></script>
+<script src="/js/socket.js"></script>
+<script src="/js/chat.js"></script>
 
 </body>
 </html>

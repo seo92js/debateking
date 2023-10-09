@@ -6,15 +6,15 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class SpeechRedisSaveRequestDto {
+public class ChatDto {
     private Long debateRoomId;
     private String username;
-    private String speech;
+    private String message;
 
     @Builder
-    public SpeechRedisSaveRequestDto(Long debateRoomId, String username, String speech){
+    public ChatDto(Long debateRoomId, String username, String message){
         this.debateRoomId = debateRoomId;
         this.username = username;
-        this.speech = speech;
+        this.message = message;
     }
 }

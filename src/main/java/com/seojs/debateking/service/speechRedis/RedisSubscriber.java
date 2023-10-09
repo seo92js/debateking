@@ -1,6 +1,6 @@
 package com.seojs.debateking.service.speechRedis;
 
-import com.seojs.debateking.web.dto.SpeechRedisSaveRequestDto;
+import com.seojs.debateking.web.dto.ChatDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
@@ -17,7 +17,7 @@ public class RedisSubscriber implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        SpeechRedisSaveRequestDto speechRedisSaveRequestDto = jsonParser.toMessageRequest((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
-        messagingTemplate.convertAndSend("/sub/chatting/rooms/" +  speechRedisSaveRequestDto.getDebateRoomId(), speechRedisSaveRequestDto);
+        ChatDto ChatDto = jsonParser.toMessageRequest((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
+        messagingTemplate.convertAndSend("/sub/chatting/rooms/" +  ChatDto.getDebateRoomId(), ChatDto);
     }
 }

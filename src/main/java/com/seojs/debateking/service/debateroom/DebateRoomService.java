@@ -6,10 +6,7 @@ import com.seojs.debateking.domain.topic.Topic;
 import com.seojs.debateking.domain.topic.TopicRepository;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
-import com.seojs.debateking.web.dto.DebateRoomPositionUpdateRequestDto;
-import com.seojs.debateking.web.dto.DebateRoomResponseDto;
-import com.seojs.debateking.web.dto.DebateRoomSaveRequestDto;
-import com.seojs.debateking.web.dto.DebateRoomUpdateRequestDto;
+import com.seojs.debateking.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,6 +77,28 @@ public class DebateRoomService {
         }
 
         debateRoom.updatePosition(prosUser, consUser);
+
+        debateRoom.setConsReady(false);
+        debateRoom.setProsReady(false);
+
+        return id;
+    }
+
+    @Transactional
+    public Long updateReady(Long id, DebateRoomReadyUpdateRequestDto debateRoomReadyUpdateRequestDto){
+        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
+
+        debateRoom.setProsReady(debateRoomReadyUpdateRequestDto.isProsReady());
+        debateRoom.setConsReady(debateRoomReadyUpdateRequestDto.isConsReady());
+
+        return id;
+    }
+
+    @Transactional
+    public Long updateStart(Long id){
+        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
+
+        debateRoom.setStart(true);
 
         return id;
     }

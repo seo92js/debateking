@@ -1,7 +1,6 @@
 package com.seojs.debateking.domain.debateroom;
 
 import com.seojs.debateking.domain.BaseTimeEntity;
-import com.seojs.debateking.domain.speech.Speech;
 import com.seojs.debateking.domain.topic.Topic;
 import com.seojs.debateking.domain.user.User;
 import lombok.Builder;
@@ -31,20 +30,21 @@ public class DebateRoom extends BaseTimeEntity {
     @OneToOne
     @JoinColumn(name = "pros_id")
     private User pros;
+    private boolean prosReady;
+
     @OneToOne
     @JoinColumn(name = "cons_id")
     private User cons;
+    private boolean consReady;
 
     @OneToOne
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
-    @OneToMany(mappedBy = "debateRoom")
-    private List<Speech> speech = new ArrayList<>();
-
     private String title;
     private int speakingTime;
     private int discussionTime;
+    private boolean start;
 
     @Builder
     public DebateRoom(User user, Topic topic, String title, int speakingTime, int discussionTime){
@@ -55,6 +55,9 @@ public class DebateRoom extends BaseTimeEntity {
         user.createDebateRoom(this);
         this.speakingTime = speakingTime;
         this.discussionTime = discussionTime;
+        this.prosReady = false;
+        this.consReady = false;
+        this.start = false;
     }
 
     public void addSpector(User user){
@@ -74,5 +77,17 @@ public class DebateRoom extends BaseTimeEntity {
     public void updatePosition(User pros, User cons){
         this.pros = pros;
         this.cons = cons;
+    }
+
+    public void setStart(boolean start){
+        this.start = start;
+    }
+
+    public void setProsReady(boolean ready){
+        this.prosReady = ready;
+    }
+
+    public void setConsReady(boolean ready){
+        this.consReady = ready;
     }
 }
