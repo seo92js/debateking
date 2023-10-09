@@ -33,7 +33,7 @@ public class RedisService {
     }
 
     @Transactional
-    public void position(DebateRoomPositionUpdateRequestDto debateRoomPositionUpdateRequestDto){
-        redisPublisher.publish(redisMessageListener.getTopic(debateRoomPositionUpdateRequestDto.getDebateRoomId()), debateRoomPositionUpdateRequestDto);
+    public void position(PositionDto positionDto){
+        redisPublisher.publish(redisMessageListener.getTopic(positionDto.getDebateRoomId()), positionDto);
     }
 }

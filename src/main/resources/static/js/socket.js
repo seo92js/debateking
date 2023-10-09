@@ -29,6 +29,12 @@ stompClient.connect({}, function(frame) {
             const newDiv = document.createElement('div');
             newDiv.textContent = message;
             speechListDiv.appendChild(newDiv);
+        } else if (type == 'position') {
+            const prosUsername = body.prosUsername;
+            const consUsername = body.consUsername;
+
+            console.log(prosUsername);
+            console.log(consUsername);
         }
     });
 })

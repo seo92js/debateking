@@ -36,6 +36,15 @@ public class JsonParser {
         }
     }
 
+    public PositionDto toPositionDto(String chattingMessage){
+        try {
+            return objectMapper.readValue(chattingMessage, PositionDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public String getType(String chattingMessage){
         try {
             JsonNode jsonNode = objectMapper.readTree(chattingMessage);

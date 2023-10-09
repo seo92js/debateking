@@ -1,6 +1,7 @@
 package com.seojs.debateking.web;
 
 import com.seojs.debateking.service.debateroom.DebateRoomService;
+import com.seojs.debateking.service.speechRedis.PositionDto;
 import com.seojs.debateking.service.speechRedis.RedisService;
 import com.seojs.debateking.service.speechRedis.ChatDto;
 import com.seojs.debateking.service.speechRedis.SpeechDto;
@@ -26,7 +27,10 @@ public class ChatController {
     }
 
     @MessageMapping("/chattings/rooms/position")
-    public void updatePosition(DebateRoomPositionUpdateRequestDto debateRoomPositionUpdateRequestDto){
-        debateRoomService.updatePosition(debateRoomPositionUpdateRequestDto);
+    public void updatePosition(PositionDto positionDto){
+
+        redisService.position(positionDto);
+
+        debateRoomService.updatePosition(positionDto);
     }
 }

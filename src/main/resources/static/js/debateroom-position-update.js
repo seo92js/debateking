@@ -3,7 +3,8 @@ function setPros(id, pros, cons){
         cons = null;
     }
 
-    debateRoomPositionUpdateRequestDto = {
+    positionDto = {
+        type: 'position',
         debateRoomId: id,
         prosUsername: pros,
         consUsername: cons
@@ -20,7 +21,7 @@ function setPros(id, pros, cons){
 //    }).fail(function(error){
 //        alert(JSON.stringify(error));
 //    })
-    stompClient.send('/pub/chattings/rooms/position', {}, JSON.stringify(debateRoomPositionUpdateRequestDto));
+    stompClient.send('/pub/chattings/rooms/position', {}, JSON.stringify(positionDto));
 }
 
 function setCons(id, pros, cons){
@@ -28,7 +29,8 @@ function setCons(id, pros, cons){
         pros = null;
     }
 
-    debateRoomPositionUpdateRequestDto = {
+    positionDto = {
+        type: 'position',
         debateRoomId: id,
         prosUsername: pros,
         consUsername: cons
@@ -45,7 +47,7 @@ function setCons(id, pros, cons){
 //    }).fail(function(error){
 //        alert(JSON.stringify(error));
 //    })
-    stompClient.send('/pub/chattings/rooms/position', {}, JSON.stringify(debateRoomPositionUpdateRequestDto));
+    stompClient.send('/pub/chattings/rooms/position', {}, JSON.stringify(positionDto));
 }
 
 function setSpectors(id, pros, cons, username){
@@ -55,7 +57,8 @@ function setSpectors(id, pros, cons, username){
         cons = null;
     }
 
-    debateRoomPositionUpdateRequestDto = {
+    positionDto = {
+        type: 'position',
         debateRoomId: id,
         prosUsername: pros,
         consUsername: cons
@@ -72,5 +75,5 @@ function setSpectors(id, pros, cons, username){
 //    }).fail(function(error){
 //        alert(JSON.stringify(error));
 //    })
-    stompClient.send('/pub/chattings/rooms/position', {}, JSON.stringify(debateRoomPositionUpdateRequestDto));
+    stompClient.send('/pub/chattings/rooms/position', {}, JSON.stringify(positionDto));
 }

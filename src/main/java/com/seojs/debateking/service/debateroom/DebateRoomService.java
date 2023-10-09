@@ -6,6 +6,7 @@ import com.seojs.debateking.domain.topic.Topic;
 import com.seojs.debateking.domain.topic.TopicRepository;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
+import com.seojs.debateking.service.speechRedis.PositionDto;
 import com.seojs.debateking.service.speechRedis.RedisMessageListener;
 import com.seojs.debateking.service.speechRedis.RedisPublisher;
 import com.seojs.debateking.web.dto.*;
@@ -64,20 +65,20 @@ public class DebateRoomService {
     }
 
     @Transactional
-    public Long updatePosition(DebateRoomPositionUpdateRequestDto debateRoomPositionUpdateRequestDto){
+    public Long updatePosition(PositionDto positionDto){
         User prosUser = null;
         User consUser = null;
 
-        DebateRoom debateRoom = debateRoomRepository.findById(debateRoomPositionUpdateRequestDto.getDebateRoomId()).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + debateRoomPositionUpdateRequestDto.getDebateRoomId()));
+        DebateRoom debateRoom = debateRoomRepository.findById(positionDto.getDebateRoomId()).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + positionDto.getDebateRoomId()));
 
-        String pros = debateRoomPositionUpdateRequestDto.getProsUsername();
-        String cons = debateRoomPositionUpdateRequestDto.getConsUsername();
+        String pros = positionDto.getProsUsername();
+        String cons = positionDto.getConsUsername();
 
         if (pros != null){
-            prosUser = userRepository.findByUsername(debateRoomPositionUpdateRequestDto.getProsUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다=" + debateRoomPositionUpdateRequestDto.getProsUsername()));
+            prosUser = userRepository.findByUsername(positionDto.getProsUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다=" + positionDto.getProsUsername()));
         }
         if (cons != null){
-            consUser = userRepository.findByUsername(debateRoomPositionUpdateRequestDto.getConsUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다=" + debateRoomPositionUpdateRequestDto.getConsUsername()));
+            consUser = userRepository.findByUsername(positionDto.getConsUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다=" + positionDto.getConsUsername()));
         }
 
         debateRoom.updatePosition(prosUser, consUser);
@@ -85,9 +86,7 @@ public class DebateRoomService {
         debateRoom.setConsReady(false);
         debateRoom.setProsReady(false);
 
-        redisPublisher.publish(redisMessageListener.getTopic(debateRoomPositionUpdateRequestDto.getDebateRoomId()), debateRoomPositionUpdateRequestDto);
-
-        return debateRoomPositionUpdateRequestDto.getDebateRoomId();
+        return positionDto.getDebateRoomId();
     }
 
     @Transactional
