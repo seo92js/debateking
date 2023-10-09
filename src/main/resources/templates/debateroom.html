@@ -40,13 +40,13 @@
 <input id="cons-name" type="hidden" th:value="${debateRoomResponseDto.cons}">
 <input id="pros-name" type="hidden" th:value="${debateRoomResponseDto.pros}">
 
-<div th:if="${debateRoomResponseDto.pros} == ${loginUsername} and ${debateRoomResponseDto.cons} == ${loginUsername}">
+<div th:if="${debateRoomResponseDto.pros} == ${loginUsername} or ${debateRoomResponseDto.cons} == ${loginUsername}">
     <form id="speech-save-form">
         <input type="text" name="message">
         <button type="button" th:onclick="speech([[${debateRoomId}]], [[${loginUsername}]])">발언</button>
     </form>
 </div>
-<div th:unless="${debateRoomResponseDto.pros} == ${loginUsername} and ${debateRoomResponseDto.cons} == ${loginUsername}">
+<div th:unless="${debateRoomResponseDto.pros} == ${loginUsername} or ${debateRoomResponseDto.cons} == ${loginUsername}">
     <form id="chat-form">
         <input type="text" name="message">
         <button type="button" th:onclick="chat([[${debateRoomId}]], [[${loginUsername}]])">발언</button>

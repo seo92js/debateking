@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class DebateRoomPositionUpdateRequestDto {
+    private Long debateRoomId;
     private String prosUsername;
     private String consUsername;
 
     @Builder
-    public DebateRoomPositionUpdateRequestDto(String prosUsername, String consUsername){
+    public DebateRoomPositionUpdateRequestDto(Long debateRoomId, String prosUsername, String consUsername){
+        this.debateRoomId = debateRoomId;
         this.prosUsername = prosUsername;
         this.consUsername = consUsername;
     }

@@ -3,7 +3,8 @@ function speech(debateRoomId, username){
     const form = document.getElementById("speech-save-form");
     const formData = new FormData(form);
 
-    const chatDto = {
+    const speechDto = {
+        type: 'speech',
         debateRoomId: debateRoomId,
         username: username,
         message: formData.get('message')
@@ -11,7 +12,7 @@ function speech(debateRoomId, username){
 
     event.preventDefault();
 
-    stompClient.send('/pub/chattings/rooms/speech', {}, JSON.stringify(chatDto));
+    stompClient.send('/pub/chattings/rooms/speech', {}, JSON.stringify(speechDto));
 }
 
 function chat(debateRoomId, username){
@@ -21,6 +22,7 @@ function chat(debateRoomId, username){
     event.preventDefault();
 
     const chatDto = {
+        type: 'chat',
         debateRoomId: debateRoomId,
         username: username,
         message: formData.get('message')

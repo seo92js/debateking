@@ -6,6 +6,8 @@ import com.seojs.debateking.domain.topic.Topic;
 import com.seojs.debateking.domain.topic.TopicRepository;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
+import com.seojs.debateking.service.speechRedis.RedisMessageListener;
+import com.seojs.debateking.service.speechRedis.RedisPublisher;
 import com.seojs.debateking.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class DebateRoomService {
+    private final RedisPublisher redisPublisher;
+    private final RedisMessageListener redisMessageListener;
     private final UserRepository userRepository;
     private final TopicRepository topicRepository;
     private final DebateRoomRepository debateRoomRepository;
@@ -60,11 +64,11 @@ public class DebateRoomService {
     }
 
     @Transactional
-    public Long updatePosition(Long id, DebateRoomPositionUpdateRequestDto debateRoomPositionUpdateRequestDto){
+    public Long updatePosition(DebateRoomPositionUpdateRequestDto debateRoomPositionUpdateRequestDto){
         User prosUser = null;
         User consUser = null;
 
-        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
+        DebateRoom debateRoom = debateRoomRepository.findById(debateRoomPositionUpdateRequestDto.getDebateRoomId()).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + debateRoomPositionUpdateRequestDto.getDebateRoomId()));
 
         String pros = debateRoomPositionUpdateRequestDto.getProsUsername();
         String cons = debateRoomPositionUpdateRequestDto.getConsUsername();
@@ -81,7 +85,9 @@ public class DebateRoomService {
         debateRoom.setConsReady(false);
         debateRoom.setProsReady(false);
 
-        return id;
+        redisPublisher.publish(redisMessageListener.getTopic(debateRoomPositionUpdateRequestDto.getDebateRoomId()), debateRoomPositionUpdateRequestDto);
+
+        return debateRoomPositionUpdateRequestDto.getDebateRoomId();
     }
 
     @Transactional

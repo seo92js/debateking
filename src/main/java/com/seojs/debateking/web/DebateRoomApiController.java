@@ -36,10 +36,10 @@ public class DebateRoomApiController {
         return debateRoomService.update(id, debateRoomUpdateRequestDto);
     }
 
-    @PutMapping("/api/v1/debateroom/{id}/position")
-    public Long updatePosition(@PathVariable Long id, @RequestBody DebateRoomPositionUpdateRequestDto debateRoomPositionUpdateRequestDto){
-        return debateRoomService.updatePosition(id, debateRoomPositionUpdateRequestDto);
-    }
+//    @PutMapping("/api/v1/debateroom/{id}/position")
+//    public Long updatePosition(@PathVariable Long id, @RequestBody DebateRoomPositionUpdateRequestDto debateRoomPositionUpdateRequestDto){
+//        return debateRoomService.updatePosition(id, debateRoomPositionUpdateRequestDto);
+//    }
 
     @PutMapping("/api/v1/debateroom/{id}/ready")
     public Long updateReady(@PathVariable Long id, @RequestBody DebateRoomReadyUpdateRequestDto debateRoomReadyUpdateRequestDto){
