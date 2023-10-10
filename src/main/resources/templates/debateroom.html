@@ -15,19 +15,22 @@
     <div th:text="|방제 : *{title}|"></div>
     <div th:text="|방장 : *{owner}|"></div>
 
-    <div th:if="*{pros}" th:text="|찬성 : *{pros}|"></div>
-    <button th:if="*{pros}" th:text="*{prosReady}" th:onclick="prosReady([[${debateRoomId}]], [[*{prosReady}]], [[*{consReady}]])"></button>
-    <button th:unless="*{pros}" th:onclick="setPros([[${debateRoomId}]] ,[[${loginUsername}]],[[*{cons}]])">찬성 참여</button>
+    <h1>찬성</h1>
+    <div id="pros-name" th:value="*{pros}" th:text="*{pros}"></div>
+    <button th:text="*{prosReady}" th:onclick="prosReady([[${debateRoomId}]], [[*{prosReady}]], [[*{consReady}]])"></button>
+    <button th:onclick="setPros([[${debateRoomId}]] ,[[${loginUsername}]],[[*{cons}]])">찬성 참여</button>
 
-    <div th:if="*{cons}" th:text="|반대 : *{cons}|"></div>
-    <button th:if="*{cons}" th:text="*{consReady}" th:onclick="consReady([[${debateRoomId}]], [[*{prosReady}]], [[*{consReady}]])"></button>
-    <button th:unless="*{cons}" th:onclick="setCons([[${debateRoomId}]] ,[[*{pros}]],[[${loginUsername}]])">반대 참여</button>
+    <h1>반대</h1>
+    <div id="cons-name" th:value="*{cons}" th:text="*{cons}"></div>
+    <button th:text="*{consReady}" th:onclick="consReady([[${debateRoomId}]], [[*{prosReady}]], [[*{consReady}]])"></button>
+    <button th:onclick="setCons([[${debateRoomId}]] ,[[*{pros}]],[[${loginUsername}]])">반대 참여</button>
+
+    <h1>구경꾼</h1>
+    <div th:text="|구경꾼 : *{spectors}|"></div>
+    <button th:onclick="setSpectors([[${debateRoomId}]] ,[[*{pros}]], [[*{cons}]], [[${loginUsername}]])">구경꾼 참여</button>
 
     <div th:text="|발언시간 : *{speakingTime}|"></div>
     <div th:text="|토론시간 : *{discussionTime}|"></div>
-
-    <div th:text="|구경꾼 : *{spectors}|"></div>
-    <button th:if="*{pros} == ${loginUsername} or *{cons} == ${loginUsername}" th:onclick="setSpectors([[${debateRoomId}]] ,[[*{pros}]], [[*{cons}]], [[${loginUsername}]])">구경꾼 참여</button>
 
     <button th:if="*{prosReady} or *{consReady}" th:onclick="debateStart([[${debateRoomId}]])">시작</button>
     <div th:text="|방 상태 : *{start}|"></div>
@@ -37,27 +40,29 @@
 </div>
 
 <input id="debateroom-id" type="hidden" th:value="${debateRoomId}">
-<input id="cons-name" type="hidden" th:value="${debateRoomResponseDto.cons}">
-<input id="pros-name" type="hidden" th:value="${debateRoomResponseDto.pros}">
 
-<div th:if="${debateRoomResponseDto.pros} == ${loginUsername} or ${debateRoomResponseDto.cons} == ${loginUsername}">
+<h1>발언</h1>
+<div>
     <form id="speech-save-form">
         <input type="text" name="message">
         <button type="button" th:onclick="speech([[${debateRoomId}]], [[${loginUsername}]])">발언</button>
     </form>
 </div>
-<div th:unless="${debateRoomResponseDto.pros} == ${loginUsername} or ${debateRoomResponseDto.cons} == ${loginUsername}">
+
+<div id="speech-list">
+    <div th:each="speech : ${speeches}" th:text="${speech.speech}"></div>
+</div>
+
+<h1>채팅</h1>
+<div>
     <form id="chat-form">
         <input type="text" name="message">
         <button type="button" th:onclick="chat([[${debateRoomId}]], [[${loginUsername}]])">발언</button>
     </form>
 </div>
 
-<!--발언-->
-<div id="speech-list">
-</div>
-<!-- 채팅 -->
 <div id="chat-list">
+    <div th:each="chat : ${chats}" th:text="${chat.message}"></div>
 </div>
 
 <div th:replace="fragments/footer :: footer" />

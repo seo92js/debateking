@@ -33,8 +33,13 @@ stompClient.connect({}, function(frame) {
             const prosUsername = body.prosUsername;
             const consUsername = body.consUsername;
 
-            console.log(prosUsername);
-            console.log(consUsername);
+            const pros = document.getElementById("pros-name");
+            const cons = document.getElementById("cons-name");
+
+            pros.innerText = prosUsername;
+            cons.innerText = consUsername;
+
+            // 찬성 or 반대 or 구경꾼 포지션 별로 활성화/비활성 화 시켜야 함
         }
     });
 })

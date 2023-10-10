@@ -1,10 +1,12 @@
 package com.seojs.debateking.web;
 
 import com.seojs.debateking.config.security.PrincipalDetails;
+import com.seojs.debateking.domain.speechRedis.SpeechRedisRepository;
 import com.seojs.debateking.domain.topic.Category;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
 import com.seojs.debateking.service.debateroom.DebateRoomService;
+import com.seojs.debateking.service.speechRedis.RedisService;
 import com.seojs.debateking.web.dto.DebateRoomSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,7 @@ import java.util.List;
 public class DebateRoomController {
     private final UserRepository userRepository;
     private final DebateRoomService debateRoomService;
+    private final RedisService redisService;
 
     @GetMapping("/debateroom/save")
     public String debateRoomSave(Model model, Authentication authentication){
@@ -46,6 +49,9 @@ public class DebateRoomController {
         model.addAttribute("loginUserId", user.getId());
 
         model.addAttribute("debateRoomResponseDto", debateRoomService.findById(id));
+
+        model.addAttribute("speeches", redisService.getSpeeches(id));
+        model.addAttribute("chats", redisService.getChats(id));
 
         return "debateroom";
     }

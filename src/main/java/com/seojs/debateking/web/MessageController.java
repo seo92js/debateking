@@ -5,14 +5,13 @@ import com.seojs.debateking.service.speechRedis.PositionDto;
 import com.seojs.debateking.service.speechRedis.RedisService;
 import com.seojs.debateking.service.speechRedis.ChatDto;
 import com.seojs.debateking.service.speechRedis.SpeechDto;
-import com.seojs.debateking.web.dto.DebateRoomPositionUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
 @RequiredArgsConstructor
 @Controller
-public class ChatController {
+public class MessageController {
     private final RedisService redisService;
     private final DebateRoomService debateRoomService;
 

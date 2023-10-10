@@ -10,17 +10,6 @@ function setPros(id, pros, cons){
         consUsername: cons
     };
 
-//    $.ajax({
-//        type: 'PUT',
-//        url: '/api/v1/debateroom/' + id + '/position',
-//        dataType: 'json',
-//        contentType: 'application/json; charset=utf-8',
-//        data: JSON.stringify(debateRoomPositionUpdateRequestDto)
-//    }).done(function(){
-//        location.reload();
-//    }).fail(function(error){
-//        alert(JSON.stringify(error));
-//    })
     stompClient.send('/pub/chattings/rooms/position', {}, JSON.stringify(positionDto));
 }
 
@@ -36,17 +25,6 @@ function setCons(id, pros, cons){
         consUsername: cons
     };
 
-//    $.ajax({
-//        type: 'PUT',
-//        url: '/api/v1/debateroom/' + id + '/position',
-//        dataType: 'json',
-//        contentType: 'application/json; charset=utf-8',
-//        data: JSON.stringify(debateRoomPositionUpdateRequestDto)
-//    }).done(function(){
-//        location.reload();
-//    }).fail(function(error){
-//        alert(JSON.stringify(error));
-//    })
     stompClient.send('/pub/chattings/rooms/position', {}, JSON.stringify(positionDto));
 }
 
@@ -64,16 +42,5 @@ function setSpectors(id, pros, cons, username){
         consUsername: cons
     };
 
-//    $.ajax({
-//        type: 'PUT',
-//        url: '/api/v1/debateroom/' + id + '/position',
-//        dataType: 'json',
-//        contentType: 'application/json; charset=utf-8',
-//        data: JSON.stringify(debateRoomPositionUpdateRequestDto)
-//    }).done(function(){
-//        location.reload();
-//    }).fail(function(error){
-//        alert(JSON.stringify(error));
-//    })
     stompClient.send('/pub/chattings/rooms/position', {}, JSON.stringify(positionDto));
 }
