@@ -5,15 +5,19 @@ import com.seojs.debateking.domain.chatRedis.ChatRedisRepository;
 import com.seojs.debateking.domain.speechRedis.SpeechRedis;
 import com.seojs.debateking.domain.speechRedis.SpeechRedisRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class RedisService {
+    private final RedisTemplate redisTemplate;
     private final RedisPublisher redisPublisher;
     private final RedisMessageListener redisMessageListener;
     private final ChatRedisRepository chatRedisRepository;
@@ -30,11 +34,26 @@ public class RedisService {
                 .build();
 
         speechRedisRepository.save(speechRedis);
+
+        //sorted set
+        long currentTimeMillis = System.currentTimeMillis();
+        redisTemplate.opsForZSet().add("speechSortedSet:" + speechDto.getDebateRoomId(), speechRedis.getId(), currentTimeMillis);
     }
 
     @Transactional
     public List<SpeechResponseDto> getSpeeches(Long debateRoomId){
-        return speechRedisRepository.findByDebateRoomId(debateRoomId).stream().map(SpeechResponseDto::new).collect(Collectors.toList());
+        //sorted set
+        Set<String> speechIds = redisTemplate.opsForZSet().range("speechSortedSet:" + debateRoomId, 0, -1);
+        List<SpeechRedis> speechList = new ArrayList<>();
+        for (String speechId : speechIds) {
+            SpeechRedis speech = speechRedisRepository.findById(speechId).orElse(null);
+            if (speech != null) {
+                speechList.add(speech);
+            }
+        }
+        return speechList.stream().map(SpeechResponseDto::new).collect(Collectors.toList());
+
+        //return speechRedisRepository.findByDebateRoomId(debateRoomId).stream().map(SpeechResponseDto::new).collect(Collectors.toList());
     }
 
     @Transactional
@@ -48,15 +67,35 @@ public class RedisService {
                 .build();
 
         chatRedisRepository.save(chatRedis);
+
+        //sorted set
+        long currentTimeMillis = System.currentTimeMillis();
+        redisTemplate.opsForZSet().add("chatSortedSet:" + chatDto.getDebateRoomId(), chatRedis.getId(), currentTimeMillis);
     }
 
     @Transactional
     public List<ChatResponseDto> getChats(Long debateRoomId){
-        return chatRedisRepository.findByDebateRoomId(debateRoomId).stream().map(ChatResponseDto::new).collect(Collectors.toList());
+        //sorted set
+        Set<String> chatIds = redisTemplate.opsForZSet().range("chatSortedSet:" + debateRoomId, 0, -1);
+        List<ChatRedis> chatList = new ArrayList<>();
+        for (String chatId : chatIds) {
+            ChatRedis chat = chatRedisRepository.findById(chatId).orElse(null);
+            if (chat != null) {
+                chatList.add(chat);
+            }
+        }
+        return chatList.stream().map(ChatResponseDto::new).collect(Collectors.toList());
+
+        //return chatRedisRepository.findByDebateRoomId(debateRoomId).stream().map(ChatResponseDto::new).collect(Collectors.toList());
     }
 
     @Transactional
     public void position(PositionDto positionDto){
         redisPublisher.publish(redisMessageListener.getTopic(positionDto.getDebateRoomId()), positionDto);
+    }
+
+    @Transactional
+    public void enter(EnterDto enterDto){
+        redisPublisher.publish(redisMessageListener.getTopic(enterDto.getDebateRoomId()), enterDto);
     }
 }

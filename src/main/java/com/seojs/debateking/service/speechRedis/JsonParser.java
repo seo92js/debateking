@@ -44,6 +44,13 @@ public class JsonParser {
         }
     }
 
+    public EnterDto toEnterDto(String chattingMessage){
+        try {
+            return objectMapper.readValue(chattingMessage, EnterDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public String getType(String chattingMessage){
         try {

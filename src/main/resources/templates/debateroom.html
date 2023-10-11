@@ -26,7 +26,10 @@
     <button th:onclick="setCons([[${debateRoomId}]] ,[[*{pros}]],[[${loginUsername}]])">반대 참여</button>
 
     <h1>구경꾼</h1>
-    <div th:text="|구경꾼 : *{spectors}|"></div>
+    <div id="spector-list">
+<!--        <div th:each="spectorName : *{spectorsName}" th:text="${spectorName}">-->
+    </div>
+    </div>
     <button th:onclick="setSpectors([[${debateRoomId}]] ,[[*{pros}]], [[*{cons}]], [[${loginUsername}]])">구경꾼 참여</button>
 
     <div th:text="|발언시간 : *{speakingTime}|"></div>
@@ -40,6 +43,7 @@
 </div>
 
 <input id="debateroom-id" type="hidden" th:value="${debateRoomId}">
+<input id="login-username" type="hidden" th:value="${loginUsername}">
 
 <h1>발언</h1>
 <div>

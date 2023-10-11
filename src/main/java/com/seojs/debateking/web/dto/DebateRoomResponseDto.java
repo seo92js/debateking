@@ -3,6 +3,9 @@ package com.seojs.debateking.web.dto;
 import com.seojs.debateking.domain.debateroom.DebateRoom;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 public class DebateRoomResponseDto {
     private String category;
@@ -15,7 +18,7 @@ public class DebateRoomResponseDto {
     private boolean consReady;
     private int speakingTime;
     private int discussionTime;
-    private int spectors;
+    private int spectorsNum;
     private boolean start;
 
     public DebateRoomResponseDto(DebateRoom debateRoom){
@@ -31,7 +34,7 @@ public class DebateRoomResponseDto {
         this.consReady = debateRoom.isConsReady();
         this.speakingTime = debateRoom.getSpeakingTime();
         this.discussionTime = debateRoom.getDiscussionTime();
-        this.spectors = debateRoom.getSpectors().size();
+        this.spectorsNum = debateRoom.getSpectors().size();
         this.start = debateRoom.isStart();
     }
 }

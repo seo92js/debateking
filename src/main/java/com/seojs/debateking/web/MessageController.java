@@ -1,10 +1,7 @@
 package com.seojs.debateking.web;
 
 import com.seojs.debateking.service.debateroom.DebateRoomService;
-import com.seojs.debateking.service.speechRedis.PositionDto;
-import com.seojs.debateking.service.speechRedis.RedisService;
-import com.seojs.debateking.service.speechRedis.ChatDto;
-import com.seojs.debateking.service.speechRedis.SpeechDto;
+import com.seojs.debateking.service.speechRedis.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -31,5 +28,10 @@ public class MessageController {
         redisService.position(positionDto);
 
         debateRoomService.updatePosition(positionDto);
+    }
+
+    @MessageMapping("/chattings/rooms/enter")
+    public void enter(EnterDto enterDto){
+        redisService.enter(enterDto);
     }
 }
