@@ -1,7 +1,6 @@
 package com.seojs.debateking.web;
 
 import com.seojs.debateking.config.security.PrincipalDetails;
-import com.seojs.debateking.domain.speechRedis.SpeechRedisRepository;
 import com.seojs.debateking.domain.topic.Category;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;

@@ -19,6 +19,7 @@ public class DebateRoomResponseDto {
     private int speakingTime;
     private int discussionTime;
     private int spectorsNum;
+    private List<String> spectorsName = new ArrayList<>();
     private boolean start;
 
     public DebateRoomResponseDto(DebateRoom debateRoom){
@@ -35,6 +36,9 @@ public class DebateRoomResponseDto {
         this.speakingTime = debateRoom.getSpeakingTime();
         this.discussionTime = debateRoom.getDiscussionTime();
         this.spectorsNum = debateRoom.getSpectors().size();
+        for (int i = 0; i < spectorsNum; i++){
+            this.spectorsName.add(debateRoom.getSpectors().get(i).getUsername());
+        }
         this.start = debateRoom.isStart();
     }
 }

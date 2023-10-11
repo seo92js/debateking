@@ -27,7 +27,7 @@
 
     <h1>구경꾼</h1>
     <div id="spector-list">
-<!--        <div th:each="spectorName : *{spectorsName}" th:text="${spectorName}">-->
+        <div th:each="spectorName : *{spectorsName}" th:text="${spectorName}">
     </div>
     </div>
     <button th:onclick="setSpectors([[${debateRoomId}]] ,[[*{pros}]], [[*{cons}]], [[${loginUsername}]])">구경꾼 참여</button>

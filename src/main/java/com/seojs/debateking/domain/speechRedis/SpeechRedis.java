@@ -1,14 +1,11 @@
 package com.seojs.debateking.domain.speechRedis;
 
-import com.seojs.debateking.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
-
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
