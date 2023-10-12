@@ -10,16 +10,12 @@ function speech(debateRoomId, username){
         message: formData.get('message')
     };
 
-    event.preventDefault();
-
     stompClient.send('/pub/chattings/rooms/speech', {}, JSON.stringify(speechDto));
 }
 
 function chat(debateRoomId, username){
     const form = document.getElementById("chat-form");
     const formData = new FormData(form);
-
-    event.preventDefault();
 
     const chatDto = {
         type: 'chat',

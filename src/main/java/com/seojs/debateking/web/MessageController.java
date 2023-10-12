@@ -34,4 +34,19 @@ public class MessageController {
     public void enter(EnterDto enterDto){
         redisService.enter(enterDto);
     }
+
+    @MessageMapping("/chattings/rooms/exit")
+    public void exit(ExitDto exitDto){
+        redisService.exit(exitDto);
+    }
+
+    @MessageMapping("/chattings/rooms/ready")
+    public void ready(ReadyDto readyDto){
+        redisService.ready(readyDto);
+    }
+
+    @MessageMapping("/chattings/rooms/time")
+    public void ready(TimeDto timeDto){
+        redisService.time(timeDto);
+    }
 }

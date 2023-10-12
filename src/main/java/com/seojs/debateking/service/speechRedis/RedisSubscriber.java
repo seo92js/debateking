@@ -30,6 +30,15 @@ public class RedisSubscriber implements MessageListener {
         } else if (type.equals("enter")) {
             EnterDto enterDto = jsonParser.toEnterDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
             messagingTemplate.convertAndSend("/sub/chatting/rooms/" +  enterDto.getDebateRoomId(), enterDto);
+        } else if (type.equals("exit")) {
+            ExitDto exitDto = jsonParser.toExitDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
+            messagingTemplate.convertAndSend("/sub/chatting/rooms/" +  exitDto.getDebateRoomId(), exitDto);
+        } else if (type.equals("ready")) {
+            ReadyDto readyDto = jsonParser.toReadyDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
+            messagingTemplate.convertAndSend("/sub/chatting/rooms/" +  readyDto.getDebateRoomId(), readyDto);
+        } else if (type.equals("time")) {
+            TimeDto timeDto = jsonParser.toTimeDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
+            messagingTemplate.convertAndSend("/sub/chatting/rooms/" + timeDto.getDebateRoomId(), timeDto);
         }
     }
 }

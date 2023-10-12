@@ -42,4 +42,9 @@ public class DebateRoomApiController {
     public Long updateStart(@PathVariable Long id){
         return debateRoomService.updateStart(id);
     }
+
+    @PutMapping("/api/v1/debateroom/{id}/stop")
+    public Long updateStop(@PathVariable Long id){
+        return debateRoomService.updateStop(id);
+    }
 }

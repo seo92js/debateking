@@ -17,25 +17,26 @@
 
     <h1>찬성</h1>
     <div id="pros-name" th:value="*{pros}" th:text="*{pros}"></div>
-    <button th:text="*{prosReady}" th:onclick="prosReady([[${debateRoomId}]], [[*{prosReady}]], [[*{consReady}]])"></button>
+    <button id="pros-ready" th:text="*{prosReady}" th:onclick="setProsReady([[${debateRoomId}]])"></button>
     <button th:onclick="setPros([[${debateRoomId}]] ,[[${loginUsername}]],[[*{cons}]])">찬성 참여</button>
 
     <h1>반대</h1>
     <div id="cons-name" th:value="*{cons}" th:text="*{cons}"></div>
-    <button th:text="*{consReady}" th:onclick="consReady([[${debateRoomId}]], [[*{prosReady}]], [[*{consReady}]])"></button>
+    <button id="cons-ready" th:text="*{consReady}" th:onclick="setConsReady([[${debateRoomId}]])"></button>
     <button th:onclick="setCons([[${debateRoomId}]] ,[[*{pros}]],[[${loginUsername}]])">반대 참여</button>
 
     <h1>구경꾼</h1>
     <div id="spector-list">
-        <div th:each="spectorName : *{spectorsName}" th:text="${spectorName}">
+        <div th:each="spectorName : *{spectorsName}" th:text="${spectorName}"></div>
     </div>
-    </div>
+
     <button th:onclick="setSpectors([[${debateRoomId}]] ,[[*{pros}]], [[*{cons}]], [[${loginUsername}]])">구경꾼 참여</button>
 
     <div th:text="|발언시간 : *{speakingTime}|"></div>
     <div th:text="|토론시간 : *{discussionTime}|"></div>
 
-    <button th:if="*{prosReady} or *{consReady}" th:onclick="debateStart([[${debateRoomId}]])">시작</button>
+    <button th:onclick="debateStart([[${debateRoomId}]], [[*{discussionTime}]])">시작</button>
+    <div id="time"></div>
     <div th:text="|방 상태 : *{start}|"></div>
 
     <button th:if="*{owner} == ${loginUsername}" type="button" th:onclick="debateRoomDelete([[${debateRoomId}]])">방 깨기</button>
@@ -44,6 +45,7 @@
 
 <input id="debateroom-id" type="hidden" th:value="${debateRoomId}">
 <input id="login-username" type="hidden" th:value="${loginUsername}">
+<input id="login-userid" type="hidden" th:value="${loginUserId}">
 
 <h1>발언</h1>
 <div>
@@ -61,7 +63,7 @@
 <div>
     <form id="chat-form">
         <input type="text" name="message">
-        <button type="button" th:onclick="chat([[${debateRoomId}]], [[${loginUsername}]])">발언</button>
+        <button type="button" th:onclick="chat([[${debateRoomId}]], [[${loginUsername}]])">채팅</button>
     </form>
 </div>
 

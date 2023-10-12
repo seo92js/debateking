@@ -3,6 +3,7 @@ let stompClient = Stomp.over(socket);
 
 const debateRoomId = document.getElementById("debateroom-id").value;
 const username = document.getElementById("login-username").value;
+const id = document.getElementById("login-userid").value;
 
 stompClient.connect({}, function(frame) {
 
@@ -20,34 +21,47 @@ stompClient.connect({}, function(frame) {
             const username = body.username;
             const message = body.message;
 
-            const chatListDiv = document.getElementById('chat-list');
-            const newDiv = document.createElement('div');
-            newDiv.textContent = message;
-            chatListDiv.appendChild(newDiv);
-        }
-        else if (type == 'speech'){
+            $("<div>").text(message).appendTo("#chat-list");
+        } else if (type == 'speech'){
             const username = body.username;
             const message = body.message;
 
-            const speechListDiv = document.getElementById('speech-list');
-            const newDiv = document.createElement('div');
-            newDiv.textContent = message;
-            speechListDiv.appendChild(newDiv);
+            $("<div>").text(message).appendTo("#speech-list");
         } else if (type == 'position') {
             const prosUsername = body.prosUsername;
             const consUsername = body.consUsername;
 
-            const pros = document.getElementById("pros-name");
-            const cons = document.getElementById("cons-name");
+            $("#pros-name").text(prosUsername);
+            $("#cons-name").text(consUsername);
 
-            pros.innerText = prosUsername;
-            cons.innerText = consUsername;
-
+            $("#pros-ready").text("false");
+            $("#cons-ready").text("false");
             // 찬성 or 반대 or 구경꾼 포지션 별로 활성화/비활성 화 시켜야 함
         } else if (type == 'enter') {
             const username = body.username;
 
             enter(debateRoomId, username);
+        } else if (type == 'exit') {
+            //spectors list 에서 지우기
+        } else if (type == 'ready') {
+            const prosReady = body.prosReady;
+            const consReady = body.consReady;
+
+            if (prosReady == true) {
+                $("#pros-ready").text("true");
+            } else {
+                $("#pros-ready").text("false");
+            }
+
+            if (consReady == true) {
+                $("#cons-ready").text("true");
+            } else {
+                $("#cons-ready").text("false");
+            }
+        } else if (type == 'time') {
+            const time = body.time;
+
+            $("#time").text(time);
         }
     });
 });
@@ -72,9 +86,7 @@ function enter(debateRoomId, username) {
 
     stompClient.send('/pub/chattings/rooms/enter', {}, JSON.stringify(enterDto));
 
-    var newDiv = document.createElement('div');
-    newDiv.textContent = username;
-    spectorList.appendChild(newDiv);
+    $("<div>").text(username).appendTo("#spector-list");
 
     const chatDto = {
         type: 'chat',
@@ -84,6 +96,16 @@ function enter(debateRoomId, username) {
     };
 
     stompClient.send('/pub/chattings/rooms/chat', {}, JSON.stringify(chatDto));
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/v1/user/' + id + '/' + debateRoomId + '/enter',
+    }).done(function(){
+        //alert('토론방 나가기 완료');
+        //window.location.href = '/';
+    }).fail(function(error){
+        alert(JSON.stringify(error));
+    })
 }
 
 

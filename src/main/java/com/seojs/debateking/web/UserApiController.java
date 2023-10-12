@@ -29,8 +29,13 @@ public class UserApiController {
         return userService.findById(id);
     }
 
-    @PutMapping("/api/v1/user/{id}/{debateroomId}")
-    public Long exitDebateRoom(@PathVariable Long id, @PathVariable Long debateroomId){
-        return userService.exitDebateRoom(id, debateroomId);
+    @PutMapping("/api/v1/user/{id}/{debateRoomId}/exit")
+    public Long exitDebateRoom(@PathVariable Long id, @PathVariable Long debateRoomId){
+        return userService.exitDebateRoom(id, debateRoomId);
+    }
+
+    @PutMapping("/api/v1/user/{id}/{debateRoomId}/enter")
+    public Long enterDebateRoom(@PathVariable Long id, @PathVariable Long debateRoomId){
+        return userService.enterDebateRoom(id, debateRoomId);
     }
 }

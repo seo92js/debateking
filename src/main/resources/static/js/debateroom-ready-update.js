@@ -1,10 +1,22 @@
-function prosReady(id, prosReady, consReady){
-    if (prosReady == false) {
+function setProsReady(id){
+    prosReady = document.getElementById("pros-ready").innerText;
+    consReady = document.getElementById("cons-ready").innerText;
+
+    if (prosReady == "false") {
         prosReady = true;
     } else {
         prosReady = false;
     }
 
+    readyDto = {
+        type: 'ready',
+        debateRoomId: id,
+        prosReady: prosReady,
+        consReady: consReady
+    }
+
+    stompClient.send('/pub/chattings/rooms/ready', {}, JSON.stringify(readyDto));
+
     debateRoomReadyUpdateRequestDto = {
         prosReady: prosReady,
         consReady: consReady
@@ -18,18 +30,30 @@ function prosReady(id, prosReady, consReady){
         data: JSON.stringify(debateRoomReadyUpdateRequestDto)
     }).done(function(){
         //alert('완료');
-        location.reload();
+        //location.reload();
     }).fail(function(error){
         alert(JSON.stringify(error));
     })
 }
 
-function consReady(id, prosReady, consReady){
-    if (consReady == false) {
+function setConsReady(id){
+    prosReady = document.getElementById("pros-ready").innerText;
+    consReady = document.getElementById("cons-ready").innerText;
+
+    if (consReady == "false") {
         consReady = true;
     } else {
         consReady = false;
     }
+
+    readyDto = {
+        type: 'ready',
+        debateRoomId: id,
+        prosReady: prosReady,
+        consReady: consReady
+    }
+
+    stompClient.send('/pub/chattings/rooms/ready', {}, JSON.stringify(readyDto));
 
     debateRoomReadyUpdateRequestDto = {
         prosReady: prosReady,
@@ -44,7 +68,7 @@ function consReady(id, prosReady, consReady){
         data: JSON.stringify(debateRoomReadyUpdateRequestDto)
     }).done(function(){
         //alert('완료');
-        location.reload();
+        //location.reload();
     }).fail(function(error){
         alert(JSON.stringify(error));
     })

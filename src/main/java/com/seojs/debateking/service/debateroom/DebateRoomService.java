@@ -112,6 +112,15 @@ public class DebateRoomService {
     }
 
     @Transactional
+    public Long updateStop(Long id){
+        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
+
+        debateRoom.setStart(false);
+
+        return id;
+    }
+
+    @Transactional
     public DebateRoomResponseDto findById(Long id){
         return new DebateRoomResponseDto(debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id)));
     }

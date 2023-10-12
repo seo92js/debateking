@@ -52,6 +52,30 @@ public class JsonParser {
         }
     }
 
+    public ExitDto toExitDto(String chattingMessage){
+        try {
+            return objectMapper.readValue(chattingMessage, ExitDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ReadyDto toReadyDto(String chattingMessage){
+        try {
+            return objectMapper.readValue(chattingMessage, ReadyDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public TimeDto toTimeDto(String chattingMessage){
+        try {
+            return objectMapper.readValue(chattingMessage, TimeDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public String getType(String chattingMessage){
         try {
             JsonNode jsonNode = objectMapper.readTree(chattingMessage);

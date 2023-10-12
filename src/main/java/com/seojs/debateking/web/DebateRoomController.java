@@ -6,6 +6,7 @@ import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
 import com.seojs.debateking.service.debateroom.DebateRoomService;
 import com.seojs.debateking.service.speechRedis.RedisService;
+import com.seojs.debateking.service.user.UserService;
 import com.seojs.debateking.web.dto.DebateRoomSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import java.util.List;
 @Controller
 public class DebateRoomController {
     private final UserRepository userRepository;
+    private final UserService userService;
     private final DebateRoomService debateRoomService;
     private final RedisService redisService;
 
@@ -43,6 +45,7 @@ public class DebateRoomController {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
         User user = userRepository.findByUsername(principalDetails.getUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다.username=" + principalDetails.getUsername()));
+
         model.addAttribute("loginUsername", principalDetails.getUsername());
         model.addAttribute("debateRoomId", id);
         model.addAttribute("loginUserId", user.getId());

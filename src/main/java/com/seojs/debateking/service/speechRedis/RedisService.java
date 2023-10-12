@@ -98,4 +98,19 @@ public class RedisService {
     public void enter(EnterDto enterDto){
         redisPublisher.publish(redisMessageListener.getTopic(enterDto.getDebateRoomId()), enterDto);
     }
+
+    @Transactional
+    public void exit(ExitDto exitDto){
+        redisPublisher.publish(redisMessageListener.getTopic(exitDto.getDebateRoomId()), exitDto);
+    }
+
+    @Transactional
+    public void ready(ReadyDto readyDto){
+        redisPublisher.publish(redisMessageListener.getTopic(readyDto.getDebateRoomId()), readyDto);
+    }
+
+    @Transactional
+    public void time(TimeDto timeDto){
+        redisPublisher.publish(redisMessageListener.getTopic(timeDto.getDebateRoomId()), timeDto);
+    }
 }
