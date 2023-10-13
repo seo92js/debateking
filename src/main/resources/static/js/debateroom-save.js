@@ -4,12 +4,16 @@ function debateRoomSave(){
     const form = document.getElementById("debateroom-save-form");
     const formData = new FormData(form);
 
+    const speakingTime = document.getElementById("speaking-time-select").value;
+    const discussionTime = document.getElementById("discussion-time-select").value;
+
+
     const debateRoomSaveRequestDto = {
         userId: formData.get('userId'),
         topicName: formData.get('topicName'),
         title: formData.get('title'),
-        speakingTime: formData.get('speakingTime'),
-        discussionTime: formData.get('discussionTime')
+        speakingTime: speakingTime,
+        discussionTime: discussionTime
     };
 
     event.preventDefault();

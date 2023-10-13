@@ -35,8 +35,11 @@
     <div th:text="|발언시간 : *{speakingTime}|"></div>
     <div th:text="|토론시간 : *{discussionTime}|"></div>
 
-    <button th:onclick="debateStart([[${debateRoomId}]], [[*{discussionTime}]])">시작</button>
-    <div id="time"></div>
+    <button th:onclick="debateStart([[${debateRoomId}]], [[*{speakingTime}]], [[*{discussionTime}]])">시작</button>
+
+    <div id="remaining-speaking-time"></div>
+    <div id="remaining-debate-time"></div>
+
     <div th:text="|방 상태 : *{start}|"></div>
 
     <button th:if="*{owner} == ${loginUsername}" type="button" th:onclick="debateRoomDelete([[${debateRoomId}]])">방 깨기</button>

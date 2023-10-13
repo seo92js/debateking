@@ -19,20 +19,15 @@ stompClient.connect({}, function(frame) {
 
         if (type == 'chat'){
             const username = body.username;
-            const message = body.message;
 
-            $("<div>").text(message).appendTo("#chat-list");
+            $("<div>").text(body.message).appendTo("#chat-list");
         } else if (type == 'speech'){
             const username = body.username;
-            const message = body.message;
 
-            $("<div>").text(message).appendTo("#speech-list");
+            $("<div>").text(body.message).appendTo("#speech-list");
         } else if (type == 'position') {
-            const prosUsername = body.prosUsername;
-            const consUsername = body.consUsername;
-
-            $("#pros-name").text(prosUsername);
-            $("#cons-name").text(consUsername);
+            $("#pros-name").text(body.prosUsername);
+            $("#cons-name").text(body.consUsername);
 
             $("#pros-ready").text("false");
             $("#cons-ready").text("false");
@@ -44,24 +39,20 @@ stompClient.connect({}, function(frame) {
         } else if (type == 'exit') {
             //spectors list 에서 지우기
         } else if (type == 'ready') {
-            const prosReady = body.prosReady;
-            const consReady = body.consReady;
-
-            if (prosReady == true) {
+            if (body.prosReady == true) {
                 $("#pros-ready").text("true");
             } else {
                 $("#pros-ready").text("false");
             }
 
-            if (consReady == true) {
+            if ( body.consReady == true) {
                 $("#cons-ready").text("true");
             } else {
                 $("#cons-ready").text("false");
             }
         } else if (type == 'time') {
-            const time = body.time;
-
-            $("#time").text(time);
+            $("#remaining-speaking-time").text(body.speakingTime);
+            $("#remaining-debate-time").text(body.discussionTime);
         }
     });
 });

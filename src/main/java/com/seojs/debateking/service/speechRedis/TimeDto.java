@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 public class TimeDto {
     private String type;
     private Long debateRoomId;
-    private int time;
+    private int speakingTime;
+    private int discussionTime;
 
     @Builder
-    public TimeDto(String type, Long debateRoomId, int time){
+    public TimeDto(String type, Long debateRoomId, int speakingTime, int discussionTime){
         this.type = type;
         this.debateRoomId = debateRoomId;
-        this.time = time;
+        this.speakingTime = speakingTime;
+        this.discussionTime = discussionTime;
     }
 }

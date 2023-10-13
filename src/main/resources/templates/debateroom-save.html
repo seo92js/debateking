@@ -19,8 +19,15 @@
         </select>
 
         <input type="text" th:field="*{title}">
-        <input type="number" th:field="*{speakingTime}">
-        <input type="number" th:field="*{discussionTime}">
+
+        <select id="speaking-time-select">
+            <option th:each="speakingTime : ${speakingTimes}" th:text="${speakingTime}"></option>
+        </select>
+
+        <select id="discussion-time-select">
+            <option th:each="discussionTime : ${discussionTimes}" th:text="${discussionTime}"></option>
+        </select>
+
         <button type="submit" onclick="debateRoomSave()">방 생성</button>
     </form>
 
