@@ -1,0 +1,42 @@
+.index {
+}
+
+.index__nav{
+}
+
+.index__join,
+.index__login,
+.index__logout,
+.index__debate-room-add,
+.index__topic-add{
+
+}
+
+.index__debate-room {
+    display: flex;
+    flex-direction: row;
+}
+
+.index__category {
+}
+
+.index__topic {
+}
+
+.index__title {
+}
+
+.index__owner {
+}
+
+.index__speaking-time{
+}
+
+.index__discussion-time{
+}
+
+.index__spectors-num{
+}
+
+.index__start {
+}

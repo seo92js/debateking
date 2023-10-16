@@ -6,24 +6,30 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <h1>토론왕</h1>
-    <a href="/user/save" sec:authorize="isAnonymous()">회원가입</a>
-    <a href="/login" sec:authorize="isAnonymous()">로그인</a>
-    <a href="/logout" sec:authorize="isAuthenticated()">로그아웃</a>
-    <a href="/debateroom/save" sec:authorize="isAuthenticated()">채팅방 만들기</a>
-    <a href="/topic/save" sec:authorize="isAuthenticated()">주제 추가하기</a>
+    <header>
+        <h1>토론왕</h1>
+    </header>
+    <main class="index">
+        <div class="index__nav">
+            <a class="index__join" href="/user/save" sec:authorize="isAnonymous()">회원가입</a>
+            <a class="index__login" href="/login" sec:authorize="isAnonymous()">로그인</a>
+            <a class="index__logout" href="/logout" sec:authorize="isAuthenticated()">로그아웃</a>
+            <a class="index__debate-room-add" href="/debateroom/save" sec:authorize="isAuthenticated()">채팅방 만들기</a>
+            <a class="index__topic-add" href="/topic/save" sec:authorize="isAuthenticated()">주제 추가하기</a>
+        </div>
 
-    <!--채팅방 리스트-->
-    <div th:each="debateRoom : ${debateRooms}">
-        <div th:text="${debateRoom.category}"></div>
-        <div th:text="${debateRoom.topic}"></div>
-        <div th:text="${debateRoom.title}"></div>
-        <div th:text="${debateRoom.owner}"></div>
-        <div th:text="${debateRoom.speakingTime}"></div>
-        <div th:text="${debateRoom.discussionTime}"></div>
-        <div th:text="${debateRoom.spectorsNum}"></div>
-        <div th:text="${debateRoom.start}"></div>
-    </div>
+        <!--채팅방 리스트-->
+        <a class="index__debate-room" th:each="debateRoom : ${debateRooms}" th:href="@{/debateroom/{debateRoomId}(debateRoomId=${debateRoom.id})}">
+            <div class="index__category" th:text="${debateRoom.category}"></div>
+            <div class="index__topic" th:text="${debateRoom.topic}"></div>
+            <div class="index__title" th:text="${debateRoom.title}"></div>
+            <div class="index__owner" th:text="${debateRoom.owner}"></div>
+            <div class="index__speaking-time" th:text="${debateRoom.speakingTime}"></div>
+            <div class="index__discussion-time" th:text="${debateRoom.discussionTime}"></div>
+            <div class="index__spectors-num" th:text="${debateRoom.spectorsNum}"></div>
+            <div class="index__start" th:text="${debateRoom.start}"></div>
+        </a>
+    </main>
 
     <div th:replace="fragments/footer :: footer" />
 </body>

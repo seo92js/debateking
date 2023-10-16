@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 public class DebateRoomResponseDto {
+    private Long id;
     private String category;
     private String topic;
     private String title;
@@ -23,6 +24,7 @@ public class DebateRoomResponseDto {
     private boolean start;
 
     public DebateRoomResponseDto(DebateRoom debateRoom){
+        this.id = debateRoom.getId();
         this.category = debateRoom.getTopic().getCategory().toString();
         this.topic = debateRoom.getTopic().getName();
         this.title = debateRoom.getTitle();

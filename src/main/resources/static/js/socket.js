@@ -33,11 +33,10 @@ stompClient.connect({}, function(frame) {
             $("#cons-ready").text("false");
             // 찬성 or 반대 or 구경꾼 포지션 별로 활성화/비활성 화 시켜야 함
         } else if (type == 'enter') {
-            const username = body.username;
-
-            enter(debateRoomId, username);
+            enter(debateRoomId, body.username);
         } else if (type == 'exit') {
             //spectors list 에서 지우기
+            exit(debateRoomId, body.username);
         } else if (type == 'ready') {
             if (body.prosReady == true) {
                 $("#pros-ready").text("true");
@@ -57,12 +56,34 @@ stompClient.connect({}, function(frame) {
     });
 });
 
-function enter(debateRoomId, username) {
-    var spectorList = document.getElementById('spector-list');
-    // spectorList 내의 모든 div 요소를 반복하며 이름 검사
-    var divs = spectorList.getElementsByTagName('div');
+function exit(debateRoomId, username){
+    const spectorList = document.getElementById('spector-list');
 
-    for (var i = 0; i < divs.length; i++) {
+    const divs = spectorList.getElementsByTagName('div');
+
+    for (let i = 0; i < divs.length; i++){
+        if (divs[i].textContent === username) {
+            spectorList.removeChild(divs[i]);
+        }
+    }
+
+    const chatDto = {
+        type: 'chat',
+        debateRoomId: debateRoomId,
+        username: username,
+        message: username + '님이 퇴장 하셨습니다.'
+    };
+
+    stompClient.send('/pub/chattings/rooms/chat', {}, JSON.stringify(chatDto));
+
+}
+
+function enter(debateRoomId, username) {
+    const spectorList = document.getElementById('spector-list');
+    // spectorList 내의 모든 div 요소를 반복하며 이름 검사
+    const divs = spectorList.getElementsByTagName('div');
+
+    for (let i = 0; i < divs.length; i++) {
         if (divs[i].textContent === username) {
             // 이름이 이미 있는 경우 return
             return;

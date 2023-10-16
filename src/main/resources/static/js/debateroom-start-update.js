@@ -56,11 +56,10 @@ function startDebateTimer(id) {
 }
 
 function startSpeechTimer(speaker, id) {
-    //speechTime = speakTime;
-
     if (currentSpeaker === 'pros') {
+        //pros 발언권 열기, cons 발언권 닫기
+
         intervalProsId = setInterval(function() {
-            //speechTime--;
 
             if (speechTime <= 0) {
                 clearInterval(intervalProsId);
@@ -70,8 +69,9 @@ function startSpeechTimer(speaker, id) {
             }
         }, 1000);
     } else {
+        //cons 발언권 열기, pros 발언권 닫기
+
         intervalConsId = setInterval(function() {
-            //speechTime--;
 
             if (speechTime <= 0) {
                 clearInterval(intervalConsId);
