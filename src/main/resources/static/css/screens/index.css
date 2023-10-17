@@ -9,34 +9,21 @@
 .index__logout,
 .index__debate-room-add,
 .index__topic-add{
-
 }
 
-.index__debate-room {
-    display: flex;
-    flex-direction: row;
+th {
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #e6e6fa;
+    width: 100px;
+    height: 50px;
+    background-color: #fafad2;
 }
 
-.index__category {
-}
-
-.index__topic {
-}
-
-.index__title {
-}
-
-.index__owner {
-}
-
-.index__speaking-time{
-}
-
-.index__discussion-time{
-}
-
-.index__spectors-num{
-}
-
-.index__start {
+td {
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #e6e6fa;
+    width: 100px;
+    height: 50px;
 }

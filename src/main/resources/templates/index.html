@@ -18,17 +18,34 @@
             <a class="index__topic-add" href="/topic/save" sec:authorize="isAuthenticated()">주제 추가하기</a>
         </div>
 
-        <!--채팅방 리스트-->
-        <a class="index__debate-room" th:each="debateRoom : ${debateRooms}" th:href="@{/debateroom/{debateRoomId}(debateRoomId=${debateRoom.id})}">
-            <div class="index__category" th:text="${debateRoom.category}"></div>
-            <div class="index__topic" th:text="${debateRoom.topic}"></div>
-            <div class="index__title" th:text="${debateRoom.title}"></div>
-            <div class="index__owner" th:text="${debateRoom.owner}"></div>
-            <div class="index__speaking-time" th:text="${debateRoom.speakingTime}"></div>
-            <div class="index__discussion-time" th:text="${debateRoom.discussionTime}"></div>
-            <div class="index__spectors-num" th:text="${debateRoom.spectorsNum}"></div>
-            <div class="index__start" th:text="${debateRoom.start}"></div>
-        </a>
+        <table>
+            <thead>
+                <tr>
+                    <th>카테고리</th>
+                    <th>주제</th>
+                    <th>방 제목</th>
+                    <th>방장</th>
+                    <th>발언시간</th>
+                    <th>토론시간</th>
+                    <th>참여자</th>
+                    <th>방 상태</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="debateRoom : ${debateRooms}">
+                    <td class="index__category" th:text="${debateRoom.category}"></td>
+                    <td class="index__topic" th:text="${debateRoom.topic}"></td>
+                    <td class="index__title" th:text="${debateRoom.title}"></td>
+                    <td class="index__owner" th:text="${debateRoom.owner}"></td>
+                    <td class="index__speaking-time" th:text="${debateRoom.speakingTime}"></td>
+                    <td class="index__discussion-time" th:text="${debateRoom.discussionTime}"></td>
+                    <td class="index__spectors-num" th:text="${debateRoom.spectorsNum}"></td>
+                    <td class="index__start" th:text="${debateRoom.start}"></td>
+                    <td><a th:href="@{/debateroom/{debateRoomId}(debateRoomId=${debateRoom.id})}">입장하기</a></td>
+                </tr>
+            </tbody>
+        </table>
     </main>
 
     <div th:replace="fragments/footer :: footer" />
