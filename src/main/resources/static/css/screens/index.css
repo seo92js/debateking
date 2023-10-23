@@ -2,6 +2,7 @@
 }
 
 .index__nav{
+    margin-bottom: 30px;
 }
 
 .index__join,
@@ -9,21 +10,61 @@
 .index__logout,
 .index__debate-room-add,
 .index__topic-add{
+    font-size: 16px;
+    margin: 5px;
+    padding: 10px;
+    background-color: #c5d9ed;
 }
 
-th {
+.index__table{
+}
+
+.index__thead {
+}
+
+.index__tbody{
+}
+
+.index__th {
     text-align: center;
     vertical-align: middle;
+    font-size: 14px;
     border: 1px solid #e6e6fa;
-    width: 100px;
+    width: 80px;
     height: 50px;
     background-color: #fafad2;
 }
 
-td {
+.index__th--title {
+    width: 200px;
+}
+
+.index__th--topic {
+    width: 200px;
+}
+
+.index__td {
     text-align: center;
     vertical-align: middle;
+    font-size: 14px;
     border: 1px solid #e6e6fa;
-    width: 100px;
+    width: 80px;
     height: 50px;
+}
+
+.index__td--category {
+    color: blue;
+}
+
+.index__td--topic {
+    width: 200px;
+    color: blue;
+}
+
+.index__td--title {
+    width: 200px;
+}
+
+.index__td--enter {
+    background-color: #f0f0f1;
 }

@@ -73,3 +73,7 @@ function setConsReady(id){
         alert(JSON.stringify(error));
     })
 }
+
+function setReady(id, ){
+
+}

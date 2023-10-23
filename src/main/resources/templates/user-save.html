@@ -6,12 +6,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <h1>회원가입</h1>
+    <header class="header">
+        <h1 class="header__title">회원가입</h1>
+    </header>
 
-    <form id="user-save-form" th:object="${userSaveRequestDto}">
-        <input type="text" th:field="*{username}" required>
-        <input type="password" th:field="*{password}" required>
-        <button type="submit" onclick="userSave()">회원가입</button>
+    <form id="user-save-form" class="form" th:object="${userSaveRequestDto}">
+        <div class="form__row">
+            <label class="form__label">아이디</label>
+            <input class="form__input" type="text" th:field="*{username}" required>
+        </div>
+
+        <div class="form__row">
+            <label class="form__label">비밀번호</label>
+            <input class="form__input" type="password" th:field="*{password}" required>
+        </div>
+
+        <button class="form__button" type="submit" onclick="userSave()">회원가입</button>
     </form>
 
     <div th:replace="fragments/footer :: footer" />

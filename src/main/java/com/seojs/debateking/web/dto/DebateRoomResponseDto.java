@@ -25,7 +25,7 @@ public class DebateRoomResponseDto {
 
     public DebateRoomResponseDto(DebateRoom debateRoom){
         this.id = debateRoom.getId();
-        this.category = debateRoom.getTopic().getCategory().toString();
+        this.category = debateRoom.getTopic().getCategory().getCategory();
         this.topic = debateRoom.getTopic().getName();
         this.title = debateRoom.getTitle();
         this.owner = debateRoom.getOwner().getUsername();

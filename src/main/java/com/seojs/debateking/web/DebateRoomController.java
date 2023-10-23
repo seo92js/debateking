@@ -36,23 +36,12 @@ public class DebateRoomController {
         User loginUser = userRepository.findByUsername(principalDetails.getUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. username=" + principalDetails.getUsername()));
 
         List<Category> categories = Arrays.asList(Category.values());
-
         model.addAttribute("categories", categories);
 
-        List<Integer> speakingTimes = new ArrayList<>();
-
-        for (SpeakingTime speakingTime : SpeakingTime.values()){
-            speakingTimes.add(speakingTime.getSeconds());
-        }
-
+        List<SpeakingTime> speakingTimes = Arrays.asList(SpeakingTime.values());
         model.addAttribute("speakingTimes", speakingTimes);
 
-        List<Integer> discussionTimes = new ArrayList<>();
-
-        for (DiscussionTime discussionTime : DiscussionTime.values()){
-            discussionTimes.add(discussionTime.getSeconds());
-        }
-
+        List<DiscussionTime> discussionTimes = Arrays.asList(DiscussionTime.values());
         model.addAttribute("discussionTimes", discussionTimes);
 
         model.addAttribute("debateRoomSaveRequestDto", new DebateRoomSaveRequestDto(loginUser.getId(), "","", 0, 0));

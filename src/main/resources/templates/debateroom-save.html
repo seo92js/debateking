@@ -6,29 +6,46 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <h1>토론방 생성</h1>
-    <form id="debateroom-save-form" th:object="${debateRoomSaveRequestDto}">
-        <input type="hidden" th:field="*{userId}">
+    <header class="header">
+        <h1 class="header__title">토론방 생성</h1>
+    </header>
 
-        <select id="category-select" onchange="getTopic()">
-            <option th:each="category : ${categories}" th:value="${category}" th:text="${category.category}"></option>
-        </select>
+    <form id="debateroom-save-form" class="form" th:object="${debateRoomSaveRequestDto}">
+        <input class="form__input" type="hidden" th:field="*{userId}">
 
-        <select id="topic-list" th:field="*{topicName}">
+        <div class="form__row">
+            <label class="form__label">카테고리</label>
+            <select id="category-select" class="form__select" onchange="getTopic()">
+                <option th:each="category : ${categories}" th:value="${category}" th:text="${category.category}"></option>
+            </select>
+        </div>
 
-        </select>
+        <div class="form__row">
+            <label class="form__label">주제</label>
+            <select id="topic-list" class="form__select" th:field="*{topicName}">
+            </select>
+        </div>
 
-        <input type="text" th:field="*{title}">
+        <div class="form__row">
+            <label class="form__label">방제목</label>
+            <input class="form__input" type="text" th:field="*{title}">
+        </div>
 
-        <select id="speaking-time-select">
-            <option th:each="speakingTime : ${speakingTimes}" th:text="${speakingTime}"></option>
-        </select>
+        <div class="form__row">
+            <label class="form__label">발언시간</label>
+            <select id="speaking-time-select" class="form__select">
+                <option th:each="speakingTime : ${speakingTimes}" th:text="${speakingTime.seconds}"></option>
+            </select>
+        </div>
 
-        <select id="discussion-time-select">
-            <option th:each="discussionTime : ${discussionTimes}" th:text="${discussionTime}"></option>
-        </select>
+        <div class="form__row">
+            <label class="form__label">토론시간</label>
+            <select id="discussion-time-select" class="form__select">
+                <option th:each="discussionTime : ${discussionTimes}" th:text="${discussionTime.seconds}"></option>
+            </select>
+        </div>
 
-        <button type="submit" onclick="debateRoomSave()">방 생성</button>
+        <button class="form__button" type="submit" onclick="debateRoomSave()">방 생성</button>
     </form>
 
     <div th:replace="fragments/footer :: footer" />
