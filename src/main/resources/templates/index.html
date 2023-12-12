@@ -6,48 +6,65 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+    <nav class="navbar navbar-expand-sm fixed-top navbar-dark bg-dark">
+        <a sec:authorize="isAuthenticated()" class="navbar-brand" href="/">Debate King</a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li sec:authorize="isAnonymous()" class="nav-item">
+                    <a class="nav-link" href="/user/save">회원가입</a>
+                </li>
+                <li sec:authorize="isAnonymous()" class="nav-item">
+                    <a class="nav-link" href="/login">로그인</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link" href="/logout">로그아웃</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link" href="/debateroom/save">채팅방 만들기</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link" href="/topic/save">주제 추가하기</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
     <header class="header">
         <h1 class="header__title">토론왕</h1>
     </header>
 
-    <main class="index">
-        <div class="index__nav">
-            <a class="index__join" href="/user/save" sec:authorize="isAnonymous()">회원가입</a>
-            <a class="index__login" href="/login" sec:authorize="isAnonymous()">로그인</a>
-            <a class="index__logout" href="/logout" sec:authorize="isAuthenticated()">로그아웃</a>
-            <a class="index__debate-room-add" href="/debateroom/save" sec:authorize="isAuthenticated()">채팅방 만들기</a>
-            <a class="index__topic-add" href="/topic/save" sec:authorize="isAuthenticated()">주제 추가하기</a>
-        </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">카테고리</th>
+                <th scope="col">주제</th>
+                <th scope="col">방 제목</th>
+                <th scope="col">방장</th>
+                <th scope="col">발언시간</th>
+                <th scope="col">토론시간</th>
+                <th scope="col">참여자</th>
+                <th scope="col">방 상태</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="debateRoom, index : ${debateRooms}">
+                <th scope="row" th:text="${index.count}"></th>
 
-        <table class="index__table">
-            <thead class="index__thead">
-                <tr>
-                    <th class="index__th">카테고리</th>
-                    <th class="index__th index__th--topic">주제</th>
-                    <th class="index__th index__th--title">방 제목</th>
-                    <th class="index__th">방장</th>
-                    <th class="index__th">발언시간</th>
-                    <th class="index__th">토론시간</th>
-                    <th class="index__th">참여자</th>
-                    <th class="index__th">방 상태</th>
-                    <th class="index__th"></th>
-                </tr>
-            </thead>
-            <tbody class="index__tbody">
-                <tr th:each="debateRoom : ${debateRooms}">
-                    <td class="index__td index__td--category" th:text="${debateRoom.category}"></td>
-                    <td class="index__td index__td--topic" th:text="${debateRoom.topic}"></td>
-                    <td class="index__td index__td--title" th:text="${debateRoom.title}"></td>
-                    <td class="index__td" th:text="${debateRoom.owner}"></td>
-                    <td class="index__td" th:text="${debateRoom.speakingTime}"></td>
-                    <td class="index__td" th:text="${debateRoom.discussionTime}"></td>
-                    <td class="index__td" th:text="${debateRoom.spectorsNum}"></td>
-                    <td class="index__td" th:text="${debateRoom.start}"></td>
-                    <td class="index__td index__td--enter"><a th:href="@{/debateroom/{debateRoomId}(debateRoomId=${debateRoom.id})}">입장하기</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </main>
+                <td th:text="${debateRoom.category}"></td>
+                <td th:text="${debateRoom.topic}"></td>
+                <td th:text="${debateRoom.title}"></td>
+                <td th:text="${debateRoom.owner}"></td>
+                <td th:text="${debateRoom.speakingTime}"></td>
+                <td th:text="${debateRoom.discussionTime}"></td>
+                <td th:text="${debateRoom.spectorsNum}"></td>
+                <td th:text="${debateRoom.start}"></td>
+                <td><a th:href="@{/debateroom/{debateRoomId}(debateRoomId=${debateRoom.id})}">입장하기</a></td>
+            </tr>
+        </tbody>
+    </table>
 
     <div th:replace="fragments/footer :: footer" />
 </body>
