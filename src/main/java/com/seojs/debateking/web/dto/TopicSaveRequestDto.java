@@ -4,8 +4,10 @@ import com.seojs.debateking.domain.topic.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class TopicSaveRequestDto {
     private Category category;

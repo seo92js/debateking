@@ -10,47 +10,46 @@
         <h1 class="header__title">토론방 생성</h1>
     </header>
 
-    <form id="debateroom-save-form" class="form" th:object="${debateRoomSaveRequestDto}">
-        <input class="form__input" type="hidden" th:field="*{userId}">
+    <div class="container">
+        <form method="post">
+            <input type="hidden" th:value="${debateRoomSaveRequestDto.userId}" name="userId">
 
-        <div class="form__row">
-            <label class="form__label">카테고리</label>
-            <select id="category-select" class="form__select" onchange="getTopic()">
-                <option th:each="category : ${categories}" th:value="${category}" th:text="${category.category}"></option>
-            </select>
-        </div>
+            <div class="row mb-3">
+                <label for="category">카테고리</label>
+                <select id="category" name="category" onchange="getTopic()">
+                    <option th:each="category : ${categories}" th:value="${category}" th:text="${category.category}"></option>
+                </select>
+            </div>
+            <div class="row mb-3">
+                <label for="topic">주제</label>
+                <select id="topic" class="form-control" name="topicName">
+                </select>
+            </div>
+            <div class="row mb-3">
+                <label for="title">방 제목</label>
+                <input id="title" class="form-control" name="title" type="text">
+            </div>
+            <div class="row mb-3">
+                <label for="speaking-time">발언 시간</label>
+                <select id="speaking-time" class="form-control" name="speakingTime">
+                    <option th:each="speakingTime : ${speakingTimes}" th:text="${speakingTime.seconds}"></option>
+                </select>
+            </div>
+            <div class="row mb-3">
+                <label for="discussion-time">토론 시간</label>
+                <select id="discussion-time" class="form-control" name="discussionTime">
+                    <option th:each="discussionTime : ${discussionTimes}" th:text="${discussionTime.seconds}"></option>
+                </select>
+            </div>
 
-        <div class="form__row">
-            <label class="form__label">주제</label>
-            <select id="topic-list" class="form__select" th:field="*{topicName}">
-            </select>
-        </div>
+            <button class="btn btn-dark w-100 mb-3" type="submit">방 생성</button>
 
-        <div class="form__row">
-            <label class="form__label">방제목</label>
-            <input class="form__input" type="text" th:field="*{title}">
-        </div>
-
-        <div class="form__row">
-            <label class="form__label">발언시간</label>
-            <select id="speaking-time-select" class="form__select">
-                <option th:each="speakingTime : ${speakingTimes}" th:text="${speakingTime.seconds}"></option>
-            </select>
-        </div>
-
-        <div class="form__row">
-            <label class="form__label">토론시간</label>
-            <select id="discussion-time-select" class="form__select">
-                <option th:each="discussionTime : ${discussionTimes}" th:text="${discussionTime.seconds}"></option>
-            </select>
-        </div>
-
-        <button class="form__button" type="submit" onclick="debateRoomSave()">방 생성</button>
-    </form>
+        </form>
+    </div>
 
     <div th:replace="fragments/footer :: footer" />
 
-    <script src="/js/debateroom-save.js"></script>
+    <script src="/js/get-topic.js"></script>
 
 </body>
 </html>

@@ -3,7 +3,6 @@
 
 /* component */
 @import "component/header.css";
-@import "component/form.css";
 
 /* screen */
 @import "screens/debateroom.css";

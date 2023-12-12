@@ -11,17 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 public class DebateRoomApiController {
-    private final RedisMessageListener redisMessageListener;
     private final DebateRoomService debateRoomService;
-
-    @PostMapping("/api/v1/debateroom")
-    public Long save(@RequestBody DebateRoomSaveRequestDto debateRoomSaveRequestDto){
-        Long id = debateRoomService.save(debateRoomSaveRequestDto);
-
-        redisMessageListener.enterChatRoom(id);
-
-        return id;
-    }
 
     @DeleteMapping("/api/v1/debateroom/{id}")
     public void delete(@PathVariable Long id){

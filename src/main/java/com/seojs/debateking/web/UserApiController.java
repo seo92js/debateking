@@ -14,11 +14,6 @@ import javax.validation.Valid;
 public class UserApiController {
     private final UserService userService;
 
-    @PostMapping("/api/v1/user")
-    public Long save(@RequestBody @Valid UserSaveRequestDto userSaveRequestDto){
-        return userService.save(userSaveRequestDto);
-    }
-
     @PutMapping("/api/v1/user/{id}")
     public Long update(@PathVariable Long id, @RequestBody UserUpdateRequestDto userUpdateRequestDto){
         return userService.update(id, userUpdateRequestDto);
