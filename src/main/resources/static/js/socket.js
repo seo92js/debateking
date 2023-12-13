@@ -19,12 +19,12 @@ stompClient.connect({}, function(frame) {
 
         if (type == 'chat'){
             const username = body.username;
-
-            $("<div>").text(body.message).appendTo("#chat-list");
+            $("<div>").text(body.message).addClass('mb-2 debateroom__chat').appendTo("#chat-list");
+            $("#chat-list").scrollTop($("#chat-list")[0].scrollHeight);
         } else if (type == 'speech'){
             const username = body.username;
-
-            $("<div>").text(body.message).appendTo("#speech-list");
+            $("<div>").text(body.username + ' : ' +body.message).addClass('mb-2 debateroom__speech').appendTo("#speech-list");
+            $("#speech-list").scrollTop($("#speech-list")[0].scrollHeight);
         } else if (type == 'position') {
             $("#pros-name").text(body.prosUsername);
             $("#cons-name").text(body.consUsername);

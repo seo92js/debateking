@@ -1,8 +1,6 @@
 let currentSpeaker = 'pros';
 
 let intervalDebateId;
-let intervalProsId;
-let intervalConsId;
 
 let debateTime; //총 토론 시간
 let speakTime; // 발언 시간
@@ -27,10 +25,8 @@ function debateStart(id, speakingTime, discussionTime){
 }
 
 function startDebateTimer(id) {
-    clearInterval(intervalConsId);
-    clearInterval(intervalProsId);
-
-    //speechTime = speakTime;
+//    clearInterval(intervalConsId);
+//    clearInterval(intervalProsId);
 
     //토론 타이머
     intervalDebateId = setInterval(function() {
@@ -46,41 +42,50 @@ function startDebateTimer(id) {
 
         stompClient.send('/pub/chattings/rooms/time', {}, JSON.stringify(timeDto));
 
-        if (debateTime <= 0) {
+        if (debateTime <= 0){
             debateStop(id, intervalDebateId);
-        } else {
-            startSpeechTimer(currentSpeaker, id);
         }
 
+         if (speechTime <= 0) {
+            speechTime = speakTime;
+
+            const consname = document.getElementById("cons-name").innerText;
+            const prosname = document.getElementById("pros-name").innerText;
+            const username = document.getElementById("login-username").value;
+            console.log(consname);
+            console.log(prosname);
+            console.log(username);
+
+            if (currentSpeaker === 'pros') {
+                currentSpeaker = 'cons';
+
+                //cons 비활성화 풀기
+                if (username === consname)
+                    document.getElementById('speech-btn').removeAttribute('disabled');
+                if (username === prosname)
+                    document.getElementById('speech-btn').setAttribute('disabled', 'disabled');
+            }
+            else{
+                currentSpeaker = 'pros';
+
+                //pros 비활성화 풀기
+                if (username === consname)
+                    document.getElementById('speech-btn').setAttribute('disabled', 'disabled');
+                if (username === prosname)
+                    document.getElementById('speech-btn').removeAttribute('disabled');
+            }
+        }
+
+        //임시
+        if (currentSpeaker ==='cons')
+            console.log('cons 발언 타임');
+        else
+            console.log('pros 발언 타임');
+
+        if (debateTime <= 0) {
+            debateStop(id, intervalDebateId);
+        }
     }, 1000);
-}
-
-function startSpeechTimer(speaker, id) {
-    if (currentSpeaker === 'pros') {
-        //pros 발언권 열기, cons 발언권 닫기
-
-        intervalProsId = setInterval(function() {
-
-            if (speechTime <= 0) {
-                clearInterval(intervalProsId);
-                speechTime = speakTime;
-                //다음 발언자 타이머
-                startSpeechTimer('cons', id);
-            }
-        }, 1000);
-    } else {
-        //cons 발언권 열기, pros 발언권 닫기
-
-        intervalConsId = setInterval(function() {
-
-            if (speechTime <= 0) {
-                clearInterval(intervalConsId);
-                speechTime = speakTime;
-                //다음 발언자 타이머
-                startSpeechTimer('pros', id);
-            }
-        }, 1000);
-    }
 }
 
 function debateStop(id, intervalId){
