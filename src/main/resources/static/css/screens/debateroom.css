@@ -25,6 +25,15 @@
     font-size: 12px;
 }
 
+
+.debateroom__speech--cons {
+    color: red;
+}
+
+.debateroom__speech--pros {
+    color: blue;
+}
+
 .debateroom__chat{
     font-size: 12px;
 }

@@ -18,12 +18,19 @@ stompClient.connect({}, function(frame) {
         console.log(type);
 
         if (type == 'chat'){
-            const username = body.username;
-            $("<div>").text(body.message).addClass('mb-2 debateroom__chat').appendTo("#chat-list");
+            $("<div>").text(body.username + ' : ' + body.message).addClass('mb-2 debateroom__chat').appendTo("#chat-list");
             $("#chat-list").scrollTop($("#chat-list")[0].scrollHeight);
         } else if (type == 'speech'){
             const username = body.username;
-            $("<div>").text(body.username + ' : ' +body.message).addClass('mb-2 debateroom__speech').appendTo("#speech-list");
+
+            if (username === document.getElementById("pros-name").innerText){
+                $("<div>").text(body.username + ' : ' +body.message).addClass('mb-2 debateroom__speech debateroom__speech--pros').appendTo("#speech-list");
+            } else if (username === document.getElementById("cons-name").innerText) {
+                $("<div>").text(body.username + ' : ' +body.message).addClass('mb-2 debateroom__speech debateroom__speech--cons').appendTo("#speech-list");
+            } else {
+                $("<div>").text(body.username + ' : ' +body.message).addClass('mb-2 debateroom__speech').appendTo("#speech-list");
+            }
+
             $("#speech-list").scrollTop($("#speech-list")[0].scrollHeight);
         } else if (type == 'position') {
             $("#pros-name").text(body.prosUsername);
@@ -52,6 +59,17 @@ stompClient.connect({}, function(frame) {
         } else if (type == 'time') {
             $("#remaining-speaking-time").text(body.speakingTime);
             $("#remaining-debate-time").text(body.discussionTime);
+        } else if (type == 'speaker') {
+            const speaker = body.speakerName;
+            const username = document.getElementById('login-username').value;
+            console.log(speaker);
+            console.log(username);
+
+            if (speaker == username) {
+                document.getElementById('speech-btn').removeAttribute('disabled');
+            } else {
+                document.getElementById('speech-btn').setAttribute('disabled', 'disabled')
+            }
         }
     });
 });

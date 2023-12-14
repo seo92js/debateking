@@ -52,7 +52,8 @@ public class DebateRoomService {
         debateRoom.getOwner().exitDebateRoom(debateRoom);
 
         for (User user : debateRoom.getSpectors()){
-            user.exitDebateRoom(debateRoom);
+            if (!user.getId().equals(debateRoom.getOwner().getId()))
+                user.exitDebateRoom(debateRoom);
         }
 
         debateRoomRepository.delete(debateRoom);

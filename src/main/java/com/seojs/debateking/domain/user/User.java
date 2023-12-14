@@ -61,7 +61,6 @@ public class User extends BaseTimeEntity {
 
     public void exitDebateRoom(DebateRoom debateRoom){
         this.debateRoom = null;
-        debateRoom.removeSpector(this);
     }
 
     public void win(){

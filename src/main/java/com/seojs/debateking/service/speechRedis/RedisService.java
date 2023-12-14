@@ -113,4 +113,9 @@ public class RedisService {
     public void time(TimeDto timeDto){
         redisPublisher.publish(redisMessageListener.getTopic(timeDto.getDebateRoomId()), timeDto);
     }
+
+    @Transactional
+    public void speaker(SpeakerDto speakerDto) {
+        redisPublisher.publish(redisMessageListener.getTopic(speakerDto.getDebateRoomId()), speakerDto);
+    }
 }

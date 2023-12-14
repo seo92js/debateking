@@ -7,7 +7,6 @@ let speakTime; // 발언 시간
 let speechTime; // 현재
 
 function debateStart(id, speakingTime, discussionTime){
-    //비활성화
     debateTime = discussionTime;
     speakTime = speakingTime;
     speechTime = speakTime;
@@ -25,8 +24,30 @@ function debateStart(id, speakingTime, discussionTime){
 }
 
 function startDebateTimer(id) {
-//    clearInterval(intervalConsId);
-//    clearInterval(intervalProsId);
+    let speaker;
+
+    if (currentSpeaker === 'pros') {
+        speaker = document.getElementById("pros-name").innerText;
+    } else {
+        speaker = document.getElementById("cons-name").innerText;
+    }
+
+    const speechDto = {
+        type: 'speech',
+        debateRoomId: debateRoomId,
+        username: 'notify',
+        message: '------- ' + speaker + ' 발언 -------'
+    };
+
+    stompClient.send('/pub/chattings/rooms/speech', {}, JSON.stringify(speechDto));
+
+    const speakerDto = {
+        type: 'speaker',
+        debateRoomId: id,
+        speakerName : speaker
+    }
+
+    stompClient.send('/pub/chattings/rooms/speaker', {}, JSON.stringify(speakerDto));
 
     //토론 타이머
     intervalDebateId = setInterval(function() {
@@ -44,54 +65,60 @@ function startDebateTimer(id) {
 
         if (debateTime <= 0){
             debateStop(id, intervalDebateId);
+            return;
         }
 
-         if (speechTime <= 0) {
+        if (speechTime <= 0) {
             speechTime = speakTime;
-
-            const consname = document.getElementById("cons-name").innerText;
-            const prosname = document.getElementById("pros-name").innerText;
-            const username = document.getElementById("login-username").value;
-            console.log(consname);
-            console.log(prosname);
-            console.log(username);
 
             if (currentSpeaker === 'pros') {
                 currentSpeaker = 'cons';
-
-                //cons 비활성화 풀기
-                if (username === consname)
-                    document.getElementById('speech-btn').removeAttribute('disabled');
-                if (username === prosname)
-                    document.getElementById('speech-btn').setAttribute('disabled', 'disabled');
-            }
-            else{
+                speaker = document.getElementById("cons-name").innerText;
+            } else {
                 currentSpeaker = 'pros';
-
-                //pros 비활성화 풀기
-                if (username === consname)
-                    document.getElementById('speech-btn').setAttribute('disabled', 'disabled');
-                if (username === prosname)
-                    document.getElementById('speech-btn').removeAttribute('disabled');
+                speaker = document.getElementById("pros-name").innerText;
             }
+
+            const speechDto = {
+                type: 'speech',
+                debateRoomId: debateRoomId,
+                username: 'notify',
+                message: '------- ' + speaker + ' 발언 -------'
+            };
+
+            stompClient.send('/pub/chattings/rooms/speech', {}, JSON.stringify(speechDto));
+
+            const speakerDto = {
+                type: 'speaker',
+                debateRoomId: id,
+                speakerName : speaker
+            }
+
+            stompClient.send('/pub/chattings/rooms/speaker', {}, JSON.stringify(speakerDto));
         }
 
-        //임시
-        if (currentSpeaker ==='cons')
-            console.log('cons 발언 타임');
-        else
-            console.log('pros 발언 타임');
-
-        if (debateTime <= 0) {
-            debateStop(id, intervalDebateId);
-        }
     }, 1000);
 }
 
 function debateStop(id, intervalId){
     clearInterval(intervalId);
 
-    //비활성화 풀기
+    const speechDto = {
+        type: 'speech',
+        debateRoomId: debateRoomId,
+        username: 'notify',
+        message: '------- 토론이 끝났습니다 -------'
+    };
+
+    stompClient.send('/pub/chattings/rooms/speech', {}, JSON.stringify(speechDto));
+
+    const speakerDto = {
+        type: 'speaker',
+        debateRoomId: id,
+        speakerName : null
+    }
+
+    stompClient.send('/pub/chattings/rooms/speaker', {}, JSON.stringify(speakerDto));
 
     $.ajax({
         type: 'PUT',

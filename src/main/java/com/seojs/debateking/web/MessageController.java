@@ -49,4 +49,9 @@ public class MessageController {
     public void ready(TimeDto timeDto){
         redisService.time(timeDto);
     }
+
+    @MessageMapping("/chattings/rooms/speaker")
+    public void speaker(SpeakerDto speakerDto) {
+        redisService.speaker(speakerDto);
+    }
 }

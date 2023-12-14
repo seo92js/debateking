@@ -53,7 +53,7 @@
         <!--토론창-->
         <div class="col-sm-6">
             <div id="speech-list" class="mb-3 debateroom__speech-list">
-                <div class="mb-2 debateroom__speech" th:each="speech : ${speeches}" th:text="${speech.speech}"></div>
+                <div class="mb-2 debateroom__speech" th:each="speech : ${speeches}" th:text="|${speech.username} : ${speech.speech}|" th:classappend="|${speech.username eq debateRoomResponseDto.pros ? 'debateroom\_\_speech--pros' : ''} ${speech.username eq debateRoomResponseDto.cons ? 'debateroom\_\_speech--cons' : ''}|"></div>
             </div>
             <div class="row mb-3">
                 <form id="speech-save-form" class="row">
@@ -106,7 +106,7 @@
         <!--실시간 채팅-->
         <div class="col-sm-9">
             <div id="chat-list" class="mb-3 debateroom__chat-list">
-                <div class="mb-2 debateroom__chat" th:each="chat : ${chats}" th:text="${chat.message}"></div>
+                <div class="mb-2 debateroom__chat" th:each="chat : ${chats}" th:text="|${chat.username} : ${chat.message}|"></div>
             </div>
             <div class="row mb-3">
                 <form id="chat-form" class="row">
