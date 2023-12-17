@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
-@RedisHash(value = "chatRedis")
+@RedisHash(value = "chatRedis", timeToLive = 1800)
 public class ChatRedis {
     @Id
     private String id;

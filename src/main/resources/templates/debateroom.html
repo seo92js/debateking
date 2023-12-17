@@ -17,7 +17,7 @@
 <div class="container">
     <!--방정보 및 토론-->
     <div class="row mb-3">
-        <div class="col-sm-3">
+        <div class="col-sm-3 border border-1">
             <div class="row mb-3">
                 <div class="debateroom__label">방 제목</div>
                 <div th:text="${debateRoomResponseDto.title}"></div>
@@ -46,12 +46,9 @@
                 <div class="debateroom__label">방 상태</div>
                 <div th:text="${debateRoomResponseDto.start}"></div>
             </div>
-
-            <div id="remaining-speaking-time" class="row mb-3"></div>
-            <div id="remaining-debate-time" class="row mb-3"></div>
         </div>
         <!--토론창-->
-        <div class="col-sm-6">
+        <div class="col-sm-6 border border-1">
             <div id="speech-list" class="mb-3 debateroom__speech-list">
                 <div class="mb-2 debateroom__speech" th:each="speech : ${speeches}" th:text="|${speech.username} : ${speech.speech}|" th:classappend="|${speech.username eq debateRoomResponseDto.pros ? 'debateroom\_\_speech--pros' : ''} ${speech.username eq debateRoomResponseDto.cons ? 'debateroom\_\_speech--cons' : ''}|"></div>
             </div>
@@ -67,7 +64,7 @@
             </div>
         </div>
         <!--포지션-->
-        <div class="col-sm-3">
+        <div class="col-sm-3 border border-1">
             <div class="row mb-3">
                 <div class="col-sm-2 debateroom__label">찬성</div>
                 <div id="pros-name" class="col-sm-5" th:value="${debateRoomResponseDto.pros}" th:text="${debateRoomResponseDto.pros}"></div>
@@ -90,12 +87,14 @@
                 <button class="btn btn-dark" th:unless="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateRoomExit([[${loginUserId}]], [[${debateRoomId}]])">나가기</button>
             </div>
 
+            <div id="remaining-speaking-time" class="row mb-3">발언 시간 : </div>
+            <div id="remaining-debate-time" class="row mb-3">토론 시간 : </div>
         </div>
     </div>
     <!--구경꾼-->
     <div class="row mb-3">
         <!--구경꾼 리스트-->
-        <div class="col-sm-3">
+        <div class="col-sm-3 border border-1">
             <div id="spector-list" class="mb-3 debateroom__spector-list">
                 <div class="mb-3" th:each="spectorName : ${debateRoomResponseDto.spectorsName}" th:text="${spectorName}"></div>
             </div>
@@ -104,7 +103,7 @@
             </div>
         </div>
         <!--실시간 채팅-->
-        <div class="col-sm-9">
+        <div class="col-sm-9 border border-1">
             <div id="chat-list" class="mb-3 debateroom__chat-list">
                 <div class="mb-2 debateroom__chat" th:each="chat : ${chats}" th:text="|${chat.username} : ${chat.message}|"></div>
             </div>

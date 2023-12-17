@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedisSubscriber implements MessageListener {
     private final SimpMessagingTemplate messagingTemplate;
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final JsonParser jsonParser;
 
     @Override

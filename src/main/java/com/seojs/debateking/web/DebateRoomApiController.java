@@ -1,20 +1,33 @@
 package com.seojs.debateking.web;
 
+import com.seojs.debateking.domain.chatRedis.ChatRedisRepository;
+import com.seojs.debateking.domain.speechRedis.SpeechRedisRepository;
 import com.seojs.debateking.service.debateroom.DebateRoomService;
 import com.seojs.debateking.service.speechRedis.RedisMessageListener;
 import com.seojs.debateking.web.dto.DebateRoomReadyUpdateRequestDto;
 import com.seojs.debateking.web.dto.DebateRoomSaveRequestDto;
 import com.seojs.debateking.web.dto.DebateRoomUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 public class DebateRoomApiController {
     private final DebateRoomService debateRoomService;
+    private final SpeechRedisRepository speechRedisRepository;
+    private final ChatRedisRepository chatRedisRepository;
+    private final RedisTemplate redisTemplate;
 
     @DeleteMapping("/api/v1/debateroom/{id}")
     public void delete(@PathVariable Long id){
+
+        speechRedisRepository.deleteByDebateRoomId(id);
+        chatRedisRepository.deleteByDebateRoomId(id);
+
+        //redisTemplate.opsForZSet().remove("chatSortedSet:" + id);
+        //redisTemplate.opsForZSet().remove("speechSortedSet:" + id);
+
         debateRoomService.delete(id);
     }
 

@@ -57,8 +57,8 @@ stompClient.connect({}, function(frame) {
                 $("#cons-ready").text("false");
             }
         } else if (type == 'time') {
-            $("#remaining-speaking-time").text(body.speakingTime);
-            $("#remaining-debate-time").text(body.discussionTime);
+            $("#remaining-speaking-time").text('발언 시간 : ' + body.speakingTime);
+            $("#remaining-debate-time").text('토론 시간 : ' + body.discussionTime);
         } else if (type == 'speaker') {
             const speaker = body.speakerName;
             const username = document.getElementById('login-username').value;
@@ -88,8 +88,8 @@ function exit(debateRoomId, username){
     const chatDto = {
         type: 'chat',
         debateRoomId: debateRoomId,
-        username: username,
-        message: username + '님이 퇴장 하셨습니다.'
+        username: 'notify',
+        message: '------- ' + username + ' 님이 퇴장 하셨습니다 -------'
     };
 
     stompClient.send('/pub/chattings/rooms/chat', {}, JSON.stringify(chatDto));
@@ -121,8 +121,8 @@ function enter(debateRoomId, username) {
     const chatDto = {
         type: 'chat',
         debateRoomId: debateRoomId,
-        username: username,
-        message: username + '님이 입장 하셨습니다.'
+        username: 'notify',
+        message: '------- ' + username + ' 님이 입장 하셨습니다 -------'
     };
 
     stompClient.send('/pub/chattings/rooms/chat', {}, JSON.stringify(chatDto));

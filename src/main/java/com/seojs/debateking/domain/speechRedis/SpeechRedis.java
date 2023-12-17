@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
 @NoArgsConstructor
-@RedisHash(value = "speechRedis")
+@RedisHash(value = "speechRedis", timeToLive = 1800)
 public class SpeechRedis {
     @Id
     private String id;
