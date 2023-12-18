@@ -8,16 +8,18 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class SpeechRedisRepositoryImpl implements SpeechRedisRepositoryCustom{
     private final RedisTemplate<String, Object> redisTemplate;
-    //private final RedisTemplate redisTemplate;
 
     @Override
     public void deleteByDebateRoomId(Long debateRoomId) {
-        String keyPattern = "speechRedis:*";
-        Set<String> keys = redisTemplate.keys(keyPattern);
 
-        redisTemplate.delete(keys);
-        //topic 지워야하나?
+        Set<Object> speeches = redisTemplate.opsForZSet().range("speechSortedSet:" + debateRoomId, 0, -1);
 
+        for (Object speech : speeches) {
+            redisTemplate.delete("speechRedis:" + (String) speech);
+            redisTemplate.delete("speechRedis:" + (String) speech + ":idx");
+        }
+
+        redisTemplate.delete("speechRedis:debateRoomId:" + debateRoomId);
         redisTemplate.delete("speechSortedSet:" + debateRoomId);
     }
 }

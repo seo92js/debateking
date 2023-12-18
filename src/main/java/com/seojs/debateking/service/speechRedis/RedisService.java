@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @Service
 public class RedisService {
     private final RedisTemplate<String, Object> redisTemplate;
-    //private final RedisTemplate redisTemplate;
     private final RedisPublisher redisPublisher;
     private final RedisMessageListener redisMessageListener;
     private final ChatRedisRepository chatRedisRepository;
@@ -57,19 +56,6 @@ public class RedisService {
         }
 
         return speechList.stream().map(SpeechResponseDto::new).collect(Collectors.toList());
-
-//        Set<String> speechIds = redisTemplate.opsForZSet().range("speechSortedSet:" + debateRoomId, 0, -1);
-//
-//        List<SpeechRedis> speechList = new ArrayList<>();
-//
-//        for (String speechId : speechIds) {
-//            SpeechRedis speech = speechRedisRepository.findById(speechId).orElse(null);
-//            if (speech != null) {
-//                speechList.add(speech);
-//            }
-//        }
-//        return speechList.stream().map(SpeechResponseDto::new).collect(Collectors.toList());
-
     }
 
     @Transactional
@@ -105,17 +91,6 @@ public class RedisService {
         }
 
         return chatList.stream().map(ChatResponseDto::new).collect(Collectors.toList());
-
-//        Set<String> chatIds = redisTemplate.opsForZSet().range("chatSortedSet:" + debateRoomId, 0, -1);
-//
-//        List<ChatRedis> chatList = new ArrayList<>();
-//        for (String chatId : chatIds) {
-//            ChatRedis chat = chatRedisRepository.findById(chatId).orElse(null);
-//            if (chat != null) {
-//                chatList.add(chat);
-//            }
-//        }
-//        return chatList.stream().map(ChatResponseDto::new).collect(Collectors.toList());
     }
 
     @Transactional
