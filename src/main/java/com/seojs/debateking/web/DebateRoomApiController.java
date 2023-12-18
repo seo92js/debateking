@@ -17,7 +17,8 @@ public class DebateRoomApiController {
     private final DebateRoomService debateRoomService;
     private final SpeechRedisRepository speechRedisRepository;
     private final ChatRedisRepository chatRedisRepository;
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
+    //private final RedisTemplate redisTemplate;
 
     @DeleteMapping("/api/v1/debateroom/{id}")
     public void delete(@PathVariable Long id){

@@ -12,10 +12,14 @@ import org.springframework.stereotype.Service;
 public class RedisSubscriber implements MessageListener {
     private final SimpMessagingTemplate messagingTemplate;
     private final RedisTemplate<String, Object> redisTemplate;
+    //private final RedisTemplate redisTemplate;
     private final JsonParser jsonParser;
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
+        //임시
+        String deserialize = redisTemplate.getStringSerializer().deserialize(message.getBody());
+
         String type = jsonParser.getType((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
 
         if (type.equals("chat")) {

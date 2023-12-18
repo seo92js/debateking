@@ -8,6 +8,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class SpeechRedisRepositoryImpl implements SpeechRedisRepositoryCustom{
     private final RedisTemplate<String, Object> redisTemplate;
+    //private final RedisTemplate redisTemplate;
 
     @Override
     public void deleteByDebateRoomId(Long debateRoomId) {

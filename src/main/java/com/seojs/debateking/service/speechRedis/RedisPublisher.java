@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedisPublisher {
     private final RedisTemplate<String, Object> redisTemplate;
+    //private final RedisTemplate redisTemplate;
     private final JsonParser jsonParser;
 
     public void publish(ChannelTopic topic, Object object){

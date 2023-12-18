@@ -89,7 +89,6 @@ public class JsonParser {
             JsonNode jsonNode = objectMapper.readTree(chattingMessage);
 
             return jsonNode.get("type").asText();
-
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
