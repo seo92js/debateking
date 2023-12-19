@@ -6,6 +6,8 @@ function debateRoomDelete(id){
         type: 'DELETE',
         url: '/api/v1/debateroom/' + id,
     }).done(function(){
+        localStorage.removeItem('speaker');
+
         alert('토론방 삭제');
         window.location.href = '/';
     }).fail(function(error){

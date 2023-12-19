@@ -78,7 +78,9 @@
                 <button class="col-sm-3 btn btn-dark" th:onclick="setCons([[${debateRoomId}]] ,[[${debateRoomResponseDto.pros}]],[[${loginUsername}]])">참여</button>
             </div>
             <div class="row mb-3">
-                <button class="btn btn-dark" th:if="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateStart([[${debateRoomId}]], [[${debateRoomResponseDto.speakingTime}]], [[${debateRoomResponseDto.discussionTime}]])">시작</button>
+                <input type="hidden" id="speakingTime" th:value="${debateRoomResponseDto.speakingTime}">
+                <input type="hidden" id="discussionTime" th:value="${debateRoomResponseDto.discussionTime}">
+                <button class="btn btn-dark" th:if="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateStart()">시작</button>
             </div>
             <div class="row mb-3">
                 <button class="btn btn-dark" th:if="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateRoomDelete([[${debateRoomId}]])">방 깨기</button>
@@ -123,13 +125,13 @@
 
 <div th:replace="fragments/footer :: footer"/>
 
+<script src="/js/socket.js"></script>
+<script src="/js/chat.js"></script>
 <script src="/js/user-exit.js"></script>
 <script src="/js/debateroom-position-update.js"></script>
 <script src="/js/debateroom-ready-update.js"></script>
-<script src="/js/debateroom-start-update.js"></script>
 <script src="/js/debateroom-delete.js"></script>
-<script src="/js/socket.js"></script>
-<script src="/js/chat.js"></script>
+<script src="/js/debateroom-start-update.js"></script>
 
 </body>
 </html>

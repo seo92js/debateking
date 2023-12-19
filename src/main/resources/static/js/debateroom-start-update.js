@@ -1,21 +1,39 @@
-let currentSpeaker = 'pros';
-
+let currentSpeaker;
 let intervalDebateId;
-
 let debateTime; //총 토론 시간
 let speakTime; // 발언 시간
 let speechTime; // 현재
+let roomId;
 
-function debateStart(id, speakingTime, discussionTime){
-    debateTime = discussionTime;
-    speakTime = speakingTime;
-    speechTime = speakTime;
+let isStart = false;
 
-    startDebateTimer(id)
+if (localStorage.getItem('speaker') !== null) {
+    isStart = true;
+    socket.addEventListener('open', function () {
+      debateStart();
+    });
+}
+
+function debateStart(){
+    roomId = $("#debateroom-id").val();
+    speakTime = $("#speakingTime").val();
+
+    if (isStart == false) {
+        currentSpeaker = "pros";
+        localStorage.setItem('speaker', currentSpeaker);
+        debateTime = $("#discussionTime").val();
+        speechTime = speakTime;
+    } else {
+        currentSpeaker = localStorage.getItem('speaker');
+        debateTime = localStorage.getItem('debateTime');
+        speechTime = localStorage.getItem('speechTime');
+    }
+
+    startDebateTimer(roomId);
 
     $.ajax({
         type: 'PUT',
-        url: '/api/v1/debateroom/' + id + '/start',
+        url: '/api/v1/debateroom/' + roomId + '/start',
     }).done(function(){
         //location.reload();
     }).fail(function(error){
@@ -34,12 +52,14 @@ function startDebateTimer(id) {
 
     const speechDto = {
         type: 'speech',
-        debateRoomId: debateRoomId,
+        debateRoomId: id,
         username: 'notify',
         message: '------- ' + speaker + ' 발언 -------'
     };
 
-    stompClient.send('/pub/chattings/rooms/speech', {}, JSON.stringify(speechDto));
+    if (isStart == false) {
+        stompClient.send('/pub/chattings/rooms/speech', {}, JSON.stringify(speechDto));
+    }
 
     const speakerDto = {
         type: 'speaker',
@@ -53,6 +73,10 @@ function startDebateTimer(id) {
     intervalDebateId = setInterval(function() {
         debateTime--;
         speechTime--;
+
+        //localStorage에 저장
+        localStorage.setItem('debateTime', debateTime);
+        localStorage.setItem('speechTime', speechTime);
 
         const timeDto = {
             type: 'time',
@@ -79,9 +103,11 @@ function startDebateTimer(id) {
                 speaker = document.getElementById("pros-name").innerText;
             }
 
+            localStorage.setItem('speaker', currentSpeaker);
+
             const speechDto = {
                 type: 'speech',
-                debateRoomId: debateRoomId,
+                debateRoomId: id,
                 username: 'notify',
                 message: '------- ' + speaker + ' 발언 -------'
             };
@@ -103,9 +129,13 @@ function startDebateTimer(id) {
 function debateStop(id, intervalId){
     clearInterval(intervalId);
 
+    localStorage.removeItem('speaker');
+    localStorage.removeItem('debateTime');
+    localStorage.removeItem('speechTime');
+
     const speechDto = {
         type: 'speech',
-        debateRoomId: debateRoomId,
+        debateRoomId: id,
         username: 'notify',
         message: '------- 토론이 끝났습니다 -------'
     };
