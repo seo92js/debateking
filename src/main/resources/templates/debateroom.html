@@ -32,7 +32,7 @@
             </div>
             <div class="row mb-3">
                 <div class="debateroom__label">방장</div>
-                <div th:text="${debateRoomResponseDto.owner}"></div>
+                <div id="owner" th:text="${debateRoomResponseDto.owner}"></div>
             </div>
             <div class="row mb-3">
                 <div class="debateroom__label">발언 시간</div>
@@ -69,24 +69,27 @@
                 <div class="col-sm-2 debateroom__label">찬성</div>
                 <div id="pros-name" class="col-sm-5" th:value="${debateRoomResponseDto.pros}" th:text="${debateRoomResponseDto.pros}"></div>
                 <button id="pros-ready" class="col-sm-2 btn btn-dark" th:text="${debateRoomResponseDto.prosReady}" th:onclick="setProsReady([[${debateRoomId}]])"></button>
-                <button class="col-sm-3 btn btn-dark" th:onclick="setPros([[${debateRoomId}]] ,[[${loginUsername}]],[[${debateRoomResponseDto.cons}]])">참여</button>
+                <button id="set-pros" class="col-sm-3 btn btn-dark" th:onclick="setPros([[${debateRoomId}]] ,[[${loginUsername}]])">참여</button>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-2 debateroom__label">반대</div>
                 <div id="cons-name" class="col-sm-5" th:value="${debateRoomResponseDto.cons}" th:text="${debateRoomResponseDto.cons}"></div>
                 <button id="cons-ready" class="col-sm-2 btn btn-dark" th:text="${debateRoomResponseDto.consReady}" th:onclick="setConsReady([[${debateRoomId}]])"></button>
-                <button class="col-sm-3 btn btn-dark" th:onclick="setCons([[${debateRoomId}]] ,[[${debateRoomResponseDto.pros}]],[[${loginUsername}]])">참여</button>
+                <button id="set-cons" class="col-sm-3 btn btn-dark" th:onclick="setCons([[${debateRoomId}]] ,[[${loginUsername}]])">참여</button>
             </div>
             <div class="row mb-3">
                 <input type="hidden" id="speakingTime" th:value="${debateRoomResponseDto.speakingTime}">
                 <input type="hidden" id="discussionTime" th:value="${debateRoomResponseDto.discussionTime}">
-                <button class="btn btn-dark" th:if="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateStart()">시작</button>
+                <button id="debate-start-btn" class="btn btn-dark" th:if="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateStart()" disabled>시작</button>
+            </div>
+            <div class="row mb-3">
+                <button id="debate-stop-btn" class="btn btn-dark" disabled>토론 중단</button>
             </div>
             <div class="row mb-3">
                 <button class="btn btn-dark" th:if="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateRoomDelete([[${debateRoomId}]])">방 깨기</button>
             </div>
             <div class="row mb-3">
-                <button class="btn btn-dark" th:unless="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateRoomExit([[${loginUserId}]], [[${debateRoomId}]])">나가기</button>
+                <button class="btn btn-dark" th:unless="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="setSpectors([[${debateRoomId}]], [[${loginUsername}]]); debateRoomExit([[${loginUserId}]], [[${debateRoomId}]]);">나가기</button>
             </div>
 
             <div id="remaining-speaking-time" class="row mb-3">발언 시간 : </div>
@@ -98,10 +101,10 @@
         <!--구경꾼 리스트-->
         <div class="col-sm-3 border border-1">
             <div id="spector-list" class="mb-3 debateroom__spector-list">
-                <div class="mb-3" th:each="spectorName : ${debateRoomResponseDto.spectorsName}" th:text="${spectorName}"></div>
+                <div th:each="spectorName : ${debateRoomResponseDto.spectorsName}" th:text="${spectorName}"></div>
             </div>
             <div class="row mb-3">
-                <button class="btn btn-dark"th:onclick="setSpectors([[${debateRoomId}]] ,[[${debateRoomResponseDto.pros}]], [[${debateRoomResponseDto.cons}]], [[${loginUsername}]])">구경꾼 참여</button>
+                <button id="set-spector" class="btn btn-dark"th:onclick="setSpectors([[${debateRoomId}]], [[${loginUsername}]])">구경꾼 참여</button>
             </div>
         </div>
         <!--실시간 채팅-->
@@ -129,9 +132,9 @@
 <script src="/js/chat.js"></script>
 <script src="/js/user-exit.js"></script>
 <script src="/js/debateroom-position-update.js"></script>
-<script src="/js/debateroom-ready-update.js"></script>
 <script src="/js/debateroom-delete.js"></script>
 <script src="/js/debateroom-start-update.js"></script>
+<script src="/js/debateroom-ready-update.js"></script>
 
 </body>
 </html>

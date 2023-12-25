@@ -54,4 +54,9 @@ public class MessageController {
     public void speaker(SpeakerDto speakerDto) {
         redisService.speaker(speakerDto);
     }
+
+    @MessageMapping("/chattings/rooms/status")
+    public void status(StatusDto statusDto) {
+        redisService.status(statusDto);
+    }
 }

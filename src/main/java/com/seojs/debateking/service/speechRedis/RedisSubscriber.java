@@ -42,6 +42,10 @@ public class RedisSubscriber implements MessageListener {
         } else if (type.equals("speaker")) {
             SpeakerDto speakerDto = jsonParser.toSpeakerDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
             messagingTemplate.convertAndSend("/sub/chatting/rooms/" + speakerDto.getDebateRoomId(), speakerDto);
+        } else if (type.equals("status")) {
+            StatusDto statusDto = jsonParser.toStatusDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
+            messagingTemplate.convertAndSend("/sub/chatting/rooms/" + statusDto.getDebateRoomId(), statusDto);
         }
+
     }
 }

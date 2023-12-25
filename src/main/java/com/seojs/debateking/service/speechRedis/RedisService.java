@@ -122,4 +122,9 @@ public class RedisService {
     public void speaker(SpeakerDto speakerDto) {
         redisPublisher.publish(redisMessageListener.getTopic(speakerDto.getDebateRoomId()), speakerDto);
     }
+
+    @Transactional
+    public void status(StatusDto statusDto) {
+        redisPublisher.publish(redisMessageListener.getTopic(statusDto.getDebateRoomId()), statusDto);
+    }
 }

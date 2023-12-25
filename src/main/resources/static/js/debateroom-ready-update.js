@@ -3,9 +3,9 @@ function setProsReady(id){
     consReady = document.getElementById("cons-ready").innerText;
 
     if (prosReady == "false") {
-        prosReady = true;
+        prosReady = "true";
     } else {
-        prosReady = false;
+        prosReady = "false";
     }
 
     readyDto = {
@@ -41,9 +41,9 @@ function setConsReady(id){
     consReady = document.getElementById("cons-ready").innerText;
 
     if (consReady == "false") {
-        consReady = true;
+        consReady = "true";
     } else {
-        consReady = false;
+        consReady = "false";
     }
 
     readyDto = {

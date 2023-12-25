@@ -3,6 +3,7 @@ let stompClient = Stomp.over(socket);
 
 const debateRoomId = document.getElementById("debateroom-id").value;
 const username = document.getElementById("login-username").value;
+const owner = document.getElementById("owner").innerText;
 const id = document.getElementById("login-userid").value;
 
 stompClient.connect({}, function(frame) {
@@ -38,12 +39,25 @@ stompClient.connect({}, function(frame) {
 
             $("#pros-ready").text("false");
             $("#cons-ready").text("false");
+
             // 찬성 or 반대 or 구경꾼 포지션 별로 활성화/비활성 화 시켜야 함
+            if (body.prosUsername != null) {
+                document.getElementById('set-pros').disabled = true;
+            } else {
+                document.getElementById('set-pros').disabled = false;
+            }
+
+            if (body.consUsername != null) {
+                document.getElementById('set-cons').disabled = true;
+            } else {
+                document.getElementById('set-cons').disabled = false;
+            }
         } else if (type == 'enter') {
             enter(debateRoomId, body.username);
         } else if (type == 'exit') {
             //spectors list 에서 지우기
             exit(debateRoomId, body.username);
+            //찬성, 반대 list 에서 지우기
         } else if (type == 'ready') {
             if (body.prosReady == true) {
                 $("#pros-ready").text("true");
@@ -56,19 +70,42 @@ stompClient.connect({}, function(frame) {
             } else {
                 $("#cons-ready").text("false");
             }
+
+            if (username == owner) {
+                if (body.prosReady == true && body.consReady == true) {
+                   document.getElementById("debate-start-btn").disabled = false;
+                } else {
+                   document.getElementById("debate-start-btn").disabled = true;
+                }
+            }
         } else if (type == 'time') {
             $("#remaining-speaking-time").text('발언 시간 : ' + body.speakingTime);
             $("#remaining-debate-time").text('토론 시간 : ' + body.discussionTime);
         } else if (type == 'speaker') {
             const speaker = body.speakerName;
             const username = document.getElementById('login-username').value;
-            console.log(speaker);
-            console.log(username);
 
             if (speaker == username) {
-                document.getElementById('speech-btn').removeAttribute('disabled');
+                document.getElementById('speech-btn').disabled = false;
             } else {
-                document.getElementById('speech-btn').setAttribute('disabled', 'disabled')
+                document.getElementById('speech-btn').disabled = true;
+            }
+        } else if (type == 'status') {
+            //토론 중단, 시작, 방깨기, 레디, 구경꾼 참여 막기
+            if (body.status == true) {
+                document.getElementById('set-spector').disabled = true;
+                document.getElementById('debate-stop-btn').disabled = false;
+
+                if (username == owner) {
+                    document.getElementById('debate-start-btn').disabled = true;
+                }
+            } else {
+                document.getElementById('set-spector').disabled = false;
+                document.getElementById('debate-stop-btn').disabled = true;
+
+                if (username == owner) {
+
+                }
             }
         }
     });

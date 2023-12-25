@@ -1,6 +1,7 @@
 package com.seojs.debateking.domain.debateroom;
 
 public enum DiscussionTime {
+    SEC120(120),
     SEC600(600),
     SEC900(900),
     SEC1200(1200),

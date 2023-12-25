@@ -12,6 +12,8 @@ if (localStorage.getItem('speaker') !== null) {
     socket.addEventListener('open', function () {
       debateStart();
     });
+} else {
+    isStart = false;
 }
 
 function debateStart(){
@@ -23,6 +25,15 @@ function debateStart(){
         localStorage.setItem('speaker', currentSpeaker);
         debateTime = $("#discussionTime").val();
         speechTime = speakTime;
+
+        const statusDto = {
+            type: 'status',
+            debateRoomId: id,
+            status: true
+        }
+
+        stompClient.send('/pub/chattings/rooms/status', {}, JSON.stringify(statusDto));
+
     } else {
         currentSpeaker = localStorage.getItem('speaker');
         debateTime = localStorage.getItem('debateTime');
@@ -133,6 +144,8 @@ function debateStop(id, intervalId){
     localStorage.removeItem('debateTime');
     localStorage.removeItem('speechTime');
 
+    isStart = false;
+
     const speechDto = {
         type: 'speech',
         debateRoomId: id,
@@ -149,6 +162,15 @@ function debateStop(id, intervalId){
     }
 
     stompClient.send('/pub/chattings/rooms/speaker', {}, JSON.stringify(speakerDto));
+
+    const statusDto = {
+        type: 'status',
+        debateRoomId: id,
+        status: false
+    }
+
+    stompClient.send('/pub/chattings/rooms/status', {}, JSON.stringify(statusDto));
+
 
     $.ajax({
         type: 'PUT',
