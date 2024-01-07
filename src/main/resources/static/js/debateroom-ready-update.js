@@ -16,24 +16,6 @@ function setProsReady(id){
     }
 
     stompClient.send('/pub/chattings/rooms/ready', {}, JSON.stringify(readyDto));
-
-    debateRoomReadyUpdateRequestDto = {
-        prosReady: prosReady,
-        consReady: consReady
-    };
-
-    $.ajax({
-        type: 'PUT',
-        url: '/api/v1/debateroom/' + id + '/ready',
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(debateRoomReadyUpdateRequestDto)
-    }).done(function(){
-        //alert('완료');
-        //location.reload();
-    }).fail(function(error){
-        alert(JSON.stringify(error));
-    })
 }
 
 function setConsReady(id){
@@ -54,26 +36,4 @@ function setConsReady(id){
     }
 
     stompClient.send('/pub/chattings/rooms/ready', {}, JSON.stringify(readyDto));
-
-    debateRoomReadyUpdateRequestDto = {
-        prosReady: prosReady,
-        consReady: consReady
-    };
-
-    $.ajax({
-        type: 'PUT',
-        url: '/api/v1/debateroom/' + id + '/ready',
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(debateRoomReadyUpdateRequestDto)
-    }).done(function(){
-        //alert('완료');
-        //location.reload();
-    }).fail(function(error){
-        alert(JSON.stringify(error));
-    })
-}
-
-function setReady(id, ){
-
 }

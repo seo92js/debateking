@@ -1,22 +1,3 @@
-//컨텐츠 로드 했을 때
-document.addEventListener('DOMContentLoaded', function () {
-    var consName = document.getElementById('cons-name');
-
-    if (consName.textContent.trim().length > 0) {
-        document.getElementById('set-cons').disabled = true;
-    } else {
-        document.getElementById('set-cons').disabled = false;
-    }
-
-    var prosName = document.getElementById('pros-name');
-
-    if (prosName.textContent.trim().length > 0) {
-        document.getElementById('set-pros').disabled = true;
-    }else {
-        document.getElementById('set-pros').disabled = false;
-    }
-});
-
 function setPros(id, username){
     let prosName = document.getElementById('pros-name').innerText;
     let consName = document.getElementById('cons-name').innerText;
@@ -96,22 +77,4 @@ function initReady(id, pros, cons, username) {
     }
 
     stompClient.send('/pub/chattings/rooms/ready', {}, JSON.stringify(readyDto));
-
-    debateRoomReadyUpdateRequestDto = {
-        prosReady: prosReady,
-        consReady: consReady
-    };
-
-    $.ajax({
-        type: 'PUT',
-        url: '/api/v1/debateroom/' + id + '/ready',
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(debateRoomReadyUpdateRequestDto)
-    }).done(function(){
-        //alert('완료');
-        //location.reload();
-    }).fail(function(error){
-        alert(JSON.stringify(error));
-    })
 }

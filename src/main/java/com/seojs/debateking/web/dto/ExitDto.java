@@ -1,4 +1,4 @@
-package com.seojs.debateking.service.speechRedis;
+package com.seojs.debateking.web.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,15 +6,15 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class StatusDto {
+public class ExitDto {
     private String type;
     private Long debateRoomId;
-    private boolean status;
+    private String username;
 
     @Builder
-    public StatusDto(String type, Long debateRoomId, boolean status) {
+    public ExitDto(String type, Long debateRoomId, String username){
         this.type = type;
         this.debateRoomId = debateRoomId;
-        this.status = status;
+        this.username = username;
     }
 }

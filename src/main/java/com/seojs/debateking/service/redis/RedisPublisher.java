@@ -1,4 +1,4 @@
-package com.seojs.debateking.service.speechRedis;
+package com.seojs.debateking.service.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

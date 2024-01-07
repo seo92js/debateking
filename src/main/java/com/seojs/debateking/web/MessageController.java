@@ -1,7 +1,9 @@
 package com.seojs.debateking.web;
 
 import com.seojs.debateking.service.debateroom.DebateRoomService;
-import com.seojs.debateking.service.speechRedis.*;
+import com.seojs.debateking.service.debateroom.DebateTimer;
+import com.seojs.debateking.service.redis.*;
+import com.seojs.debateking.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 public class MessageController {
     private final RedisService redisService;
     private final DebateRoomService debateRoomService;
+    private final DebateTimer debateTimer;
 
     @MessageMapping("/chattings/rooms/speech")
     public void speech(SpeechDto speechDto){
@@ -50,13 +53,19 @@ public class MessageController {
         redisService.time(timeDto);
     }
 
-    @MessageMapping("/chattings/rooms/speaker")
-    public void speaker(SpeakerDto speakerDto) {
-        redisService.speaker(speakerDto);
+    @MessageMapping("/chattings/rooms/result")
+    public void result(ResultDto resultDto) {
+        redisService.result(resultDto);
     }
 
-    @MessageMapping("/chattings/rooms/status")
-    public void status(StatusDto statusDto) {
-        redisService.status(statusDto);
+    @MessageMapping("/chattings/rooms/debate")
+    public void debate(DebateDto debateDto) {
+        if (debateDto.isStatus())
+            debateTimer.startTimer(debateDto);
+        else
+            debateTimer.stopTimer();
+
+        redisService.debate(debateDto);
     }
+
 }

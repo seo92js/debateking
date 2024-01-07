@@ -37,6 +37,11 @@ public class DebateRoom extends BaseTimeEntity {
     private User cons;
     private boolean consReady;
 
+    //
+    @OneToOne
+    @JoinColumn(name = "speaker_id")
+    private User speaker;
+
     @OneToOne
     @JoinColumn(name = "topic_id")
     private Topic topic;
@@ -77,6 +82,11 @@ public class DebateRoom extends BaseTimeEntity {
     public void updatePosition(User pros, User cons){
         this.pros = pros;
         this.cons = cons;
+    }
+
+    //
+    public void updateSpeaker(User speaker){
+        this.speaker = speaker;
     }
 
     public void setStart(boolean start){

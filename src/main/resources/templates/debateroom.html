@@ -44,7 +44,7 @@
             </div>
             <div class="row mb-3">
                 <div class="debateroom__label">방 상태</div>
-                <div th:text="${debateRoomResponseDto.start}"></div>
+                <div id="status" th:text="${debateRoomResponseDto.start}"></div>
             </div>
         </div>
         <!--토론창-->
@@ -68,30 +68,31 @@
             <div class="row mb-3">
                 <div class="col-sm-2 debateroom__label">찬성</div>
                 <div id="pros-name" class="col-sm-5" th:value="${debateRoomResponseDto.pros}" th:text="${debateRoomResponseDto.pros}"></div>
-                <button id="pros-ready" class="col-sm-2 btn btn-dark" th:text="${debateRoomResponseDto.prosReady}" th:onclick="setProsReady([[${debateRoomId}]])"></button>
+                <button id="pros-ready" class="col-sm-2 btn btn-dark" th:text="${debateRoomResponseDto.prosReady}" th:onclick="setProsReady([[${debateRoomId}]])" disabled></button>
                 <button id="set-pros" class="col-sm-3 btn btn-dark" th:onclick="setPros([[${debateRoomId}]] ,[[${loginUsername}]])">참여</button>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-2 debateroom__label">반대</div>
                 <div id="cons-name" class="col-sm-5" th:value="${debateRoomResponseDto.cons}" th:text="${debateRoomResponseDto.cons}"></div>
-                <button id="cons-ready" class="col-sm-2 btn btn-dark" th:text="${debateRoomResponseDto.consReady}" th:onclick="setConsReady([[${debateRoomId}]])"></button>
+                <button id="cons-ready" class="col-sm-2 btn btn-dark" th:text="${debateRoomResponseDto.consReady}" th:onclick="setConsReady([[${debateRoomId}]])" disabled></button>
                 <button id="set-cons" class="col-sm-3 btn btn-dark" th:onclick="setCons([[${debateRoomId}]] ,[[${loginUsername}]])">참여</button>
             </div>
             <div class="row mb-3">
                 <input type="hidden" id="speakingTime" th:value="${debateRoomResponseDto.speakingTime}">
                 <input type="hidden" id="discussionTime" th:value="${debateRoomResponseDto.discussionTime}">
-                <button id="debate-start-btn" class="btn btn-dark" th:if="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateStart()" disabled>시작</button>
+                <button id="debate-start-btn" class="btn btn-dark" th:if="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateStart([[${debateRoomId}]])" disabled>시작</button>
             </div>
             <div class="row mb-3">
-                <button id="debate-stop-btn" class="btn btn-dark" disabled>토론 중단</button>
+                <button id="debate-stop-btn" class="btn btn-dark" th:onclick="debateSurrender([[${debateRoomId}]], [[${loginUsername}]])" disabled>토론 중단</button>
             </div>
             <div class="row mb-3">
-                <button class="btn btn-dark" th:if="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateRoomDelete([[${debateRoomId}]])">방 깨기</button>
+                <button id="delete-room" class="btn btn-dark" th:if="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="debateRoomDelete([[${debateRoomId}]])">방 깨기</button>
             </div>
             <div class="row mb-3">
-                <button class="btn btn-dark" th:unless="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="setSpectors([[${debateRoomId}]], [[${loginUsername}]]); debateRoomExit([[${loginUserId}]], [[${debateRoomId}]]);">나가기</button>
+                <button id="exit-room" class="btn btn-dark" th:unless="${debateRoomResponseDto.owner} == ${loginUsername}" th:onclick="setSpectors([[${debateRoomId}]], [[${loginUsername}]]); debateRoomExit([[${loginUserId}]], [[${debateRoomId}]]);">나가기</button>
             </div>
 
+            <div id="speaker" class="row mb-3" th:text="${debateRoomResponseDto.speaker}"></div>
             <div id="remaining-speaking-time" class="row mb-3">발언 시간 : </div>
             <div id="remaining-debate-time" class="row mb-3">토론 시간 : </div>
         </div>
@@ -133,7 +134,7 @@
 <script src="/js/user-exit.js"></script>
 <script src="/js/debateroom-position-update.js"></script>
 <script src="/js/debateroom-delete.js"></script>
-<script src="/js/debateroom-start-update.js"></script>
+<script src="/js/debateroom.js"></script>
 <script src="/js/debateroom-ready-update.js"></script>
 
 </body>

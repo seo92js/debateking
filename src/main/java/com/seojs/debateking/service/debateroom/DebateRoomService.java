@@ -6,10 +6,9 @@ import com.seojs.debateking.domain.topic.Topic;
 import com.seojs.debateking.domain.topic.TopicRepository;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
-import com.seojs.debateking.service.speechRedis.PositionDto;
-import com.seojs.debateking.service.speechRedis.RedisMessageListener;
-import com.seojs.debateking.service.speechRedis.RedisPublisher;
-import com.seojs.debateking.web.dto.DebateRoomReadyUpdateRequestDto;
+import com.seojs.debateking.web.dto.PositionDto;
+import com.seojs.debateking.service.redis.RedisMessageListener;
+import com.seojs.debateking.service.redis.RedisPublisher;
 import com.seojs.debateking.web.dto.DebateRoomResponseDto;
 import com.seojs.debateking.web.dto.DebateRoomSaveRequestDto;
 import com.seojs.debateking.web.dto.DebateRoomUpdateRequestDto;
@@ -91,16 +90,6 @@ public class DebateRoomService {
         debateRoom.setProsReady(false);
 
         return positionDto.getDebateRoomId();
-    }
-
-    @Transactional
-    public Long updateReady(Long id, DebateRoomReadyUpdateRequestDto debateRoomReadyUpdateRequestDto){
-        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
-
-        debateRoom.setProsReady(debateRoomReadyUpdateRequestDto.isProsReady());
-        debateRoom.setConsReady(debateRoomReadyUpdateRequestDto.isConsReady());
-
-        return id;
     }
 
     @Transactional

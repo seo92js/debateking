@@ -1,4 +1,4 @@
-package com.seojs.debateking.service.speechRedis;
+package com.seojs.debateking.web.dto;
 
 import lombok.Builder;
 import lombok.Getter;

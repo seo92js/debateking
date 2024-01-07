@@ -7,8 +7,8 @@ import com.seojs.debateking.domain.topic.Category;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
 import com.seojs.debateking.service.debateroom.DebateRoomService;
-import com.seojs.debateking.service.speechRedis.RedisMessageListener;
-import com.seojs.debateking.service.speechRedis.RedisService;
+import com.seojs.debateking.service.redis.RedisMessageListener;
+import com.seojs.debateking.service.redis.RedisService;
 import com.seojs.debateking.service.user.UserService;
 import com.seojs.debateking.web.dto.DebateRoomSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

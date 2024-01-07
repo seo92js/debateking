@@ -16,6 +16,7 @@ public class DebateRoomResponseDto {
     private String pros;
     private boolean prosReady;
     private String cons;
+    private String speaker;
     private boolean consReady;
     private int speakingTime;
     private int discussionTime;
@@ -35,6 +36,8 @@ public class DebateRoomResponseDto {
         if (debateRoom.getCons() != null)
             this.cons = debateRoom.getCons().getUsername();
         this.consReady = debateRoom.isConsReady();
+        if (debateRoom.getSpeaker() != null)
+            this.speaker = debateRoom.getSpeaker().getUsername();
         this.speakingTime = debateRoom.getSpeakingTime();
         this.discussionTime = debateRoom.getDiscussionTime();
         this.spectorsNum = debateRoom.getSpectors().size();

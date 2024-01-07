@@ -1,8 +1,9 @@
-package com.seojs.debateking.service.speechRedis;
+package com.seojs.debateking.service.redis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.seojs.debateking.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,14 +12,6 @@ import org.springframework.stereotype.Component;
 public class JsonParser {
 
     private final ObjectMapper objectMapper;
-
-    public String toJson(Object object){
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public ChatDto toChatDto(String chattingMessage) {
         try {
@@ -84,9 +77,17 @@ public class JsonParser {
         }
     }
 
-    public StatusDto toStatusDto(String chattingMessage) {
+    public ResultDto toResultDto(String chattingMessage) {
         try {
-            return objectMapper.readValue(chattingMessage, StatusDto.class);
+            return objectMapper.readValue(chattingMessage, ResultDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public DebateDto toDebateDto(String chattingMessage) {
+        try {
+            return objectMapper.readValue(chattingMessage, DebateDto.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

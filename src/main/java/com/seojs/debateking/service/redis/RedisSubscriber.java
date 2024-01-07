@@ -1,5 +1,6 @@
-package com.seojs.debateking.service.speechRedis;
+package com.seojs.debateking.service.redis;
 
+import com.seojs.debateking.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
@@ -42,10 +43,12 @@ public class RedisSubscriber implements MessageListener {
         } else if (type.equals("speaker")) {
             SpeakerDto speakerDto = jsonParser.toSpeakerDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
             messagingTemplate.convertAndSend("/sub/chatting/rooms/" + speakerDto.getDebateRoomId(), speakerDto);
-        } else if (type.equals("status")) {
-            StatusDto statusDto = jsonParser.toStatusDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
-            messagingTemplate.convertAndSend("/sub/chatting/rooms/" + statusDto.getDebateRoomId(), statusDto);
+        } else if (type.equals("result")) {
+            ResultDto resultDto = jsonParser.toResultDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
+            messagingTemplate.convertAndSend("/sub/chatting/rooms/" + resultDto.getDebateRoomId(), resultDto);
+        } else if (type.equals("debate")) {
+            DebateDto debateDto = jsonParser.toDebateDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
+            messagingTemplate.convertAndSend("/sub/chatting/rooms/" + debateDto.getDebateRoomId(), debateDto);
         }
-
     }
 }
