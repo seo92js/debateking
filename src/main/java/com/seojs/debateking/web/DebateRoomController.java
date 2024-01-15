@@ -6,6 +6,7 @@ import com.seojs.debateking.domain.debateroom.SpeakingTime;
 import com.seojs.debateking.domain.topic.Category;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
+import com.seojs.debateking.exception.UserException;
 import com.seojs.debateking.service.debateroom.DebateRoomService;
 import com.seojs.debateking.service.redis.RedisMessageListener;
 import com.seojs.debateking.service.redis.RedisService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +38,7 @@ public class DebateRoomController {
     public String debateRoom(Model model, Authentication authentication){
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
-        User loginUser = userRepository.findByUsername(principalDetails.getUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. username=" + principalDetails.getUsername()));
+        User loginUser = userRepository.findByUsername(principalDetails.getUsername()).orElseThrow(() -> new UserException("유저가 없습니다. username=" + principalDetails.getUsername()));
 
         List<Category> categories = Arrays.asList(Category.values());
         model.addAttribute("categories", categories);
@@ -53,19 +55,20 @@ public class DebateRoomController {
     }
 
     @PostMapping("debateroom/save")
-    public String debateRoomSave(@ModelAttribute DebateRoomSaveRequestDto debateRoomSaveRequestDto){
+    public String debateRoomSave(@ModelAttribute DebateRoomSaveRequestDto debateRoomSaveRequestDto, RedirectAttributes redirectAttributes){
         Long id = debateRoomService.save(debateRoomSaveRequestDto);
 
         redisMessageListener.enterChatRoom(id);
 
-        return "redirect:/debateroom/" + id;
+        redirectAttributes.addAttribute("id", id);
+        return "redirect:/debateroom/{id}";
     }
 
     @GetMapping("/debateroom/{id}")
     public String debateRoom(@PathVariable Long id, Model model, Authentication authentication){
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
-        User user = userRepository.findByUsername(principalDetails.getUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다.username=" + principalDetails.getUsername()));
+        User user = userRepository.findByUsername(principalDetails.getUsername()).orElseThrow(() -> new UserException("유저가 없습니다.username=" + principalDetails.getUsername()));
 
         model.addAttribute("loginUsername", principalDetails.getUsername());
         model.addAttribute("debateRoomId", id);

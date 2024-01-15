@@ -3,8 +3,7 @@ let stompClient = Stomp.over(socket);
 
 stompClient.connect({}, function(frame) {
 
-    //enter(debateRoomId, username);
-    onEnterMessage();
+    sendEnterMessage();
 
     const debateRoomId = document.getElementById("debateroom-id").value;
 
@@ -22,7 +21,7 @@ stompClient.connect({}, function(frame) {
         } else if (type == 'position') {
             onPositionMessage(body.prosUsername, body.consUsername);
         } else if (type == 'enter') {
-            onEnterMessage();
+            onEnterMessage(body.username);
         } else if (type == 'exit') {
             onExitMessage();
         } else if (type == 'ready') {
@@ -35,6 +34,8 @@ stompClient.connect({}, function(frame) {
 
         } else if (type == 'debate') {
             onDebateMessage(body.status);
+        } else if (type == 'delete') {
+            onDeleteMessage();
         }
     });
 });
@@ -61,16 +62,6 @@ function onExitMessage(){
             spectorList.removeChild(divs[i]);
         }
     }
-
-    const chatDto = {
-        type: 'chat',
-        debateRoomId: debateRoomId,
-        username: 'notify',
-        message: '------- ' + username + ' 님이 퇴장 하셨습니다 -------'
-    };
-
-    stompClient.send('/pub/chattings/rooms/chat', {}, JSON.stringify(chatDto));
-
 }
 
 function onSpeechMessage(username, message) {
@@ -85,8 +76,7 @@ function onSpeechMessage(username, message) {
     $("#speech-list").scrollTop($("#speech-list")[0].scrollHeight);
 }
 
-function onEnterMessage() {
-    const id = document.getElementById("login-userid").value;
+function sendEnterMessage() {
     const debateRoomId = document.getElementById("debateroom-id").value;
     const username = document.getElementById("login-username").value;
     const spectorList = document.getElementById('spector-list');
@@ -118,16 +108,21 @@ function onEnterMessage() {
     };
 
     stompClient.send('/pub/chattings/rooms/chat', {}, JSON.stringify(chatDto));
+}
 
-    $.ajax({
-        type: 'PUT',
-        url: '/api/v1/user/' + id + '/' + debateRoomId + '/enter',
-    }).done(function(){
-        //alert('토론방 나가기 완료');
-        //window.location.href = '/';
-    }).fail(function(error){
-        alert(JSON.stringify(error));
-    })
+function onEnterMessage(username) {
+    const spectorList = document.getElementById('spector-list');
+    // spectorList 내의 모든 div 요소를 반복하며 이름 검사
+    const divs = spectorList.getElementsByTagName('div');
+
+    for (let i = 0; i < divs.length; i++) {
+        if (divs[i].textContent === username) {
+            // 이름이 이미 있는 경우 return
+            return;
+        }
+    }
+
+    $("<div>").text(username).appendTo("#spector-list");
 }
 
 function onPositionMessage(prosUsername, consUsername) {
@@ -207,6 +202,7 @@ function onDebateMessage(status) {
     const prosname = document.getElementById("pros-name").innerText;
     const consname = document.getElementById("cons-name").innerText;
     const owner = document.getElementById("owner").innerText;
+    const debateRoomId = document.getElementById("debateroom-id").value;
 
     document.getElementById("status").innerText = status;
 
@@ -256,17 +252,42 @@ function onDebateMessage(status) {
         document.getElementById('set-pros').disabled = false;
     }
 
-    //투표
+    //투표 창 띄우기
     if (status == false) {
-        $.ajax({
-            type: 'GET',
-            url: '/vote'
-        }).done(function(){
-        }).fail(function(error){
-        })
+        votePopup(debateRoomId);
     }
 }
 
+function onDeleteMessage() {
+    const id = document.getElementById("login-userid").value;
+    const debateRoomId = document.getElementById("debateroom-id").value;
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/v1/user/' + id + '/' + debateRoomId + '/exit',
+    }).done(function(){
+        alert('방이 깨졌습니다.');
+        window.location.href = '/';
+    }).fail(function(error){
+        alert(JSON.stringify(error));
+    })
+}
+
+function votePopup(debateRoomId){
+    //30초 뒤에 창 끄기
+    const timer = setTimeout(function () {
+        if (popUp && !popUp.closed) {
+            popUp.close();
+        }
+    }, 30000);
+
+    const popUp = window.open("/vote/" + debateRoomId, "popup", "width=300, height=300");
+
+    // 투표 창이 닫힐 때 타이머를 해제
+    popUp.addEventListener('beforeunload', function () {
+        clearTimeout(timer);
+    });
+}
 
 
 

@@ -2,6 +2,7 @@ package com.seojs.debateking.config.security;
 
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
+import com.seojs.debateking.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +16,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. name=" + username));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserException("유저가 없습니다. name=" + username));
 
         return new PrincipalDetails(user);
     }

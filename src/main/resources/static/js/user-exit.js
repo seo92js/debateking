@@ -2,6 +2,15 @@ function debateRoomExit(id, debateRoomId){
 
     const username = document.getElementById("login-username").value;
 
+    const chatDto = {
+        type: 'chat',
+        debateRoomId: debateRoomId,
+        username: 'notify',
+        message: '------- ' + username + ' 님이 퇴장 하셨습니다 -------'
+    };
+
+    stompClient.send('/pub/chattings/rooms/chat', {}, JSON.stringify(chatDto));
+
     exitDto = {
         type: 'exit',
         debateRoomId: debateRoomId,
@@ -14,7 +23,7 @@ function debateRoomExit(id, debateRoomId){
         type: 'PUT',
         url: '/api/v1/user/' + id + '/' + debateRoomId + '/exit',
     }).done(function(){
-        alert('토론방 나가기 완료');
+        alert('토론방 퇴장');
         window.location.href = '/';
     }).fail(function(error){
         alert(JSON.stringify(error));

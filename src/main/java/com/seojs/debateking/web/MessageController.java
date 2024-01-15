@@ -68,4 +68,8 @@ public class MessageController {
         redisService.debate(debateDto);
     }
 
+    @MessageMapping("/chattings/rooms/delete")
+    public void delete(DeleteDto deleteDto) {
+        redisService.delete(deleteDto);
+    }
 }

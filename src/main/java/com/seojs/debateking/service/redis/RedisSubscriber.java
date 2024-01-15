@@ -49,6 +49,9 @@ public class RedisSubscriber implements MessageListener {
         } else if (type.equals("debate")) {
             DebateDto debateDto = jsonParser.toDebateDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
             messagingTemplate.convertAndSend("/sub/chatting/rooms/" + debateDto.getDebateRoomId(), debateDto);
+        } else if (type.equals("delete")) {
+            DeleteDto deleteDto = jsonParser.toDeleteDto((String) redisTemplate.getStringSerializer().deserialize(message.getBody()));
+            messagingTemplate.convertAndSend("/sub/chatting/rooms/" + deleteDto.getDebateRoomId(), deleteDto);
         }
     }
 }

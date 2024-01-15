@@ -121,3 +121,25 @@ function debateSurrender(id, username) {
 
     stompClient.send('/pub/chattings/rooms/result', {}, JSON.stringify(resultDto));
 }
+
+function debateRoomDelete(id){
+    const deleteDto = {
+        type: 'delete',
+        debateRoomId: id
+    }
+
+    stompClient.send('/pub/chattings/rooms/delete', {}, JSON.stringify(deleteDto));
+
+    event.preventDefault();
+
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/v1/debateroom/' + id,
+    }).done(function(){
+        localStorage.removeItem('speaker');
+        alert('방이 깨졌습니다.');
+        window.location.href = '/';
+    }).fail(function(error){
+        alert(JSON.stringify(error));
+    })
+}

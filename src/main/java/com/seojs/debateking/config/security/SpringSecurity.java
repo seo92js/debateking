@@ -30,20 +30,24 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/",
+                    .antMatchers(
                             "/css/**",
                             "/js/**",
                             "/h2-console/**",
-                            "/chat",
-                            "/api/v1/**").permitAll()
+                            "/api/v1/**",
+                            "/login",
+                            "/user/save"
+                    ).permitAll()
+                .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .loginPage("/login")
+                    .loginProcessingUrl("/login")
                     .defaultSuccessUrl("/", true)
                 .and()
                     .logout()
                     .logoutUrl("/logout")
-                    .logoutSuccessUrl("/");
+                    .logoutSuccessUrl("/login");
     }
 
     @Override

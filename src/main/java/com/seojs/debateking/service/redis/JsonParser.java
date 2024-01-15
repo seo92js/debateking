@@ -93,6 +93,14 @@ public class JsonParser {
         }
     }
 
+    public DeleteDto toDeleteDto(String chattingMessage) {
+        try {
+            return objectMapper.readValue(chattingMessage, DeleteDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public String getType(String chattingMessage){
         try {
             JsonNode jsonNode = objectMapper.readTree(chattingMessage);

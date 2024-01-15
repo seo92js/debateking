@@ -6,6 +6,8 @@ import com.seojs.debateking.domain.topic.Topic;
 import com.seojs.debateking.domain.topic.TopicRepository;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
+import com.seojs.debateking.exception.DebateRoomException;
+import com.seojs.debateking.exception.UserException;
 import com.seojs.debateking.web.dto.PositionDto;
 import com.seojs.debateking.service.redis.RedisMessageListener;
 import com.seojs.debateking.service.redis.RedisPublisher;
@@ -31,7 +33,7 @@ public class DebateRoomService {
     @Transactional
     public Long save(DebateRoomSaveRequestDto debateRoomSaveRequestDto){
 
-        User user = userRepository.findById(debateRoomSaveRequestDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. id=" + debateRoomSaveRequestDto.getUserId()));
+        User user = userRepository.findById(debateRoomSaveRequestDto.getUserId()).orElseThrow(() -> new UserException("유저가 없습니다. id=" + debateRoomSaveRequestDto.getUserId()));
 
         Topic topic = topicRepository.findByName(debateRoomSaveRequestDto.getTopicName());
 
@@ -46,7 +48,7 @@ public class DebateRoomService {
 
     @Transactional
     public void delete(Long id){
-        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
+        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new DebateRoomException("토론방이 없습니다. id=" + id));
 
         debateRoom.getOwner().exitDebateRoom(debateRoom);
 
@@ -60,7 +62,7 @@ public class DebateRoomService {
 
     @Transactional
     public Long update(Long id, DebateRoomUpdateRequestDto debateRoomUpdateRequestDto){
-        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
+        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new DebateRoomException("토론방이 없습니다. id=" + id));
 
         debateRoom.update(debateRoomUpdateRequestDto.getTitle(), debateRoomUpdateRequestDto.getSpeakingTime(), debateRoomUpdateRequestDto.getDiscussionTime());
 
@@ -72,16 +74,16 @@ public class DebateRoomService {
         User prosUser = null;
         User consUser = null;
 
-        DebateRoom debateRoom = debateRoomRepository.findById(positionDto.getDebateRoomId()).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + positionDto.getDebateRoomId()));
+        DebateRoom debateRoom = debateRoomRepository.findById(positionDto.getDebateRoomId()).orElseThrow(() -> new DebateRoomException("토론방이 없습니다. id=" + positionDto.getDebateRoomId()));
 
         String pros = positionDto.getProsUsername();
         String cons = positionDto.getConsUsername();
 
         if (pros != null){
-            prosUser = userRepository.findByUsername(positionDto.getProsUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다=" + positionDto.getProsUsername()));
+            prosUser = userRepository.findByUsername(positionDto.getProsUsername()).orElseThrow(() -> new UserException("유저가 없습니다=" + positionDto.getProsUsername()));
         }
         if (cons != null){
-            consUser = userRepository.findByUsername(positionDto.getConsUsername()).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다=" + positionDto.getConsUsername()));
+            consUser = userRepository.findByUsername(positionDto.getConsUsername()).orElseThrow(() -> new UserException("유저가 없습니다=" + positionDto.getConsUsername()));
         }
 
         debateRoom.updatePosition(prosUser, consUser);
@@ -94,7 +96,7 @@ public class DebateRoomService {
 
     @Transactional
     public Long updateStart(Long id){
-        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
+        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new DebateRoomException("토론방이 없습니다. id=" + id));
 
         debateRoom.setStart(true);
 
@@ -103,7 +105,7 @@ public class DebateRoomService {
 
     @Transactional
     public Long updateStop(Long id){
-        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id));
+        DebateRoom debateRoom = debateRoomRepository.findById(id).orElseThrow(() -> new DebateRoomException("토론방이 없습니다. id=" + id));
 
         debateRoom.setStart(false);
 
@@ -112,7 +114,7 @@ public class DebateRoomService {
 
     @Transactional
     public DebateRoomResponseDto findById(Long id){
-        return new DebateRoomResponseDto(debateRoomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id=" + id)));
+        return new DebateRoomResponseDto(debateRoomRepository.findById(id).orElseThrow(() -> new DebateRoomException("토론방이 없습니다. id=" + id)));
     }
 
     @Transactional

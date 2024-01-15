@@ -1,16 +1,22 @@
 package com.seojs.debateking.service.debateroom;
 
 import com.seojs.debateking.service.redis.RedisService;
+import com.seojs.debateking.service.vote.VoteService;
 import com.seojs.debateking.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @RequiredArgsConstructor
 public class DebateTimer {
     private final RedisService redisService;
     private final DebateRoomService debateRoomService;
+    private final VoteService voteService;
     private boolean debateInProgress = false;
     private Long debateRoomId;
     private int discussionTime;
@@ -48,8 +54,8 @@ public class DebateTimer {
 
                 readyChange();
 
-                //투표 기능
-                //메시지를 보내면, 구독 자 들에게 투표 창을 띄워야 함?
+                //30 초 뒤에 집계함수
+                aggregation();
             }
         }
     }
@@ -135,5 +141,46 @@ public class DebateTimer {
                 .build();
 
         redisService.speech(speechDto);
+    }
+
+    public void result(String winnerName, String loserName, boolean isDraw) {
+        ResultDto resultDto = ResultDto.builder()
+                .type("result")
+                .debateRoomId(debateRoomId)
+                .winner(winnerName)
+                .loser(loserName)
+                .draw(isDraw)
+                .build();
+
+        redisService.result(resultDto);
+    }
+
+    private void aggregation() {
+        notify("------ 30초간 승/패 투표를 해주세요 ------");
+
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+        scheduler.schedule(() -> {
+            try {
+                int prosCount = 0, consCount = 0;
+                int result = voteService.debateResult(debateRoomId);
+
+                //0 = 찬성 승리, 1 = 반대 승리, -1 = 무승부
+                if (result == 0){
+                    result(prosname, consname, false);
+                    notify("------- [찬성] 승리 : " + prosname + " -------");
+                } else if (result == 1) {
+                    result(consname, prosname, false);
+                    notify("------- [반대] 승리 : " + consname + " -------");
+                } else if (result == -1) {
+                    result(prosname, consname, true);
+                    notify("------- [무승부] -------");
+                }
+
+                voteService.deleteByDebateRoomId(debateRoomId);
+
+            } catch (Exception e) {
+            }
+        }, 32, TimeUnit.SECONDS);
     }
 }

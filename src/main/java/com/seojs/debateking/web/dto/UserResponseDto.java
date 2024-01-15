@@ -9,9 +9,15 @@ import lombok.NoArgsConstructor;
 public class UserResponseDto {
     private Long id;
     private String username;
+    private int win;
+    private int lose;
+    private int draw;
 
     public UserResponseDto(User user){
         this.id = user.getId();
         this.username = user.getUsername();
+        this.win = user.getWin();
+        this.lose = user.getLose();
+        this.draw = user.getDraw();
     }
 }

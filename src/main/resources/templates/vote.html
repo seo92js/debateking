@@ -1,10 +1,34 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body>
 
+<body>
+    <header class="header">
+        <h1 class="header__title">승자 투표</h1>
+    </header>
+
+    <div class="container w-100">
+        <form method="post">
+            <input name="debateRoomId" type="hidden" th:value="${debateRoomId}">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="prosCons" id="pros" value="true">
+                <label class="form-check-label" for="pros">
+                    찬성
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="prosCons" id="cons" value="false" checked>
+                <label class="form-check-label" for="cons">
+                    반대
+                </label>
+            </div>
+
+            <button class="btn btn-dark" type="submit">투표</button>
+        </form>
+    </div>
 </body>
 </html>

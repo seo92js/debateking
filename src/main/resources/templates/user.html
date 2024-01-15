@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<header class="header">
+    <h1 class="header__title">내 정보</h1>
+</header>
+
+<div class="container w-50">
+    <div class="row mb-3">
+        <label for="username">아이디</label>
+        <input id="username" class="form-control" type="text" name="username" th:value="${userResponseDto.username}" disabled>
+    </div>
+
+    <div class="row mb-3">
+        <label for="win">승리</label>
+        <input id="win" class="form-control" type="text" name="win" th:value="${userResponseDto.win}" disabled>
+    </div>
+
+    <div class="row mb-3">
+        <label for="lose">패배</label>
+        <input id="lose" class="form-control" type="text" name="lose" th:value="${userResponseDto.lose}" disabled>
+    </div>
+
+    <div class="row mb-3">
+        <label for="draw">무승부</label>
+        <input id="draw" class="form-control" type="text" name="draw" th:value="${userResponseDto.draw}" disabled>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer" />
+
+</body>
+</html>

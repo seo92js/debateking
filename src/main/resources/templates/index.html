@@ -21,6 +21,9 @@
                     <a class="nav-link" href="/logout">로그아웃</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link" href="/user">내 정보</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
                     <a class="nav-link" href="/debateroom/save">채팅방 만들기</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
@@ -30,11 +33,7 @@
         </div>
     </nav>
 
-    <header class="header">
-        <h1 class="header__title">토론왕</h1>
-    </header>
-
-    <table class="table table-striped">
+    <table class="table table-striped mt-5">
         <thead>
             <tr>
                 <th scope="col">#</th>

@@ -17,4 +17,9 @@ public class IndexController {
         model.addAttribute("debateRooms", debateRoomService.findAll());
         return "index";
     }
+
+    @GetMapping("/success")
+    public String success() {
+        return "success";
+    }
 }

@@ -4,6 +4,8 @@ import com.seojs.debateking.domain.debateroom.DebateRoom;
 import com.seojs.debateking.domain.debateroom.DebateRoomRepository;
 import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
+import com.seojs.debateking.exception.DebateRoomException;
+import com.seojs.debateking.exception.UserException;
 import com.seojs.debateking.web.dto.UserResponseDto;
 import com.seojs.debateking.web.dto.UserSaveRequestDto;
 import com.seojs.debateking.web.dto.UserUpdateRequestDto;
@@ -33,14 +35,14 @@ public class UserService {
 
     @Transactional
     public UserResponseDto findById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. id=" + id));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserException("유저가 없습니다. id=" + id));
 
         return new UserResponseDto(user);
     }
 
     @Transactional
     public Long update(Long id, UserUpdateRequestDto userUpdateRequestDto){
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. id=" + id));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserException("유저가 없습니다. id=" + id));
 
         user.update(userUpdateRequestDto.getUsername(), userUpdateRequestDto.getPassword());
 
@@ -49,9 +51,9 @@ public class UserService {
 
     @Transactional
     public Long enterDebateRoom(Long id, Long debateRoomId){
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. id=" + id));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserException("유저가 없습니다. id=" + id));
 
-        DebateRoom debateRoom = debateRoomRepository.findById(debateRoomId).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id" + debateRoomId));
+        DebateRoom debateRoom = debateRoomRepository.findById(debateRoomId).orElseThrow(() -> new DebateRoomException("토론방이 없습니다. id" + debateRoomId));
 
         user.enterDebateRoom(debateRoom);
 
@@ -60,9 +62,9 @@ public class UserService {
 
     @Transactional
     public Long exitDebateRoom(Long id, Long debateRoomId){
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다. id=" + id));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserException("유저가 없습니다. id=" + id));
 
-        DebateRoom debateRoom = debateRoomRepository.findById(debateRoomId).orElseThrow(() -> new IllegalArgumentException("토론방이 없습니다. id" + debateRoomId));
+        DebateRoom debateRoom = debateRoomRepository.findById(debateRoomId).orElseThrow(() -> new DebateRoomException("토론방이 없습니다. id" + debateRoomId));
 
         user.exitDebateRoom(debateRoom);
 
