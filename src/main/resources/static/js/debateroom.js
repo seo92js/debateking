@@ -83,7 +83,7 @@ function debateSurrender(id, username) {
         type: 'speech',
         debateRoomId: id,
         username: 'notify',
-        message: '------- ' + username + ' 님이 항복했습니다 -------'
+        message: '[ ' + username + ' 님이 항복 했습니다 ]'
     };
 
     stompClient.send('/pub/chattings/rooms/speech', {}, JSON.stringify(speechDto));

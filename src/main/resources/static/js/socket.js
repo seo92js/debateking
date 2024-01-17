@@ -11,8 +11,8 @@ stompClient.connect({}, function(frame) {
         const body = JSON.parse(msg.body);
 
         const type = body.type;
-        //임시
-        console.log(body.type);
+
+        console.log(body);
 
         if (type == 'chat'){
             onChatMessage(body.username, body.message);
@@ -104,7 +104,7 @@ function sendEnterMessage() {
         type: 'chat',
         debateRoomId: debateRoomId,
         username: 'notify',
-        message: '------- ' + username + ' 님이 입장 하셨습니다 -------'
+        message: '[ ' + username + ' 님이 입장 하셨습니다 ]'
     };
 
     stompClient.send('/pub/chattings/rooms/chat', {}, JSON.stringify(chatDto));

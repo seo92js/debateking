@@ -25,6 +25,11 @@ public class RedisMessageListener {
         }
     }
 
+    public void deleteChatRoom(Long debateRoomId) {
+        redisMessageListenerContainer.removeMessageListener(redisSubscriber, getTopic(debateRoomId));
+        TOPICS.remove(debateRoomId);
+    }
+
     public ChannelTopic getTopic(Long debateRoomId){
         return TOPICS.get(debateRoomId);
     }

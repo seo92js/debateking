@@ -8,12 +8,10 @@ import com.seojs.debateking.domain.user.User;
 import com.seojs.debateking.domain.user.UserRepository;
 import com.seojs.debateking.exception.DebateRoomException;
 import com.seojs.debateking.exception.UserException;
-import com.seojs.debateking.web.dto.PositionDto;
-import com.seojs.debateking.service.redis.RedisMessageListener;
-import com.seojs.debateking.service.redis.RedisPublisher;
 import com.seojs.debateking.web.dto.DebateRoomResponseDto;
 import com.seojs.debateking.web.dto.DebateRoomSaveRequestDto;
 import com.seojs.debateking.web.dto.DebateRoomUpdateRequestDto;
+import com.seojs.debateking.web.dto.PositionDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +22,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class DebateRoomService {
-    private final RedisPublisher redisPublisher;
-    private final RedisMessageListener redisMessageListener;
     private final UserRepository userRepository;
     private final TopicRepository topicRepository;
     private final DebateRoomRepository debateRoomRepository;

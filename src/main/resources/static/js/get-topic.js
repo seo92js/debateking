@@ -2,7 +2,6 @@ $('#category').trigger('change');
 
 function getTopic(){
     const category = document.getElementById("category").value;
-    console.log(category);
 
     $.ajax({
         type:'GET',

@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @Service
 public class RedisService {
     private final RedisTemplate<String, Object> redisTemplate;
-    private final RedisPublisher redisPublisher;
     private final RedisMessageListener redisMessageListener;
     private final ChatRedisRepository chatRedisRepository;
     private final SpeechRedisRepository speechRedisRepository;
@@ -34,7 +33,7 @@ public class RedisService {
 
     @Transactional
     public void speech(SpeechDto speechDto){
-        redisPublisher.publish(redisMessageListener.getTopic(speechDto.getDebateRoomId()), speechDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(speechDto.getDebateRoomId()).getTopic(), speechDto);
 
         SpeechRedis speechRedis = SpeechRedis.builder()
                 .debateRoomId(speechDto.getDebateRoomId())
@@ -69,7 +68,7 @@ public class RedisService {
 
     @Transactional
     public void chat(ChatDto chatDto){
-        redisPublisher.publish(redisMessageListener.getTopic(chatDto.getDebateRoomId()), chatDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(chatDto.getDebateRoomId()).getTopic(), chatDto);
 
         ChatRedis chatRedis = ChatRedis.builder()
                 .debateRoomId(chatDto.getDebateRoomId())
@@ -104,12 +103,12 @@ public class RedisService {
 
     @Transactional
     public void position(PositionDto positionDto){
-        redisPublisher.publish(redisMessageListener.getTopic(positionDto.getDebateRoomId()), positionDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(positionDto.getDebateRoomId()).getTopic(), positionDto);
     }
 
     @Transactional
     public void enter(EnterDto enterDto){
-        redisPublisher.publish(redisMessageListener.getTopic(enterDto.getDebateRoomId()), enterDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(enterDto.getDebateRoomId()).getTopic(), enterDto);
 
         User user = userRepository.findByUsername(enterDto.getUsername()).orElseThrow(() -> new UserException("유저가 없습니다. username=" + enterDto.getUsername()));
 
@@ -120,12 +119,12 @@ public class RedisService {
 
     @Transactional
     public void exit(ExitDto exitDto){
-        redisPublisher.publish(redisMessageListener.getTopic(exitDto.getDebateRoomId()), exitDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(exitDto.getDebateRoomId()).getTopic(), exitDto);
     }
 
     @Transactional
     public void ready(ReadyDto readyDto){
-        redisPublisher.publish(redisMessageListener.getTopic(readyDto.getDebateRoomId()), readyDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(readyDto.getDebateRoomId()).getTopic(), readyDto);
 
         DebateRoom debateRoom = debateRoomRepository.findById(readyDto.getDebateRoomId()).orElseThrow(() -> new DebateRoomException("토론방이 없습니다. id=" + readyDto.getDebateRoomId()));
 
@@ -135,12 +134,12 @@ public class RedisService {
 
     @Transactional
     public void time(TimeDto timeDto){
-        redisPublisher.publish(redisMessageListener.getTopic(timeDto.getDebateRoomId()), timeDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(timeDto.getDebateRoomId()).getTopic(), timeDto);
     }
 
     @Transactional
     public void speaker(SpeakerDto speakerDto) {
-        redisPublisher.publish(redisMessageListener.getTopic(speakerDto.getDebateRoomId()), speakerDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(speakerDto.getDebateRoomId()).getTopic(), speakerDto);
 
         DebateRoom debateRoom = debateRoomRepository.findById(speakerDto.getDebateRoomId()).orElseThrow(() -> new DebateRoomException("토론방이 없습니다. id=" + speakerDto.getDebateRoomId()));
 
@@ -167,16 +166,16 @@ public class RedisService {
             loser.lose();
         }
 
-        redisPublisher.publish(redisMessageListener.getTopic(resultDto.getDebateRoomId()), resultDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(resultDto.getDebateRoomId()).getTopic(), resultDto);
     }
 
     @Transactional
     public void debate(DebateDto debateDto) {
-        redisPublisher.publish(redisMessageListener.getTopic(debateDto.getDebateRoomId()), debateDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(debateDto.getDebateRoomId()).getTopic(), debateDto);
     }
 
     @Transactional
     public void delete(DeleteDto deleteDto) {
-        redisPublisher.publish(redisMessageListener.getTopic(deleteDto.getDebateRoomId()), deleteDto);
+        redisTemplate.convertAndSend(redisMessageListener.getTopic(deleteDto.getDebateRoomId()).getTopic(), deleteDto);
     }
 }

@@ -6,7 +6,7 @@ function debateRoomExit(id, debateRoomId){
         type: 'chat',
         debateRoomId: debateRoomId,
         username: 'notify',
-        message: '------- ' + username + ' 님이 퇴장 하셨습니다 -------'
+        message: '[ ' + username + ' 님이 퇴장 하셨습니다 ]'
     };
 
     stompClient.send('/pub/chattings/rooms/chat', {}, JSON.stringify(chatDto));

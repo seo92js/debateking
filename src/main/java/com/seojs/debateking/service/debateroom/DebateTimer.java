@@ -81,7 +81,7 @@ public class DebateTimer {
         currentSpeaker = prosname;
         debateInProgress = true;
 
-        notify("------- 토론 시작 -------");
+        notify("[ 토론 시작 ]");
         speakerChange(currentSpeaker);
 
         debateRoomService.updateStart(debateRoomId);
@@ -90,7 +90,7 @@ public class DebateTimer {
     }
 
     public void stopTimer() {
-        notify("------- 토론이 끝났습니다 -------");
+        notify("[ 토론이 끝났습니다 ]");
 
         debateRoomService.updateStop(debateRoomId);
 
@@ -129,7 +129,7 @@ public class DebateTimer {
 
         redisService.speaker(speakerDto);
 
-        notify("------- " + currentSpeaker + " 발언 -------");
+        notify("[ " + currentSpeaker + " 발언 ]");
     }
 
     public void notify(String notify) {
@@ -156,7 +156,7 @@ public class DebateTimer {
     }
 
     private void aggregation() {
-        notify("------ 30초간 승/패 투표를 해주세요 ------");
+        notify("[ 30초간 승/패 투표를 해주세요 ]");
 
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
@@ -168,13 +168,13 @@ public class DebateTimer {
                 //0 = 찬성 승리, 1 = 반대 승리, -1 = 무승부
                 if (result == 0){
                     result(prosname, consname, false);
-                    notify("------- [찬성] 승리 : " + prosname + " -------");
+                    notify("[ 찬성 승리 : " + prosname + " ]");
                 } else if (result == 1) {
                     result(consname, prosname, false);
-                    notify("------- [반대] 승리 : " + consname + " -------");
+                    notify("[ 반대 승리 : " + consname + " ]");
                 } else if (result == -1) {
                     result(prosname, consname, true);
-                    notify("------- [무승부] -------");
+                    notify("[ 무승부 ]");
                 }
 
                 voteService.deleteByDebateRoomId(debateRoomId);
